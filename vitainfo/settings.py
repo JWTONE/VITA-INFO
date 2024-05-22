@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config.SECRET_KEY
 OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
+# 개발일 떈 True 배포할 때 False로 바꿀 것!
 DEBUG = True
 
 ALLOWED_HOSTS = []
