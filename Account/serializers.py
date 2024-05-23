@@ -3,7 +3,14 @@ from .models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 
-class UserSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "email", "name", "nickname", "date_of_birth", "gender", "subscription"
+        ]
+        
+class UserCreateSerializer(UserUpdateSerializer):
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
     
@@ -13,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username", "password", "confirm_password", "email", "name", 
             "nickname", "date_of_birth", "gender", "subscription"
         ]
-    
+            
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
@@ -31,3 +38,4 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("비밀번호가 서로 일치하지 않습니다.")
         validate_password(password)
         return data
+    
