@@ -23,7 +23,6 @@ class PostSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation.pop('content', None)
-        representation.pop('image', None)
         return representation
 
 class PostDetailSerializer(serializers.ModelSerializer):
