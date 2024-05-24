@@ -13,3 +13,4 @@ class User(AbstractUser):
     date_of_birth = models.DateField()
     subscription = models.BooleanField()
 
+    REQUIRED_FIELDS = ["name", "nickname", "gender", "date_of_birth", "subscription"]
