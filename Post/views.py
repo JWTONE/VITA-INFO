@@ -39,6 +39,20 @@ class PostDetailAPIView(APIView):
         serializer = PostDetailSerializer(post)
         return Response(serializer.data)
     
+    def post(self, request, post_pk):
+        post = self.get_object(post_pk)
+        user = request.user
+        if user in post.like_users.all():
+            post.like_users.remove(user)
+            post.like_counts -= 1
+            post.save()
+            return Response("좋아요 취소", status=status.HTTP_200_OK)
+        else:
+            post.like_users.add(user)
+            post.like_counts += 1
+            post.save()
+            return Response("좋아요 성공", status=status.HTTP_201_CREATED)
+    
     def put(self, request, post_pk):
         post = self.get_object(post_pk)
         if post.author == request.user:
