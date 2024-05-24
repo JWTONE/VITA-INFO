@@ -30,7 +30,21 @@ class PostListAPIView(generics.ListCreateAPIView):
 class PostDetailAPIView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def get_object(self, post_pk):
+        return get_object_or_404(Post, id=post_pk)
+
     def get(self, request, post_pk):
-        post = get_object_or_404(Post, pk=post_pk)
+        post = self.get_object(post_pk)
         serializer = PostDetailSerializer(post)
         return Response(serializer.data)
+    
+    def put(self, request, post_pk):
+        post = self.get_object(post_pk)
+        if post.author == request.user:
+            serializer = PostDetailSerializer(
+                post, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
