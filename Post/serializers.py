@@ -3,34 +3,52 @@ from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-#    like_count = serializers.SerializerMethodField()
+    like_users = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = [
-            "id",
             "title",
-            "author",
             "content",
             "image",
-            "created_at",
-            "updated_at",
+            "author",
+            "category",
+            "like_users",
         ]
-        read_only_fields = ["author",]
-        
-class PostDetailSerializer(PostSerializer):
+        read_only_fields = ["author", "category",]
+
+    def get_like_users(self, obj):
+        return obj.like_users.count()
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation.pop('content', None)
+        representation.pop('image', None)
+        return representation
+
+class PostDetailSerializer(serializers.ModelSerializer):
+    like_users = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
         fields = [
-            "id",
             "title",
-            "author",
             "content",
             "image",
+            "author",
             "category",
+            "like_users",
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["author",]
-        
+        read_only_fields = ["author", "category",]
+
+    def get_like_users(self, obj):
+        return obj.like_users.count()
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation.pop('category', None)
+        return representation
+
 #    comments = CommentSerializer(many=True, read_only=True, required=False)
