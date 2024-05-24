@@ -26,3 +26,4 @@ class PostListAPIView(generics.ListCreateAPIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save(author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
