@@ -3,10 +3,14 @@ from Account.models import User
 from django.conf import settings
 
 def get_image_upload_path(instance, filename):
-    if instance.user.is_authenticated:
-        return f".reviews/{filename}"
-    else: 
-        return f".admins/{filename}"
+    if instance.author.is_superuser: 
+        return f"admins/{filename}"
+    elif instance.author.is_authenticated:
+        return f"reviews/{filename}"
+    
+# def category_path(instance):
+#     if instance.user.is_admin:
+#         return category 
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
