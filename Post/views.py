@@ -48,3 +48,12 @@ class PostDetailAPIView(APIView):
                 return Response(serializer.data)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+    def delete(self, request, post_pk):
+        post = self.get_object(post_pk)
+        if post.author == request.user:
+            post.delete()
+            data = {"pk": f"{post_pk} is deleted."}
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
