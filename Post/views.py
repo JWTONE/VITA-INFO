@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-
+from rest_framework.decorators import api_view
 from .models import Post
 from .serializers import PostSerializer, PostDetailSerializer
 
@@ -72,3 +72,19 @@ class PostDetailAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+@api_view(['GET'])
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Post.objects.filter(
+            title__icontains=query
+        ) | Post.objects.filter(
+            content__icontains=query
+        ) | Post.objects.filter(
+            author__nickname__icontains=query
+        )
+        serializer = PostSerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
