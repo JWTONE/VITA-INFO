@@ -12,6 +12,7 @@ class PostSerializer(serializers.ModelSerializer):
             "title",
             "author",
             "content",
+            "image",
             "created_at",
             "updated_at",
         ]
