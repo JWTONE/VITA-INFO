@@ -15,6 +15,7 @@ class Post(models.Model):
     category = models.CharField(max_length=30)
     author = models.ForeignKey(User, to_field="nickname", on_delete=models.CASCADE, related_name="post")
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_posts")
+    like_counts = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

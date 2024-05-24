@@ -3,7 +3,6 @@ from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-    like_users = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -13,12 +12,10 @@ class PostSerializer(serializers.ModelSerializer):
             "image",
             "author",
             "category",
-            "like_users",
+            "like_counts",
         ]
         read_only_fields = ["author", "category",]
 
-    def get_like_users(self, obj):
-        return obj.like_users.count()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -26,7 +23,6 @@ class PostSerializer(serializers.ModelSerializer):
         return representation
 
 class PostDetailSerializer(serializers.ModelSerializer):
-    like_users = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -36,7 +32,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
             "image",
             "author",
             "category",
-            "like_users",
+            "like_counts",
             "created_at",
             "updated_at",
         ]
