@@ -12,7 +12,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, PostDetailSerializer
 
 
 class PostListAPIView(generics.ListCreateAPIView):
@@ -27,3 +27,10 @@ class PostListAPIView(generics.ListCreateAPIView):
             serializer.save(author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
+class PostDetailAPIView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, post_pk):
+        post = get_object_or_404(Post, pk=post_pk)
+        serializer = PostDetailSerializer(post)
+        return Response(serializer.data)
