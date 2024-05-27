@@ -109,3 +109,14 @@ class CommentListAPIView(generics.ListCreateAPIView):
             if serializer.is_valid(raise_exception=True):
                 serializer.save(author=author, post_id=post, is_reply=False)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+    def put(self, request, comment_pk):
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if comment.author == request.user:
+            serializer = CommentSerializer(
+                comment, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
