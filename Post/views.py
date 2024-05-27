@@ -3,10 +3,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
-from .models import Post
-from .serializers import PostSerializer, PostDetailSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 
 def set_category(instance):
     if instance.is_staff:
@@ -88,3 +88,24 @@ def search(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentListAPIView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    def post(self, request, post_pk, comment_pk=None):
+        author = request.user
+        post = get_object_or_404(Post, pk=post_pk)
+        if comment_pk:
+            comment = get_object_or_404(Comment, pk=comment_pk)
+            serializer = CommentSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(author=author, post_id=post, is_reply=True)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            serializer = CommentSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(author=author, post_id=post, is_reply=False)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)

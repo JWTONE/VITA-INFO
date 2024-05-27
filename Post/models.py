@@ -31,3 +31,4 @@ class Comment(models.Model):
     is_reply = models.BooleanField()
     depth = models.IntegerField(null=True, blank=True)
     comment_id = models.ForeignKey("self", on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
+    
