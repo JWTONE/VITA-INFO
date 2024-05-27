@@ -29,6 +29,5 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     #대댓글
     is_reply = models.BooleanField()
-    depth = models.IntegerField(null=True, blank=True)
     comment_id = models.ForeignKey("self", on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
     
