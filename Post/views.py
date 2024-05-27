@@ -120,3 +120,12 @@ class CommentListAPIView(generics.ListCreateAPIView):
                 return Response(serializer.data)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+    def delete(self, request, comment_pk):
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if comment.author == request.user:
+            comment.delete()
+            data = {"pk": f"{comment_pk} is deleted."}
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
