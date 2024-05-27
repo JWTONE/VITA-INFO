@@ -3,6 +3,7 @@ from django.conf import settings
 
 def survey(query):
     openai.api_key = settings.OPENAI_API_KEY
+
     model = "gpt-4-turbo"
 
     query = ''' 
@@ -57,16 +58,17 @@ def survey(query):
             같이 섭취하면 좋은 영양소, 같이 섭취하면 안되는 영양소, 같이 섭취하면 안되는 음식은
             처음에 추천한 영양소와 반드시 연관되도록 해
             어떠한 경우에도 위의 폼대로 출력해
-            결과를 반드시 json형식으로 반환해줘, key 값은 영어, value는 한글로 해
+            반드시 python dictionary 형태로 key 값은 영어, value는 한글로 해서 줘
             """},
         {"role": "user", "content": query}
     ]
 
-
+    # ChatGPT API 호출하기
     response = openai.ChatCompletion.create(
         temperature=0,
         model=model,
         messages=messages
     )
-    return response['choices'][0]['message']['content']
+    answer = response['choices'][0]['message']['content']
 
+    return (answer)
