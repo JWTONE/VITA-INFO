@@ -85,11 +85,11 @@ class SurveyInfo(models.Model):
     average_meals_per_day = models.CharField(choices=EAT_CHOICES, max_length=20)
     main_foods = models.CharField(choices=DIET_CHOICES, max_length=20)
     snacks = models.CharField(choices=SNACK_CHOICES, max_length=100, default="과일")
-    snacks_other = models.CharField(max_length=100)
+    snacks_other = models.CharField(max_length=100, blank=True)
     health_goals = models.CharField(choices=HEALTHGOAL_CHOICES, max_length=100, default="체중감량")
-    health_goals_other = models.CharField(max_length=100)
+    health_goals_other = models.CharField(max_length=100, blank=True)
     interested_supplements = models.CharField(choices=INTERESTED_CHOICES, max_length=100, default="비타민")
-    interested_supplements_other = models.CharField(max_length=100)
+    interested_supplements_other = models.CharField(max_length=100, blank=True)
     specific_health_issues_to_improve = models.TextField()
 
 class SurveyResults(models.Model):
