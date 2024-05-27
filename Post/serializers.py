@@ -1,6 +1,17 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Comment
 
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = [
+            "content",
+        ]
+
+    # def create(self, validated_data):
+    #     validated_data['author'] = self.context['request'].user
+    #     return Comment.objects.create(**validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
 
@@ -38,12 +49,12 @@ class PostDetailSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["author", "category",]
 
-    def get_like_users(self, obj):
-        return obj.like_users.count()
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation.pop('category', None)
         return representation
 
 #    comments = CommentSerializer(many=True, read_only=True, required=False)
+
+
+
