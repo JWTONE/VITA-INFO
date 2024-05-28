@@ -6,7 +6,10 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            "content",
+            "content", 
+            "author",
+            "created_at",
+            "is_reply"
         ]
 
 class PostSerializer(serializers.ModelSerializer):
@@ -30,7 +33,8 @@ class PostSerializer(serializers.ModelSerializer):
         return representation
 
 class PostDetailSerializer(serializers.ModelSerializer):
-
+    comments = CommentSerializer(many=True, read_only=True, required=False)
+    
     class Meta:
         model = Post
         fields = [
@@ -42,6 +46,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
             "like_counts",
             "created_at",
             "updated_at",
+            "comments"
         ]
         read_only_fields = ["author", "category",]
 
@@ -50,7 +55,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         representation.pop('category', None)
         return representation
 
-#    comments = CommentSerializer(many=True, read_only=True, required=False)
+   
 
 
 
