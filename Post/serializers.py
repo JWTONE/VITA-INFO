@@ -55,7 +55,5 @@ class PostDetailSerializer(serializers.ModelSerializer):
         representation.pop('category', None)
         return representation
 
-   
-
 
 
