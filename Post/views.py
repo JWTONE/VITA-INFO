@@ -110,8 +110,28 @@ class CommentListAPIView(generics.ListCreateAPIView):
                 serializer.save(author=author, post_id=post, is_reply=False)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             
+
+        
+class CommentDetailAPIView(APIView):
+    def get_object(self, comment_pk):
+        return get_object_or_404(Comment, id=comment_pk)
+
+    def post(self, request, comment_pk):
+        comment = self.get_object(comment_pk)
+        user = request.user
+        if user in comment.like_comments.all():
+            comment.like_comments.remove(user)
+            comment.like_counts -= 1
+            comment.save()
+            return Response("좋아요 취소", status=status.HTTP_200_OK)
+        else:
+            comment.like_comments.add(user)
+            comment.like_counts += 1
+            comment.save()
+            return Response("좋아요 성공", status=status.HTTP_201_CREATED)
+        
     def put(self, request, comment_pk):
-        comment = get_object_or_404(Comment, pk=comment_pk)
+        comment = self.get_object(comment_pk)
         if comment.author == request.user:
             serializer = CommentSerializer(
                 comment, data=request.data, partial=True)
@@ -122,10 +142,11 @@ class CommentListAPIView(generics.ListCreateAPIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
     def delete(self, request, comment_pk):
-        comment = get_object_or_404(Comment, pk=comment_pk)
+        comment = self.get_object(comment_pk)
         if comment.author == request.user:
             comment.delete()
             data = {"pk": f"{comment_pk} is deleted."}
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        

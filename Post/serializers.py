@@ -9,10 +9,6 @@ class CommentSerializer(serializers.ModelSerializer):
             "content",
         ]
 
-    # def create(self, validated_data):
-    #     validated_data['author'] = self.context['request'].user
-    #     return Comment.objects.create(**validated_data)
-
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:

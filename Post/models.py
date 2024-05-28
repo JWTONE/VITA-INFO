@@ -24,7 +24,8 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User, to_field="nickname", on_delete=models.CASCADE, related_name="comment_author")
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    comment_likes = models.ManyToManyField(User,related_name="comment_likes")
+    like_comments = models.ManyToManyField(User,related_name="comment_likes")
+    like_counts = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     #대댓글
