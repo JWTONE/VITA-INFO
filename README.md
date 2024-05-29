@@ -60,26 +60,25 @@
 <br>
 
 ## 기술 스택
+![기술스택](https://github.com/JWTONE/VITA-INFO/assets/159910835/30ce8301-35dc-45f7-a969-779d71485ce2)
 
 
-## 화면 요약
+## 시스템 아키텍처
+![아키텍처](https://github.com/JWTONE/VITA-INFO/assets/159910835/f4047c1c-a83b-4d56-8933-542baa9e7aa5)
 
 
-## 기술스택 결정 과정
+## 화면 요약(와이어 프레임)
+![와이어프레임](https://github.com/JWTONE/VITA-INFO/assets/159910835/04fa97b7-1c8f-4561-a062-d29408c157f0)
 
 
+## 상태 관리 tool 선택
 **결과 및 회고**
 
 
-### 상태 관리 tool 선택
-
-
-**결과 및 회고**
-
-
-### 테스트 코드 작성 여부 및 범위 결정
+### 트러블슈팅
 
 
 ## 협업 방식
-### 매일 아침 회의마다 daily task 공유
-
+### 매일 아침 회의마다 daily task 공유(figma 활용)
+![피그마_1](https://github.com/JWTONE/VITA-INFO/assets/159910835/f19a0f99-defe-457a-9601-c28d4ff6fdd5)
+![피그마_2](https://github.com/JWTONE/VITA-INFO/assets/159910835/728e3e29-d78a-4960-81c2-d24a7d107556)
