@@ -1,4 +1,4 @@
-# VITA-INFO
+<p align='center'><strong># VITA-INFO</strong></p>
 
 <p align='center'><strong>“사용자에게 맞춤형으로 영양제 정보를 제공해주는 웹 사이트”</strong></p>
 </p>
@@ -43,12 +43,12 @@
   <td>
     <p align="center">
       서비스 시스템 설계<br>
-      post app 구현 CRUD<br>
+      post app 구현<br>
     </p>
   </td>
   
   <td>
-    <p align="center"> / 
+    <p align="center">
    서비스 시스템 설계<br>
   survey app 구현
     </p>
