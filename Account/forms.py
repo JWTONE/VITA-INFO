@@ -45,3 +45,27 @@ class CustomUserCreationForm(forms.ModelForm):
 
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "비밀번호가 일치하지 않습니다.")
+
+class CustomUserChangeForm(forms.ModelForm):
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="생년월일",
+        required=False,
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "email", "name",
+            "nickname", "date_of_birth", "gender", "subscription"
+        ]
+        labels = {
+            "email": "이메일",
+            "name": "이름",
+            "nickname": "닉네임",
+            "gender": "성별",
+            "subscription": "구독 여부"
+        }
+        help_texts = {
+            'username': '',
+        }

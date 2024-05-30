@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from Account.forms import CustomUserCreationForm
+from Account.forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer
 from Account import serializers
@@ -91,3 +91,19 @@ def signup(request):
     context = {"form": form}
     return render(request, "account/signup.html", context)
 
+
+#회원정보 변경 모듈, front와 아직 미연동 상태
+def update(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST)
+        if form.is_valid():
+            serializer = UserUpdateSerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                serializer.save()
+                return redirect("account:update")
+            else:
+                return Response(status, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        form = CustomUserChangeForm()
+    context = {"form": form}
+    return render(request, "account/update.html", context)

@@ -7,6 +7,7 @@ app_name = "account"
 urlpatterns = [
     # wv
     path("signup/", views.signup, name="signup"),
+    path("update/", views.update, name="update"),
 
     # api
     path("", UserListAPIView.as_view(), name="user_list"),
