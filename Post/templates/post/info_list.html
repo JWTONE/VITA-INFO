@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1 style="text-align: left;">정보 게시판</h1>
+
+<ol>
+    {% for post in posts %}
+    <li><a href="">post</a></li>
+    {% endfor %}
+</ol>
+{% endblock content %}

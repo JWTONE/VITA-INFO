@@ -155,8 +155,7 @@ class CommentDetailAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-        
-    
+
 ##################
 #       WV       #
 ##################
@@ -181,13 +180,3 @@ def create(request):
     context = {"form": form}
     return render(request, "post/create.html", context)
 
-def info_detail(request, pk):
-    article = get_object_or_404(Post, pk=pk)
-    comment_form = CommentForm()
-    comments = article.comment_set.all().order_by("-pk")
-    context = {
-        "article": article,
-        "comment_form": comment_form,
-        "comments": comments,
-    }
-    return render(request, "articles/article_detail.html", context)
