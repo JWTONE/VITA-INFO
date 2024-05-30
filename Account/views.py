@@ -1,13 +1,19 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.hashers import check_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from Account.forms import CustomUserCreationForm
 from .models import User
 from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer
+from Account import serializers
 
+##################
+#       API      #
+##################
 
 class UserListAPIView(APIView):
     def get_object(self, username):
@@ -64,3 +70,24 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+##################
+#       WV       #
+##################
+
+def signup(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            serializer = UserCreateSerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                serializer.save()
+                return redirect("account:signup")
+            else:
+                return Response(status, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        form = CustomUserCreationForm()
+    context = {"form": form}
+    return render(request, "account/signup.html", context)
+

@@ -44,7 +44,7 @@ class SurveyAPIView(APIView):
                 survey_results_serializer.save(survey_id = survey_info)
 
             response_data = {
-                "survey": serializer.data,
+                # "survey": serializer.data,
                 "result": survey_results_serializer.data
             }
             return Response(response_data, status=status.HTTP_201_CREATED)
