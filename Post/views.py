@@ -149,3 +149,11 @@ class CommentDetailAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+def list(request):
+    posts = Post.objects.all()
+    context = {
+        'posts' : posts
+    }
+    return render(request, 'post/admin_list.html', context)
+
