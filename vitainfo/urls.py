@@ -20,14 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    
     # WEB
-    path('', include('Home.urls')),
-    path('account/', include('Account.urls')),
-    path('post/', include('Post.urls')),
-    path('survey/', include('Survey.urls')),
+    path('', include('Web.urls')),
     
     # API
-    path('admin/', admin.site.urls),
     path('api/account/', include('Account.urls')),
     path('api/post/', include('Post.urls')),
     path('api/survey/', include('Survey.urls')),

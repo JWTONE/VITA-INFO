@@ -156,27 +156,27 @@ class CommentDetailAPIView(APIView):
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-##################
-#       WV       #
-##################
+# ##################
+# #       WV       #
+# ##################
 
-# @login_required
-def create(request):
-    if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            serializer = PostSerializer(data=form.cleaned_data)
-            if serializer.is_valid():
-                # 로그인 연결 시 변경 예정
-                # post = serializer.save(author=request.user)
-                post = serializer.save(author_id="taehun")
-                # detail page로 변경 예정
-                # return redirect("post:detail", post_id=post.id)
-                return redirect("home:home")
-            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = PostForm()
+# # @login_required
+# def create(request):
+#     if request.method == "POST":
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             serializer = PostSerializer(data=form.cleaned_data)
+#             if serializer.is_valid():
+#                 # 로그인 연결 시 변경 예정
+#                 # post = serializer.save(author=request.user)
+#                 post = serializer.save(author_id="taehun")
+#                 # detail page로 변경 예정
+#                 # return redirect("post:detail", post_id=post.id)
+#                 return redirect("home:home")
+#             return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         form = PostForm()
 
-    context = {"form": form}
-    return render(request, "post/create.html", context)
+#     context = {"form": form}
+#     return render(request, "post/create.html", context)
 

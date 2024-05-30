@@ -5,10 +5,5 @@ from . import views
 app_name = "survey"
 
 urlpatterns = [
-    #WV
-    path("surveymain/", views.survey_view, name="surveymain"),
-    
-    #API
     path("", SurveyAPIView.as_view(), name="survey"),
-    
 ]
