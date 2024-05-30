@@ -9,5 +9,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("<str:username>/", UserListAPIView.as_view(), name="profile_update"),
     path("<str:username>/password/",
-         PasswordUpdateAPIView.as_view(), name="password_update"),
+         PasswordUpdateAPIView.as_view(), name="password_update")
 ]
