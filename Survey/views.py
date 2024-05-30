@@ -56,21 +56,21 @@ class SurveyAPIView(APIView):
             return Response(response_data, status=status.HTTP_201_CREATED)
         
         
-##################
-#       WV       #
-##################
+# ##################
+# #       WV       #
+# ##################
 
-def survey_view(request):
-    if request.method == "POST":
-        form = SurveyForm(request.POST)
-        if form.is_valid():
-            serializer = SurveySerializer(data=form.cleaned_data)
-            if serializer.is_valid():
-                serializer.save()
-                return redirect("survey:survey")
-            else:
-                return Response(status, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = SurveyForm()
-    context = {"form": form}
-    return render(request, "Survey/survey.html", context)
+# def survey_view(request):
+#     if request.method == "POST":
+#         form = SurveyForm(request.POST)
+#         if form.is_valid():
+#             serializer = SurveySerializer(data=form.cleaned_data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return redirect("survey:survey")
+#             else:
+#                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         form = SurveyForm()
+#     context = {"form": form}
+#     return render(request, "Survey/survey.html", context)

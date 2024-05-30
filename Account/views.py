@@ -76,34 +76,34 @@ class LogoutView(APIView):
 #       WV       #
 ##################
 
-def signup(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            serializer = UserCreateSerializer(data=form.cleaned_data)
-            if serializer.is_valid():
-                serializer.save()
-                return redirect("account:signup")
-            else:
-                return Response(status, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = CustomUserCreationForm()
-    context = {"form": form}
-    return render(request, "account/signup.html", context)
+# def signup(request):
+#     if request.method == "POST":
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             serializer = UserCreateSerializer(data=form.cleaned_data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return redirect("account:signup")
+#             else:
+#                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         form = CustomUserCreationForm()
+#     context = {"form": form}
+#     return render(request, "account/signup.html", context)
 
 
-#회원정보 변경 모듈, front와 아직 미연동 상태
-def update(request):
-    if request.method == "POST":
-        form = CustomUserChangeForm(request.POST)
-        if form.is_valid():
-            serializer = UserUpdateSerializer(data=form.cleaned_data)
-            if serializer.is_valid():
-                serializer.save()
-                return redirect("account:update")
-            else:
-                return Response(status, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = CustomUserChangeForm()
-    context = {"form": form}
-    return render(request, "account/update.html", context)
+# #회원정보 변경 모듈, front와 아직 미연동 상태
+# def update(request):
+#     if request.method == "POST":
+#         form = CustomUserChangeForm(request.POST)
+#         if form.is_valid():
+#             serializer = UserUpdateSerializer(data=form.cleaned_data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return redirect("account:update")
+#             else:
+#                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         form = CustomUserChangeForm()
+#     context = {"form": form}
+#     return render(request, "account/update.html", context)
