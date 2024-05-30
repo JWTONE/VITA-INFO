@@ -11,6 +11,9 @@ from .models import User
 from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer
 from Account import serializers
 
+##################
+#       API      #
+##################
 
 class UserListAPIView(APIView):
     def get_object(self, username):
@@ -68,6 +71,11 @@ class LogoutView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+##################
+#       WV       #
+##################
+
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -82,3 +90,4 @@ def signup(request):
         form = CustomUserCreationForm()
     context = {"form": form}
     return render(request, "account/signup.html", context)
+
