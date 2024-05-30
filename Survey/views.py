@@ -1,10 +1,16 @@
 import json
+from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Survey.serializers import SurveySerializer, SurveyResultsSerializer
 from rest_framework.permissions import IsAuthenticated
 from .function import survey
+from .forms import SurveyForm
+
+##################
+#       API      #
+##################
 
 class SurveyAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -48,3 +54,23 @@ class SurveyAPIView(APIView):
                 "result": survey_results_serializer.data
             }
             return Response(response_data, status=status.HTTP_201_CREATED)
+        
+        
+##################
+#       WV       #
+##################
+
+def survey_view(request):
+    if request.method == "POST":
+        form = SurveyForm(request.POST)
+        if form.is_valid():
+            serializer = SurveySerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                serializer.save()
+                return redirect("survey:survey")
+            else:
+                return Response(status, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        form = SurveyForm()
+    context = {"form": form}
+    return render(request, "Survey/survey.html", context)
