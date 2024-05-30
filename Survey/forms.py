@@ -4,4 +4,7 @@ from .models import SurveyInfo
 class SurveyForm(forms.ModelForm):
     class Meta:
         model = SurveyInfo
-        fields = "__all__"
+
+    
+        exclude = ["user"]
+    
