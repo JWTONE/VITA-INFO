@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h3 style="text-align: center;">Survey Main</h3>
+<h6>이름</h6>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p}}
+</form>
+
+{% endblock content %}
