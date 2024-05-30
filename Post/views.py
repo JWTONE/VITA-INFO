@@ -1,12 +1,18 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
+from Post.forms import PostForm
 from .models import Post, Comment
 from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
+
+##################
+#       API      #
+##################
 
 def set_category(instance):
     if instance.is_staff:
@@ -149,3 +155,28 @@ class CommentDetailAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+    
+##################
+#       WV       #
+##################
+
+# @login_required
+def create(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            serializer = PostSerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                # 로그인 연결 시 변경 예정
+                # post = serializer.save(author=request.user)
+                post = serializer.save(author_id="taehun")
+                # detail page로 변경 예정
+                # return redirect("post:detail", post_id=post.id)
+                return redirect("home:home")
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        form = PostForm()
+
+    context = {"form": form}
+    return render(request, "post/create.html", context)
