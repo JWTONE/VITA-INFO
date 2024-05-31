@@ -108,7 +108,7 @@ class CommentListAPIView(generics.ListCreateAPIView):
             comment = get_object_or_404(Comment, pk=comment_pk)
             serializer = CommentSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
-                serializer.save(author=author, post_id=post, is_reply=True)
+                serializer.save(author=author, comment_id=comment, post_id=post, is_reply=True)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             serializer = CommentSerializer(data=request.data)
@@ -150,7 +150,9 @@ class CommentDetailAPIView(APIView):
     def delete(self, request, comment_pk):
         comment = self.get_object(comment_pk)
         if comment.author == request.user:
-            comment.delete()
+            comment.content = '삭제된 댓글입니다'
+            comment.author = None
+            comment.save()
             data = {"pk": f"{comment_pk} is deleted."}
             return Response(data, status=status.HTTP_200_OK)
         else:

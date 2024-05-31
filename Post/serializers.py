@@ -11,7 +11,8 @@ class CommentSerializer(serializers.ModelSerializer):
             "created_at",
             "is_reply"
         ]
-
+        read_only_fields = ["author", "is_reply"]
+        
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
