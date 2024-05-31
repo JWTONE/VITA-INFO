@@ -6,9 +6,8 @@
 <ol id="post-list">
 </ol>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    axios.get('http://127.0.0.1:8000/api/post/')
+    axios.get("{% url 'post:post_list' %}")
         .then(response => {
             const posts = response.data;
             const postList = document.getElementById('post-list');
@@ -20,7 +19,7 @@
             postsArray.forEach(post => {
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
-                link.href = `/post/${post.id}/`; // 실제 경로에 맞게 수정
+                link.href = `/post/${post.id}/`;
                 link.textContent = post.title; // 게시물 제목을 여기에 넣기
                 listItem.appendChild(link);
                 postList.appendChild(listItem);
