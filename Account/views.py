@@ -19,6 +19,14 @@ class UserListAPIView(APIView):
     def get_object(self, username):
         return get_object_or_404(User, username=username)
 
+    def get(self, request, username):
+        user = self.get_object(username)
+        if request.user.username == user.username:
+            serializer = UserCreateSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
     def post(self, request):
         serializer = UserCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
