@@ -1,19 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id='post-detail'>
+</div>
+<h3>댓글</h3>
+<div id='comments'>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const postID = {{ post_id }}
+    const postDetailDiv = document.getElementById('post-detail');
+    const commentDiv = document.getElementById('comments')
+    axios.get(`http://127.0.0.1:8000/api/post/${postID}/`)
+            .then(response => {
+                const post = response.data;
+                console.log(post)
 
-<h2>글 상세 페이지</h2>
-<p>제목: 제목</p>
-<img src="#">
+                const title = document.createElement('h2');
+                title.textContent = post.title;
+                postDetailDiv.appendChild(title);
 
-<p>내용: 내용</p>
-<p>작성일시: 2024-05-30</p>
+                const author = document.createElement('p');
+                author.textContent = `작성자: ${post.author}`;
+                postDetailDiv.appendChild(author);
 
-<a href="#"><button>목록 보기</button></a>
+                const image = document.createElement('img');
+                image.src = post.image;
+                postDetailDiv.appendChild(image);
 
-<hr>
+                const likeCounts = document.createElement('p');
+                likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
+                postDetailDiv.appendChild(likeCounts);
+                
+                const comments = post.comments;
+                console.log(comments);
+                comments.forEach(comment => {
+                    const commentItem = document.createElement('p');
+                    commentItem.textContent = comment.content;
+                    commentDiv.appendChild(commentItem)
+                })
 
-<h3>댓글 2개</h3>
-<p> 아니 뭐해 : 태훈</p>
-
+            })
+    </script>
 {% endblock content %}
