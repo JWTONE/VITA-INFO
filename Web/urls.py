@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 app_name = "web"
 
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     # path("create/", views.create, name="create"),
 
     # #survey
-    # path("surveymain/", views.survey_view, name="surveymain"),
+    path("surveymain/", views.surveymain, name="surveymain"),
+    path("surveyresult/", views.surveyresult, name="surveyresult"),
     
 ]
