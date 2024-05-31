@@ -1,16 +1,17 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 <div id='post-detail'>
 </div>
 <h3>댓글</h3>
 <div id='comments'>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</div>
 <script>
-    const postID = {{ post_id }}
+    const postID = {{ post_pk }}
     const postDetailDiv = document.getElementById('post-detail');
     const commentDiv = document.getElementById('comments')
-    axios.get(`http://127.0.0.1:8000/api/post/${postID}/`)
+    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID); // 0을 postID로 대체
+    axios.get(url)
             .then(response => {
                 const post = response.data;
                 console.log(post)
