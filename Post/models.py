@@ -22,7 +22,7 @@ class Post(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     author = models.ForeignKey(
-        User, to_field="nickname", on_delete=models.CASCADE, related_name="comment_author")
+        User, to_field="nickname", on_delete=models.CASCADE, related_name="comment_author", null=True)
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     like_comments = models.ManyToManyField(User,related_name="comment_likes")
     like_counts = models.PositiveIntegerField(default=0)
