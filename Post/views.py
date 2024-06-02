@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view
 from Post.forms import PostForm
 from .models import Post, Comment
@@ -24,7 +24,7 @@ def set_category(instance):
 class PostListAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     
     def post(self, request):  # 게시글 작성
@@ -97,9 +97,35 @@ def search(request):
 
 
 class CommentListAPIView(generics.ListCreateAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    # queryset = Comment.objects.all()
+    # serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        return Comment.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+
+        # 중복된 답글을 저장할 집합
+        duplicate_replies = set()
+
+        # replies를 각 부모 댓글에 추가하고 중복된 답글을 찾아냄
+        for comment in data:
+            if comment['is_reply']:
+                parent_comment_id = comment['comment_id']
+                if parent_comment_id in duplicate_replies:
+                    # 중복된 답글이면 삭제
+                    data.remove(comment)
+                else:
+                    # 중복된 답글이 아니면 집합에 추가
+                    duplicate_replies.add(parent_comment_id)
+
+        return Response(data)
     
     def post(self, request, post_pk, comment_pk=None):
         author = request.user
