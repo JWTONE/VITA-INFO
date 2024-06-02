@@ -7,7 +7,7 @@ axios.interceptors.request.use(
         return config;
     },
     (error) => {
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 
@@ -19,19 +19,17 @@ axios.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            const refreshToken = localStorage.getItem("refresh_token");
-            return axios.post("api/account/refresh/", { refresh: refreshToken })
+            const refreshToken = localStorage.getItem("refresh");
+            return axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
                 .then(response => {
-                    localStorage.setItem("access_token", response.data.access);
+                    localStorage.setItem("access", response.data.access);
+                    localStorage.setItem("refresh", response.data.refresh);
                     axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
                     originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
                     return axios(originalRequest);
                 })
-                .catch(err => {
-                    console.error("리프레시 토큰 갱신 실패:", err);
-                    localStorage.removeItem("access_token");
-                    localStorage.removeItem("refresh_token");
-                    window.location.href = "/";
+                .catch(error => {
+                    window.location.href = "/login/";
                     return Promise.reject(error);
                 });
         }
