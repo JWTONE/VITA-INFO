@@ -103,12 +103,13 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const username = localStorage.getItem("username");
+            const nickname = localStorage.getItem("nickname");
             const mypageLink = document.getElementById('mypage-link');
             if (username) {
                 document.getElementById("logout-button").style.display = "block";
                 document.getElementById("mypage-button").style.display = "block";
                 mypageLink.href = `/mypage/${username}`;
-                mypageLink.textContent = username;
+                mypageLink.textContent = nickname;
             }
             else {
                 document.getElementById("login-button").style.display = "block";
