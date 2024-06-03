@@ -6,6 +6,7 @@ app_name = "web"
 urlpatterns = [
     path("", views.index, name="index"),
     path("login/", views.login, name="login"),
+    path("post/create/", views.post_create, name="post_create"),
     path("post/<int:post_pk>/", views.post_detail, name="post_detail"),
     path("post/<str:category>/", views.post_list, name ="post_list"),
     path("mypage/<str:username>/", views.mypage, name="mypage"),
@@ -22,5 +23,4 @@ urlpatterns = [
     path("surveymain/", views.surveymain, name="surveymain"),
     path("surveyloading/", views.surveyloading, name="surveyload"),
     path("surveyresult/", views.surveyresult, name="surveyresult"),
-    
 ]
