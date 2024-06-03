@@ -18,6 +18,15 @@ def info_detail(request, post_pk):
     }
     return render (request, 'post/info_detail.html', context)
 
+def review_list(request):
+    return render(request, "post/user_list.html")
+
+def review_detail(request, post_pk):
+    context = {
+        'post_pk' : post_pk
+    }
+    return render (request, 'post/review_detail.html', context)
+
 def surveymain(request):
     context = {'form':SurveyForm}
     return render(request, 'Survey/survey.html', context)
