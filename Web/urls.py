@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 app_name = "web"
 
 urlpatterns = [
@@ -12,9 +11,10 @@ urlpatterns = [
     path("mypage/<str:username>/", views.mypage, name="mypage"),
 
     # #user
-    # path("signup/", views.signup, name="signup"),
+    path("signup/", views.signup, name="signup"),
     path("update/<str:username>", views.update, name="update"),
-    
+    path("password_update/<str:username>", views.password_update, name="password_update"),
+
     # # #post
     # path("create/", views.create, name="create"),
 
