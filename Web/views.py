@@ -9,10 +9,15 @@ def login(request):
     return render(request, 'account/login.html')
 
 
-def info_list(request):
-    return render(request, "post/info_list.html")
+def post_list(request, category):
+    context = {
+        'category': category
+    }
+    if category == "info":
+        return render(request, "post/info_list.html", context) 
+    return render(request, "post/review_list.html", context)
 
-def info_detail(request, post_pk):
+def post_detail(request, post_pk):
     context = {
         'post_pk' : post_pk
     }

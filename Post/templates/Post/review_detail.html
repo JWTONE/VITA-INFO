@@ -1,19 +1,63 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
+<div id='post-detail'>
+</div>
+<h3>댓글</h3>
+<div id='comments'>
+</div>
+<script>
+    const postID = "{{ post_pk }}";
+    const postDetailDiv = document.getElementById('post-detail');
+    const commentDiv = document.getElementById('comments');
+    const url = `{% url 'post:post_detail' post_pk=post_pk %}`
+    axios.get(url)
+            .then(response => {
+                const post = response.data;
+                console.log(post);
 
-<h2>글 상세 페이지</h2>
-<p>제목: 제목</p>
-<img src="#">
+                const title = document.createElement('h2');
+                title.textContent = post.title;
+                postDetailDiv.appendChild(title);
 
-<p>내용: 내용</p>
-<p>작성일시: 2024-05-30</p>
+                const author = document.createElement('p');
+                author.textContent = `작성자: ${post.author}`;
+                postDetailDiv.appendChild(author);
 
-<a href="#"><button>목록 보기</button></a>
+                const image = document.createElement('img');
+                image.src = post.image;
+                postDetailDiv.appendChild(image);
 
-<hr>
+                const likeCounts = document.createElement('p');
+                likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
+                postDetailDiv.appendChild(likeCounts);
+                
+                const comments = post.comments;
+                console.log(comments);
+                comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    const commentText = document.createElement('p');
+                    commentText.textContent = comment.content;
+                    commentDiv.appendChild(commentText);
 
-<h3>댓글 2개</h3>
-<p> 아니 뭐해 : 태훈</p>
+                    commentDiv.style.marginLeft = '20px'; // 댓글의 들여쓰기
 
+                    commentDiv.appendChild(commentText);
+
+                    postDetailDiv.appendChild(commentDiv);
+
+                    if (comment.replies) {    
+                        comment.replies.forEach(reply => {
+                            const replyDiv = document.createElement('div');
+                            const replyText = document.createElement('p');
+                            replyText.textContent = reply.content;
+                            replyDiv.appendChild(replyText);
+                            replyDiv.style.marginLeft = '40px';  // 대댓글의 추가 들여쓰기
+                            postDetailDiv.appendChild(replyDiv);
+                        });
+                    }
+                });
+
+            });
+</script>
 {% endblock content %}

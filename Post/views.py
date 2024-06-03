@@ -16,16 +16,20 @@ from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 
 def set_category(instance):
     if instance.is_staff:
-        return "admin"
+        return "info"
     else:
         return "review"
 
 
 class PostListAPIView(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
     
+    def get_queryset(self):
+        category = self.kwargs.get('category')  # URL 파라미터에서 category 가져오기
+        if category:
+            return Post.objects.filter(category=category).order_by('id')  # category로 필터링된 게시글 반환
+        return Post.objects.all().order_by('id')  
     
     def post(self, request):  # 게시글 작성
         author = request.user

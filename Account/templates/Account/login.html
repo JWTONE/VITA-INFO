@@ -29,14 +29,17 @@
                 password: password
             };
 
-            axios.post('/api/account/login/', saveData) // URL 수정
+            axios.post('/api/account/login/', saveData)
                 .then(response => {
                     const token = response.data.access;
                     localStorage.setItem('access', token); // 토큰을 저장함
                     const refreshToken = response.data.refresh;
                     localStorage.setItem('refresh', refreshToken); // 토큰을 저장함
-                    localStorage.setItem('username', username);
-                    window.location.href = "/";
+                    alert('로그인 성공했습니다.');
+
+                    // 이전 페이지로 이동
+                    const prevPage = localStorage.getItem('prevPage');
+                    window.location.href = prevPage || '/'; // 이전 페이지가 없으면 홈페이지로 이동
                 })
                 .catch(error => {
                     console.error(error);
