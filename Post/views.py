@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
@@ -96,8 +97,18 @@ def search(request):
         ) | Post.objects.filter(
             author__nickname__icontains=query
         )
-        serializer = PostSerializer(results, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # 카테고리별로 결과를 그룹화
+        categorized_results = defaultdict(list)
+        for post in results:
+            categorized_results[post.category].append(post)
+
+        # 결과를 직렬화
+        serialized_results = {}
+        for category, posts in categorized_results.items():
+            serialized_results[category] = PostSerializer(posts, many=True).data
+
+        return Response(serialized_results, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
