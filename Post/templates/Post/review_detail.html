@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<h3>리뷰 게시판</h3>
 <div id='post-detail'>
 </div>
 <h3>댓글</h3>
@@ -26,6 +27,10 @@
                 
                 const author = document.createElement('p');
                 author.textContent = `작성자: ${post.author}`;
+                postDetailDiv.appendChild(author);
+
+                const content = document.createElement('p');
+                author.textContent = `${post.author}`;
                 postDetailDiv.appendChild(author);
 
                 const likeCounts = document.createElement('p');

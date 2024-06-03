@@ -1,5 +1,9 @@
-from django.shortcuts import render
+
+from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
 from Survey.forms import SurveyForm
+from Post.forms import PostForm
+from Post.models import Post
 from Account.forms import CustomUserChangeForm
 from django.contrib.auth import get_user_model
 
@@ -9,29 +13,30 @@ def index(request):
 def login(request):
     return render(request, 'account/login.html')
 
-
 def post_list(request, category):
     context = {
-        'category': category
+        'category': category,
+        'form' : PostForm
     }
     if category == "info":
         return render(request, "post/info_list.html", context) 
     return render(request, "post/review_list.html", context)
 
+def post_create(request):
+    context = {
+        'form' : PostForm
+    }
+    return render(request, 'post/post_create.html', context)
+
+
 def post_detail(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
     context = {
         'post_pk' : post_pk
     }
+    if post.category == 'review':
+        return render (request, 'post/review_detail.html', context)
     return render (request, 'post/info_detail.html', context)
-
-def review_list(request):
-    return render(request, "post/user_list.html")
-
-def review_detail(request, post_pk):
-    context = {
-        'post_pk' : post_pk
-    }
-    return render (request, 'post/review_detail.html', context)
 
 def surveymain(request):
     context = {'form':SurveyForm}

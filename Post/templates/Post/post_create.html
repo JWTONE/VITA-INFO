@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>글 쓰기</h1>
+
+<form id="postForm" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="button" onclick="submitForm()">저장</button>
+</form>
+<a href="javascript:history.go(-1)">목록으로</a>
+
+<script>
+    function submitForm() {
+        const formData = new FormData(document.getElementById('postForm'));
+        axios.post("{% url 'post:post_detail' %}", formData)
+            .then(response => {
+                window.location.href = '/post/review/'
+            })
+            .catch(error => {
+                console.error('에러 발생:', error);
+            });
+    }
+</script>
+{% endblock content %}

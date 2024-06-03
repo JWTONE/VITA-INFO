@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from Survey.serializers import SurveySerializer, SurveyResultsSerializer
 from rest_framework.permissions import IsAuthenticated
 from .function import survey
-from .forms import SurveyForm
+
 
 ##################
 #       API      #
@@ -74,3 +75,4 @@ class SurveyAPIView(APIView):
 #         form = SurveyForm()
 #     context = {"form": form}
 #     return render(request, "Survey/survey.html", context)
+
