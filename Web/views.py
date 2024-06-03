@@ -22,6 +22,10 @@ def surveymain(request):
     context = {'form':SurveyForm}
     return render(request, 'Survey/survey.html', context)
 
+def surveyloading(request):
+    context = {'form':SurveyForm}
+    return render(request, 'Survey/survey_loading.html', context)
+
 def surveyresult(request):
     context = {'form':SurveyForm}
     return render(request, 'Survey/survey_result.html', context)
