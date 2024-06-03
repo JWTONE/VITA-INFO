@@ -23,5 +23,4 @@ urlpatterns = [
     path("surveymain/", views.surveymain, name="surveymain"),
     path("surveyloading/", views.surveyloading, name="surveyload"),
     path("surveyresult/", views.surveyresult, name="surveyresult"),
-    
 ]

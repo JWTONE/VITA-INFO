@@ -6,4 +6,5 @@ app_name = "survey"
 
 urlpatterns = [
     path("", SurveyAPIView.as_view(), name="survey"),
+    path("loading/", views.loading, name='loading')
 ]

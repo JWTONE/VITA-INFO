@@ -62,9 +62,9 @@ def update(request, username):
         form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-        
     context = {
         'form':form,
         'username':username
     }
     return render(request, 'account/update.html', context)
+
