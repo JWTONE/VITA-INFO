@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Survey.models import SurveyInfo, SurveyResults
+from Survey.models import Know_Vitamins, SurveyInfo, SurveyResults
 
 class SurveySerializer(serializers.ModelSerializer):
     

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<h3>리뷰 게시판</h3>
 <div id='post-detail'>
 </div>
 <h3>댓글</h3>
@@ -27,6 +28,10 @@
                 const image = document.createElement('img');
                 image.src = post.image;
                 postDetailDiv.appendChild(image);
+
+                const content = document.createElement('p');
+                author.textContent = `${post.author}`;
+                postDetailDiv.appendChild(author);
 
                 const likeCounts = document.createElement('p');
                 likeCounts.textContent = `좋아요 수: ${post.like_counts}`;

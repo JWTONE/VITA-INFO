@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view
 from Post.forms import PostForm
 from .models import Post, Comment
 from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
+from rest_framework.pagination import PageNumberPagination
 
 ##################
 #       API      #
@@ -24,6 +25,7 @@ def set_category(instance):
 class PostListAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
+    pagination_class = PageNumberPagination  
     
     def get_queryset(self):
         category = self.kwargs.get('category')  # URL 파라미터에서 category 가져오기
@@ -76,7 +78,7 @@ class PostDetailAPIView(APIView):
         
     def delete(self, request, post_pk):
         post = self.get_object(post_pk)
-        if post.author == request.user:
+        if post.author == request.user or request.user.is_staff:
             post.delete()
             data = {"pk": f"{post_pk} is deleted."}
             return Response(data, status=status.HTTP_200_OK)
