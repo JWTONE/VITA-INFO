@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from Survey.models import SurveyInfo, SurveyResults
+from .models import Know_Vitamins
 
 class SurveySerializer(serializers.ModelSerializer):
     
@@ -21,3 +22,8 @@ class SurveyResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SurveyResults
         exclude = ["survey_id"]
+
+class KnowVitaminsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Know_Vitamins
+        fields = ['name', 'nickname', 'description']

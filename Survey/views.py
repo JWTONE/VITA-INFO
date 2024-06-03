@@ -3,10 +3,17 @@ from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from Post import serializers
 from Survey.serializers import SurveySerializer, SurveyResultsSerializer
 from rest_framework.permissions import IsAuthenticated
 from .function import survey
 from .forms import SurveyForm
+from .models import Know_Vitamins
+from rest_framework.decorators import api_view
+from random import randint
+from .serializers import KnowVitaminsSerializer
+
+
 
 ##################
 #       API      #
@@ -74,3 +81,13 @@ class SurveyAPIView(APIView):
 #         form = SurveyForm()
 #     context = {"form": form}
 #     return render(request, "Survey/survey.html", context)
+
+# DB에 있는 Know_Vitamins 가져오기
+@api_view(['GET'])
+def loading(request):
+    all_content = Know_Vitamins.objects.all()
+    random_index = randint(0, len(all_content) - 1)
+    random_content = all_content[random_index]
+    serializer = KnowVitaminsSerializer(random_content)
+    
+    return Response(serializer.data)

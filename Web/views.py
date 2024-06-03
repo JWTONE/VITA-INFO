@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from Survey.forms import SurveyForm
+from django.http import JsonResponse
+
+from Survey.models import Know_Vitamins
 
 def index(request):
     return render(request, "index.html")
