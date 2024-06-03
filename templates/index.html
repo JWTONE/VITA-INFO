@@ -9,8 +9,8 @@
     <br>
     <h6>최신 랭킹에 포함되어있는 게시글을 검색해보세요</h6>
     <br>
-    <br>
-    <button><a href="{% url 'survey:survey' %}">체형/체질 설문조사 후 추천받기</a></button>
+    <button id="customButton"></button>
+
     <br>
     <br>
     <h6>필요한글을 더 써서 여기에 적용시키자</h6>
@@ -19,8 +19,26 @@
 <br>
 <br>
 <div style="text-align: center;">
-<form action="" method="get">
-    <input type="text" name="st_name" placeholder="검색"><br>
-</form>
+    <form action="" method="get">
+        <input type="text" name="st_name" placeholder="검색"><br>
+    </form>
 </div>
+<script>
+    const button = document.getElementById('customButton');
+    const username = localStorage.getItem('username');
+
+    if (username) {
+        button.textContent = '체형/체질 설문조사 후 추천받기';
+        button.addEventListener('click', function () {
+            window.location.href = "{% url 'web:surveymain' %}";
+        });
+    }
+    else {
+        // 로그인되지 않은 사용자로 간주
+        button.textContent = '로그인 후 체형/체질 설문조사 후 추천받기';
+        button.addEventListener('click', function () {
+            window.location.href = "{% url 'web:login' %}";
+        });
+    }
+</script>
 {% endblock content %}

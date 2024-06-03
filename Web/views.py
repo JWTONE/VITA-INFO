@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from Survey.forms import SurveyForm
 
 def index(request):
@@ -16,7 +17,6 @@ def info_detail(request, post_pk):
         'post_pk' : post_pk
     }
     return render (request, 'post/info_detail.html', context)
-
 
 def surveymain(request):
     context = {'form':SurveyForm}
