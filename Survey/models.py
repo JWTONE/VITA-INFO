@@ -2,6 +2,7 @@ from django.db import models
 from Account.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class SurveyInfo(models.Model):
     GENDER_CHOICES = [
         ("남자", "남자"),
@@ -109,3 +110,11 @@ class SurveyResults(models.Model):
     incompatible_foods_1 = models.TextField()
     incompatible_foods_2 = models.TextField()
     incompatible_foods_3 = models.TextField()
+
+class Know_Vitamins(models.Model):
+    name = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
