@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <h1>회원정보 변경</h1>
-<form action="{% url 'web:update' %}" method="POST">
+<form action="{% url 'web:update' username %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">회원정보 변경</button>

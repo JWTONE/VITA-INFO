@@ -29,7 +29,6 @@ axios.interceptors.response.use(
                     return axios(originalRequest);
                 })
                 .catch(error => {
-                    localStorage.setItem('prevPage', window.location.pathname);
                     window.location.href = "/login/";
                     return Promise.reject(error);
                 });

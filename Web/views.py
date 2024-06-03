@@ -1,9 +1,11 @@
-from django.shortcuts import render
+
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from Survey.forms import SurveyForm
-from django.http import JsonResponse
-
-from Survey.models import Know_Vitamins
+from Post.forms import PostForm
+from Post.models import Post
+from Account.forms import CustomUserChangeForm
+from django.contrib.auth import get_user_model
 
 def index(request):
     return render(request, "index.html")
@@ -11,29 +13,30 @@ def index(request):
 def login(request):
     return render(request, 'account/login.html')
 
-
 def post_list(request, category):
     context = {
-        'category': category
+        'category': category,
+        'form' : PostForm
     }
     if category == "info":
         return render(request, "post/info_list.html", context) 
     return render(request, "post/review_list.html", context)
 
+def post_create(request):
+    context = {
+        'form' : PostForm
+    }
+    return render(request, 'post/post_create.html', context)
+
+
 def post_detail(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
     context = {
         'post_pk' : post_pk
     }
+    if post.category == 'review':
+        return render (request, 'post/review_detail.html', context)
     return render (request, 'post/info_detail.html', context)
-
-def review_list(request):
-    return render(request, "post/user_list.html")
-
-def review_detail(request, post_pk):
-    context = {
-        'post_pk' : post_pk
-    }
-    return render (request, 'post/review_detail.html', context)
 
 def surveymain(request):
     context = {'form':SurveyForm}
@@ -50,21 +53,18 @@ def surveyresult(request):
 def mypage(request, username):
     return render(request, "account/mypage.html", {"username" : username})
 
-def update(request):
-    pass
-# def update(request):
-#     try:
-#         data = json.loads(request.body)
-#         form = CustomUserChangeForm(data, instance=request.user)
-        
-#         if form.is_valid():
-#             form.save()
-#             return redirect("account:mypage")  # 마이페이지로 리다이렉트
-#         else:
-#             # 유효성 검사에 실패한 경우에 대한 처리
-#             # 예를 들어, 유효성 검사 오류 메시지를 함께 전달하거나 다시 입력 폼을 표시할 수 있습니다.
-#             return render(request, "account/update_failed.html", {"form": form})
-#     except JSONDecodeError:
-#         # 요청의 본문이 유효한 JSON 형식이 아닌 경우에 대한 처리
-#         # 예를 들어, 오류 메시지를 반환하거나 다시 시도하도록 유도할 수 있습니다.
-#         return HttpResponse("Invalid JSON data", status=400)
+def update(request, username):
+    User = get_user_model()
+    user = User.objects.get(username=username)
+    if request.method == 'GET':
+        form = CustomUserChangeForm(instance=user)
+    elif request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+    context = {
+        'form':form,
+        'username':username
+    }
+    return render(request, 'account/update.html', context)
+

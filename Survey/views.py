@@ -14,7 +14,6 @@ from random import randint
 from .serializers import KnowVitaminsSerializer
 
 
-
 ##################
 #       API      #
 ##################
@@ -82,6 +81,7 @@ class SurveyAPIView(APIView):
 #     context = {"form": form}
 #     return render(request, "Survey/survey.html", context)
 
+
 # DB에 있는 Know_Vitamins 가져오기
 @api_view(['GET'])
 def loading(request):
@@ -91,3 +91,4 @@ def loading(request):
     serializer = KnowVitaminsSerializer(random_content)
     
     return Response(serializer.data)
+
