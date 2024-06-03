@@ -35,6 +35,7 @@
                     localStorage.setItem('access', token); // 토큰을 저장함
                     const refreshToken = response.data.refresh;
                     localStorage.setItem('refresh', refreshToken); // 토큰을 저장함
+                    localStorage.setItem('username', username);
                     window.location.href = "/";
                 })
                 .catch(error => {
