@@ -1,68 +1,170 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+{% block content %}     
 <h3>정보 게시판</h3>
 <div id='post-detail'>
 </div>
 <h3>댓글</h3>
+<div id="comment-form">
+    <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
+    <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
+</div>
 <div id='comments'>
 </div>
 <script>
     const postID = {{ post_pk }};
     const postDetailDiv = document.getElementById('post-detail');
     const commentDiv = document.getElementById('comments');
-    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID); // 0을 postID로 대체
+    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
+
     axios.get(url)
+        .then(response => {
+            const post = response.data;
+            console.log(post);
+
+            const title = document.createElement('h2');
+            title.textContent = post.title;
+            postDetailDiv.appendChild(title);
+
+            const author = document.createElement('p');
+            author.textContent = `작성자: ${post.author}`;
+            postDetailDiv.appendChild(author);
+
+            const image = document.createElement('img');
+            image.src = post.image;
+            image.style.width = '50%';
+            postDetailDiv.appendChild(image);
+
+            const content = document.createElement('p');
+            content.textContent = post.content;
+            postDetailDiv.appendChild(content);
+
+            const likeCounts = document.createElement('p');
+            likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
+            postDetailDiv.appendChild(likeCounts);
+
+            // 댓글을 로드합니다.
+            loadComments(post.comments);
+        })
+        .catch(error => {
+            console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
+        });
+
+    // 댓글 작성 함수
+    function submitComment() {
+        const content = document.getElementById('commentContent').value;
+        if (!content) {
+            alert('댓글 내용을 입력하세요');
+            return;
+        }
+
+        const commentData = {
+            content: content,
+            post: postID,
+        };
+
+        axios.post(`/api/post/${postID}/comment/`, commentData)
             .then(response => {
-                const post = response.data;
-                console.log(post);
-
-                const title = document.createElement('h2');
-                title.textContent = post.title;
-                postDetailDiv.appendChild(title);
-
-                const author = document.createElement('p');
-                author.textContent = `작성자: ${post.author}`;
-                postDetailDiv.appendChild(author);
-
-                const image = document.createElement('img');
-                image.src = post.image;
-                postDetailDiv.appendChild(image);
-
-                const content = document.createElement('p');
-                author.textContent = `${post.author}`;
-                postDetailDiv.appendChild(author);
-
-                const likeCounts = document.createElement('p');
-                likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
-                postDetailDiv.appendChild(likeCounts);
-                
-                const comments = post.comments;
-                console.log(comments);
-                comments.forEach(comment => {
-                    const commentDiv = document.createElement('div');
-                    const commentText = document.createElement('p');
-                    commentText.textContent = comment.content;
-                    commentDiv.appendChild(commentText);
-
-                    commentDiv.style.marginLeft = '20px'; // 댓글의 들여쓰기
-
-                    commentDiv.appendChild(commentText);
-
-                    postDetailDiv.appendChild(commentDiv);
-
-                    if (comment.replies) {    
-                        comment.replies.forEach(reply => {
-                            const replyDiv = document.createElement('div');
-                            const replyText = document.createElement('p');
-                            replyText.textContent = reply.content;
-                            replyDiv.appendChild(replyText);
-                            replyDiv.style.marginLeft = '40px';  // 대댓글의 추가 들여쓰기
-                            postDetailDiv.appendChild(replyDiv);
-                        });
-                    }
-                });
-
+                // 댓글 작성 후 댓글 목록을 다시 불러옴
+                document.getElementById('commentContent').value = '';
+                addCommentToDOM(response.data);
+            })
+            .catch(error => {
+                console.error('댓글 작성 중 오류가 발생했습니다:', error);
             });
+    }
+
+    // 댓글 목록을 다시 불러오는 함수
+    function loadComments(comments) {
+        commentDiv.innerHTML = ''; // 기존 댓글을 초기화
+
+        comments.forEach(comment => {
+            addCommentToDOM(comment);
+        });
+    }
+
+    // 새로운 댓글을 DOM에 추가하는 함수
+    function addCommentToDOM(comment) {
+        const commentDivItem = document.createElement('div');
+        const commentText = document.createElement('p');
+        commentText.textContent = comment.content;
+        commentDivItem.appendChild(commentText);
+
+        const replyLink = document.createElement('a');
+        replyLink.href = '#';
+        replyLink.textContent = '대댓글 달기';
+        replyLink.onclick = (event) => {
+            event.preventDefault();
+            showReplyForm(commentDivItem, comment.id);
+        };
+        commentDivItem.appendChild(replyLink);
+
+        commentDivItem.style.marginLeft = '20px'; // 댓글의 들여쓰기
+        commentDivItem.style.backgroundColor = '#f0f0f0';
+
+        commentDiv.appendChild(commentDivItem);
+
+        if (comment.replies) {
+            comment.replies.forEach(reply => {
+                const replyDiv = document.createElement('div');
+                const replyText = document.createElement('p');
+                replyText.textContent = reply.content;
+                replyDiv.appendChild(replyText);
+                replyDiv.style.marginLeft = '40px';  // 대댓글의 추가 들여쓰기
+                replyDiv.style.backgroundColor = '#d3d3d3';
+                commentDiv.appendChild(replyDiv);
+            });
+        }
+    }
+
+    // 대댓글 작성 폼을 보여주는 함수
+    function showReplyForm(parentDiv, parentCommentId) {
+        let existingReplyForm = document.getElementById('replyForm');
+        if (existingReplyForm) {
+            existingReplyForm.remove();
+        }
+
+        const replyForm = document.createElement('div');
+        replyForm.id = 'replyForm';
+        replyForm.innerHTML = `
+            <textarea id="replyContent" rows="2" placeholder="대댓글을 작성하세요"></textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitReply(${parentCommentId})">대댓글 작성하기</button>
+        `;
+        parentDiv.appendChild(replyForm);
+    }
+
+    // 대댓글 작성 함수
+    function submitReply(parentCommentId) {
+        const replyContent = document.getElementById('replyContent').value;
+        if (!replyContent) {
+            alert('대댓글 내용을 입력하세요');
+            return;
+        }
+
+        const replyData = {
+            content: replyContent,
+        };
+
+        axios.post(`/api/post/${postID}/comment/${parentCommentId}/`, replyData)
+            .then(response => {
+                // 대댓글 작성 후 댓글 목록을 다시 불러옴
+                window.location.reload();
+            })  
+            .catch(error => {
+                console.error('대댓글 작성 중 오류가 발생했습니다:', error);
+            });
+        
+    }
+
+    // 페이지 로드 시 댓글 목록을 불러옴
+    axios.get(url)
+        .then(response => {
+            const post = response.data;
+            loadComments(post.comments);
+        })
+        .catch(error => {
+            console.error('댓글을 불러오는 중 오류가 발생했습니다:', error);
+        });
 </script>
+<br><br><br><br><br><br><br><br><br><br><br><br>    
 {% endblock content %}

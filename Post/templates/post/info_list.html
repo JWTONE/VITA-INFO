@@ -111,7 +111,7 @@ loadPosts("{% url 'post:post_list' category=category %}?page={{ posts.number }}"
 // 글 작성 폼을 서버로 전송하는 함수
 function submitForm() {
     const formData = new FormData(document.getElementById('postForm'));
-    axios.post("/post/review/", formData)
+    axios.post("/api/post/", formData)
         .then(response => {
             // 처리할 내용을 여기에 작성하세요
             $('#postModal').modal('hide'); // 모달 닫기
@@ -121,5 +121,17 @@ function submitForm() {
             console.error('에러 발생:', error);
         });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("username");
+            if (username) {
+                document.getElementById("logout-button").style.display = "block";
+            }
+            else {
+                document.getElementById("login-button").style.display = "block";
+                document.getElementById("signup-button").style.display = "block";
+            }
+        });
+
 </script>
 {% endblock content %}

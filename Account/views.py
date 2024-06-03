@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 from Account.forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
-from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer
+from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer, CustomTokenObtainPairSerializer
+
 from Account import serializers
 
 ##################
@@ -78,6 +79,9 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 ##################

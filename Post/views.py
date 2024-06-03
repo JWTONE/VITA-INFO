@@ -30,10 +30,10 @@ class PostListAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         category = self.kwargs.get('category')  # URL 파라미터에서 category 가져오기
         if category:
-            return Post.objects.filter(category=category).order_by('id')  # category로 필터링된 게시글 반환
-        return Post.objects.all().order_by('id')  
+            return Post.objects.filter(category=category).order_by('-id')  # category로 필터링된 게시글 반환
+        return Post.objects.all().order_by('-id')  
     
-    def post(self, request):  # 게시글 작성
+    def post(self, request):  # 게시글 작성 
         author = request.user
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -103,10 +103,8 @@ def search(request):
 
 
 class CommentListAPIView(generics.ListCreateAPIView):
-    # queryset = Comment.objects.all()
-    # serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
+    permission_classes = [IsAuthenticated]
+    queryset = Comment.objects.all().order_by('-id')
     serializer_class = CommentSerializer
 
     def get_queryset(self):
