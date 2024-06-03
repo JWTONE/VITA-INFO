@@ -10,7 +10,7 @@ urlpatterns = [
     path("post/<int:post_pk>/", views.post_detail, name="post_detail"),
     path("post/<str:category>/", views.post_list, name ="post_list"),
     path("mypage/<str:username>/", views.mypage, name="mypage"),
-
+    path("search/", views.search, name="search"),
     # #user
     path("signup/", views.signup, name="signup"),
     path("update/<str:username>", views.update, name="update"),

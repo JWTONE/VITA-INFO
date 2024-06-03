@@ -104,3 +104,10 @@ def signup(request):
         form = CustomUserCreationForm()
     context = {"form": form}
     return render(request, "account/signup.html", context)
+
+def search(request):
+    q = request.GET['q']
+    context = {
+        'q' : q
+    }
+    return render(request, 'post/search.html', context)

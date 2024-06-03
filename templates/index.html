@@ -19,8 +19,9 @@
 <br>
 <br>
 <div style="text-align: center;">
-    <form action="" method="get">
-        <input type="text" name="st_name" placeholder="검색"><br>
+    <form action="{% url 'web:search' %}" method="get"> <!-- 검색 결과 페이지 URL로 수정하세요 -->
+        <input type="text" name="q" placeholder="검색"><br> <!-- 검색어를 'q' 파라미터로 전달 -->
+        <button type="submit">검색</button> <!-- 검색 버튼 추가 -->
     </form>
 </div>
 <script>
