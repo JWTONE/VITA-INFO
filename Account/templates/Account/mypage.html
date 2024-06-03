@@ -12,7 +12,7 @@
 
 <section id="update-info">
     <h2>개인정보 변경</h2>
-    <a href="{% url 'web:update' %}"><button type="button">회원정보 변경</button></a>
+    <a href="{% url 'web:update' username %}"><button type="button">회원정보 변경</button></a>
 </section>
 
 <section id="survey-history">
@@ -61,7 +61,7 @@
 
             axios({
                 method: 'put',
-                url: "{% url 'web:update' %}",
+                url: "{% url 'web:update' username %}",
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken  // CSRF 토큰 설정
