@@ -7,10 +7,10 @@
 <div id='comments'>
 </div>
 <script>
-    const postID = "{{ post_pk }}";
+    const postID = {{ post_pk }};
     const postDetailDiv = document.getElementById('post-detail');
     const commentDiv = document.getElementById('comments');
-    const url = `{% url 'post:post_detail' post_pk=post_pk %}`
+    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID); // 0을 postID로 대체
     axios.get(url)
             .then(response => {
                 const post = response.data;

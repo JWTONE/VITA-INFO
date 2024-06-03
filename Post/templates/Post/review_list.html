@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <h1 style="text-align: left;">리뷰 게시판</h1>
 
 <ol id="post-list">
@@ -9,6 +10,7 @@
 <script>
     const category = "{{ category }}";
     axios.get(`{% url 'post:post_list' category=category %}`)
+
         .then(response => {
             const posts = response.data;
             const postList = document.getElementById('post-list');
