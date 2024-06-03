@@ -76,7 +76,7 @@
                         <a href="/login/">로그인</a>
                     </button>
                     <button type="button" class="btn btn-warning" id="signup-button" style="display: none;">
-                        <a href="">회원가입</a>
+                        <a href="/signup/">회원가입</a>
                     </button>
                     <button type="button" class="btn btn-outline-light me-2" id="mypage-button" style="display: none;">
                         <a id="mypage-link" href="#">mypage</a>
@@ -132,6 +132,9 @@
                 localStorage.removeItem("access");
                 localStorage.removeItem("refresh");
                 localStorage.removeItem("username");
+                localStorage.removeItem("is_staff");
+                localStorage.removeItem("nickname");
+                
 
                 // 로그인 페이지로 리다이렉션
                 window.location.href = "/";

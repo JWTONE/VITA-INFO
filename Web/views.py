@@ -68,6 +68,7 @@ def update(request, username):
         form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            return redirect('web:mypage', username=username)
     context = {
         'form':form,
         'username':username
@@ -83,6 +84,7 @@ def password_update(request, username):
         form = CustomUserPasswordChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            return redirect('web:mypage', username=username)
         
     context = {
         'form':form,
@@ -97,7 +99,7 @@ def signup(request):
             serializer = UserCreateSerializer(data=form.cleaned_data)
             if serializer.is_valid():
                 serializer.save()
-                return redirect("web:signup")
+                return redirect("web:index")
             else:
                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
     else:
