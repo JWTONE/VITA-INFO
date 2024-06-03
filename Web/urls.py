@@ -13,7 +13,7 @@ urlpatterns = [
 
     # #user
     # path("signup/", views.signup, name="signup"),
-    path("update/", views.update, name="update"),
+    path("update/<str:username>", views.update, name="update"),
     
     # # #post
     # path("create/", views.create, name="create"),

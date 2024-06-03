@@ -20,13 +20,13 @@
                 title.textContent = post.title;
                 postDetailDiv.appendChild(title);
 
-                const author = document.createElement('p');
-                author.textContent = `작성자: ${post.author}`;
-                postDetailDiv.appendChild(author);
-
                 const image = document.createElement('img');
                 image.src = post.image;
                 postDetailDiv.appendChild(image);
+                
+                const author = document.createElement('p');
+                author.textContent = `작성자: ${post.author}`;
+                postDetailDiv.appendChild(author);
 
                 const likeCounts = document.createElement('p');
                 likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
