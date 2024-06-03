@@ -20,7 +20,8 @@
     <title>MY DJANGO</title>
 
 
-    {% block head %}{% endblock head %}
+    {% block head %}
+    {% endblock head %}
 </head>
 <style>
     .market {
@@ -77,6 +78,9 @@
                     <button type="button" class="btn btn-warning" id="signup-button" style="display: none;">
                         <a href="">회원가입</a>
                     </button>
+                    <button type="button" class="btn btn-outline-light me-2" id="mypage-button" style="display: none;">
+                        <a id="mypage-link" href="#">mypage</a>
+                    </button>
                     <button type="button" class="btn btn-outline-light me-2" id="logout-button" style="display: none;">
                         <a href="">로그아웃</a>
                     </button>
@@ -99,8 +103,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const username = localStorage.getItem("username");
+            const mypageLink = document.getElementById('mypage-link');
             if (username) {
                 document.getElementById("logout-button").style.display = "block";
+                document.getElementById("mypage-button").style.display = "block";
+                mypageLink.href = `/mypage/${username}`;
+                mypageLink.textContent = username;
             }
             else {
                 document.getElementById("login-button").style.display = "block";

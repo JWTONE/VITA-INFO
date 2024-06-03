@@ -88,20 +88,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 #       WV       #
 ##################
 
-# def signup(request):
-#     if request.method == "POST":
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             serializer = UserCreateSerializer(data=form.cleaned_data)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return redirect("account:signup")
-#             else:
-#                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
-#     else:
-#         form = CustomUserCreationForm()
-#     context = {"form": form}
-#     return render(request, "account/signup.html", context)
+
 
 
 # #회원정보 변경 모듈, front와 아직 미연동 상태
