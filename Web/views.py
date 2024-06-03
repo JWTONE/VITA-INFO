@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.contrib.auth.password_validation import validate_password
 
 def index(request):
     return render(request, "index.html")
