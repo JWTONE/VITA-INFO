@@ -7,7 +7,8 @@
 </ol>
 
 <script>
-    axios.get("{% url 'post:post_list' %}")
+    const category = "{{ category }}";
+    axios.get(`{% url 'post:post_list' category=category %}`)
         .then(response => {
             const posts = response.data;
             const postList = document.getElementById('post-list');

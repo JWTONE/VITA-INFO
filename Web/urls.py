@@ -7,8 +7,8 @@ app_name = "web"
 urlpatterns = [
     path("", views.index, name="index"),
     path("login/", views.login, name="login"),
-    path("post/info/", views.info_list, name ="info_list"),
-    path("post/<int:post_pk>/", views.info_detail, name="info_detail"),
+    path("post/<int:post_pk>/", views.post_detail, name="post_detail"),
+    path("post/<str:category>/", views.post_list, name ="post_list"),
     path("mypage/<str:username>/", views.mypage, name="mypage"),
 
     # #user
