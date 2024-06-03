@@ -1,7 +1,7 @@
 from .models import User
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(
@@ -109,3 +109,8 @@ class CustomUserPasswordChangeForm(forms.ModelForm):
 
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "비밀번호가 일치하지 않습니다.")
+
+        try:
+            validate_password(password, self.instance)
+        except ValidationError as e:
+            self.add_error('password', e)
