@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>글 수정</h1>
+
+<form id="postForm" action= "{% url 'web:post_update' post_pk %}" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit">저장</button>
+</form>
+<a href="javascript:void(0);" onclick="history.back();">뒤로 가기</a>
+
+<script>
+    
+</script>
+{% endblock content %}

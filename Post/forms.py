@@ -10,4 +10,6 @@ class PostForm(forms.ModelForm):
             "content" : "내용",
             "image" : "이미지"
         }
-
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['image'].required = False   
