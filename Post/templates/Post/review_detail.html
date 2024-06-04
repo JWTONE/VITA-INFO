@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}     
+{% block content %}
 <h3>정보 게시판</h3>
-<div id='post-detail'>
-</div>
+<div id='post-detail'></div>
 <h3>댓글</h3>
 <div id="comment-form">
     <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
     <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
 </div>
-<div id='comments'>
-</div>
+<div id='comments'></div>
 <script>
     const postID = {{ post_pk }};
     const postDetailDiv = document.getElementById('post-detail');
@@ -42,8 +40,15 @@
             postDetailDiv.appendChild(content);
 
             const likeCounts = document.createElement('p');
+            likeCounts.id = 'postLikeCounts';
             likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
             postDetailDiv.appendChild(likeCounts);
+
+            const likeButton = document.createElement('button');
+            console.log(post)
+            likeButton.textContent = '좋아요';
+            likeButton.onclick = likePost;
+            postDetailDiv.appendChild(likeButton);
 
             // 댓글을 로드합니다.
             loadComments(post.comments);
@@ -51,6 +56,27 @@
         .catch(error => {
             console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
         });
+
+    // 포스트 좋아요 함수
+    function likePost() {
+        axios.post(`/api/post/${postID}/`)
+            .then(response => {
+                const likeCounts = document.getElementById('postLikeCounts');
+                const likeButton = document.querySelector('#post-detail button');
+                likeCounts.textContent = `좋아요 수: ${response.data.like_counts}`;
+                console.log("리스폰스데이터")
+                console.log(response)
+                console.log(response.data)
+                console.log(response.data.like_users)
+                console.log("카운트")
+                console.log(likeCounts)
+                console.log("끝")
+                likeButton.textContent = '좋아요';
+            })
+            .catch(error => {
+                console.error('포스트 좋아요 중 오류가 발생했습니다:', error);
+            });
+    }
 
     // 댓글 작성 함수
     function submitComment() {
@@ -89,6 +115,7 @@
     function addCommentToDOM(comment) {
         const commentDivItem = document.createElement('div');
         const commentText = document.createElement('p');
+
         commentText.textContent = comment.content;
         commentDivItem.appendChild(commentText);
 
@@ -99,7 +126,6 @@
             event.preventDefault();
             showReplyForm(commentDivItem, comment.id);
         };
-        commentDivItem.appendChild(replyLink);
 
         commentDivItem.style.marginLeft = '20px'; // 댓글의 들여쓰기
         commentDivItem.style.backgroundColor = '#f0f0f0';
@@ -118,6 +144,7 @@
             });
         }
     }
+
 
     // 대댓글 작성 폼을 보여주는 함수
     function showReplyForm(parentDiv, parentCommentId) {
@@ -151,22 +178,14 @@
             .then(response => {
                 // 대댓글 작성 후 댓글 목록을 다시 불러옴
                 window.location.reload();
-            })  
+            })
             .catch(error => {
                 console.error('대댓글 작성 중 오류가 발생했습니다:', error);
             });
-        
     }
 
-    // 페이지 로드 시 댓글 목록을 불러옴
-    axios.get(url)
-        .then(response => {
-            const post = response.data;
-            loadComments(post.comments);
-        })
-        .catch(error => {
-            console.error('댓글을 불러오는 중 오류가 발생했습니다:', error);
-        });
+
+
 </script>
-<br><br><br><br><br><br><br><br><br><br><br><br>    
+<br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

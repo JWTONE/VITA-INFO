@@ -1,13 +1,11 @@
 from collections import defaultdict
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view
-from Post.forms import PostForm
 from .models import Post, Comment
 from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -53,18 +51,23 @@ class PostDetailAPIView(APIView):
         return Response(serializer.data)
     
     def post(self, request, post_pk):
-        post = self.get_object(post_pk)
-        user = request.user
-        if user in post.like_users.all():
-            post.like_users.remove(user)
-            post.like_counts -= 1
+        try:
+            post = Post.objects.get(pk=post_pk)
+            user = request.user
+            if user in post.like_users.all():
+                post.like_users.remove(user)
+                post.like_counts -= 1
+            else:
+                post.like_users.add(user)
+                post.like_counts += 1
             post.save()
-            return Response("좋아요 취소", status=status.HTTP_200_OK)
-        else:
-            post.like_users.add(user)
-            post.like_counts += 1
-            post.save()
-            return Response("좋아요 성공", status=status.HTTP_201_CREATED)
+            
+            # 응답 데이터에 like_counts 포함하여 반환
+            serializer = PostSerializer(post)  # 포스트 모델에 맞는 직렬화된 데이터를 사용
+            response_data = serializer.data
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
     
     def put(self, request, post_pk):
         post = self.get_object(post_pk)
@@ -162,21 +165,26 @@ class CommentListAPIView(generics.ListCreateAPIView):
 class CommentDetailAPIView(APIView):
     def get_object(self, comment_pk):
         return get_object_or_404(Comment, id=comment_pk)
-
+    
     def post(self, request, comment_pk):
-        comment = self.get_object(comment_pk)
-        user = request.user
-        if user in comment.like_comments.all():
-            comment.like_comments.remove(user)
-            comment.like_counts -= 1
+        try:
+            comment = self.get_object(comment_pk)
+            user = request.user
+            if user in comment.like_comments.all():
+                comment.like_comments.remove(user)
+                comment.like_counts -= 1
+            else:
+                comment.like_comments.add(user)
+                comment.like_counts += 1
             comment.save()
-            return Response("좋아요 취소", status=status.HTTP_200_OK)
-        else:
-            comment.like_comments.add(user)
-            comment.like_counts += 1
-            comment.save()
-            return Response("좋아요 성공", status=status.HTTP_201_CREATED)
-        
+            
+            # 응답 데이터에 like_counts 포함하여 반환
+            serializer = CommentSerializer(comment)  # 포스트 모델에 맞는 직렬화된 데이터를 사용
+            response_data = serializer.data
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+    
     def put(self, request, comment_pk):
         comment = self.get_object(comment_pk)
         if comment.author == request.user:

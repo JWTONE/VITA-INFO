@@ -14,8 +14,10 @@ class CommentSerializer(serializers.ModelSerializer):
             "created_at",
             "is_reply",
             "replies",
+            "like_counts",
+            "like_comments"
         ]
-        read_only_fields = ["author", "is_reply","id", "comment_id"]
+        read_only_fields = ["author", "is_reply","id", "comment_id", "like_counts", "like_comments"]
 
     def get_replies(self, obj):
         replies = Comment.objects.filter(comment_id=obj.id)
@@ -34,8 +36,9 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "category",
             "like_counts",
+            "like_users"
         ]
-        read_only_fields = ["author", "category",]
+        read_only_fields = ["author", "category", "like_users"]
 
 
     def to_representation(self, instance):
@@ -57,9 +60,10 @@ class PostDetailSerializer(serializers.ModelSerializer):
             "like_counts",
             "created_at",
             "updated_at",
-            "comments"
+            "comments",
+            "like_users"
         ]
-        read_only_fields = ["author", "category",]
+        read_only_fields = ["author", "category", "like_users"]
 
     def get_comments(self, instance):
         comments = Comment.objects.filter(comment_id__isnull=True, post_id=instance.id)
