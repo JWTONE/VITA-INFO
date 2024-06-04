@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -17,7 +18,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+{% comment %} document.addEventListener("DOMContentLoaded", function() {
     function fetchNewContent() {
         axios.get("{% url 'survey:loading' %}")
             .then(response => {
@@ -31,7 +32,25 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchNewContent()
     // Fetch new content every 15 seconds
     setInterval(fetchNewContent, 5000);
-});
+}); {% endcomment %}
+
+
+    const formDataJSON = localStorage.getItem('formData');
+    const formDataObject = JSON.parse(formDataJSON);
+    const csrfToken = formDataObject.csrfmiddlewaretoken;
+    console.log(formDataObject)
+        // axios를 사용하여 POST 요청 보내기
+    axios.post('/api/survey/', formDataObject, {
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => {
+        // 요청이 성공적으로 완료된 경우 처리
+        console.log(response.data);
+        window.location.href = '/surveyresult';
+    })
+
 </script>
 
 {% endblock content %}
