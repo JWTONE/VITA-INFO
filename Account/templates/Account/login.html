@@ -16,11 +16,13 @@
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <button type="button" onclick="loginSubmit()">로그인</button>
+        <button type="submit">로그인</button>
     </form>
 
     <script>
-        function loginSubmit() {
+        function loginSubmit(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작을 막음
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
@@ -41,17 +43,19 @@
                     localStorage.setItem('nickname', nickname);
                     localStorage.setItem('is_staff', isStaff);
 
-                    alert('로그인 성공했습니다.');
+                    alert(`안녕하세요 ${nickname}님`);
 
                     // 이전 페이지로 이동
                     const prevPage = localStorage.getItem('prevPage');
-                    window.location.href = prevPage || '/'; // 이전 페이지가 없으면 홈페이지로 이동
+                    window.location.href = prevPage || '/'; // 이전 페이지가 없으면 홈페이지로 이동 
                 })
                 .catch(error => {
                     console.error(error);
-                    alert('로그인에 실패했습니다.');
+                    alert('비밀번호 또는 아이디가 잘못되었습니다');
                 });
         }
+
+        document.getElementById('loginForm').addEventListener('submit', loginSubmit);
     </script>
 </body>
 
