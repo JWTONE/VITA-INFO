@@ -1,9 +1,11 @@
+from logging import raiseExceptions
 from django.shortcuts import render, redirect
 from Survey.forms import SurveyForm
 from Account.forms import CustomUserChangeForm, CustomUserPasswordChangeForm, CustomUserCreationForm
 from django.shortcuts import get_object_or_404, render
 from Post.forms import PostForm
 from Post.models import Post
+from Post.serializers import PostSerializer
 from django.contrib.auth import get_user_model
 from Account.serializers import UserCreateSerializer
 from rest_framework.response import Response
@@ -28,11 +30,21 @@ def post_list(request, category):
         return render(request, "post/info_list.html", context) 
     return render(request, "post/review_list.html", context)
 
+
 def post_create(request):
-    context = {
-        'form' : PostForm
-    }
-    return render(request, 'post/post_create.html', context)
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            serializer = PostSerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                serializer.save(author=request.user)
+                return redirect()
+            else:
+                return Response(status, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        form = PostForm()
+    context = {"form": form}
+    return render(request, "post/post_create.html", context)
 
 
 def post_detail(request, post_pk):
@@ -43,6 +55,21 @@ def post_detail(request, post_pk):
     if post.category == 'review':
         return render (request, 'post/review_detail.html', context)
     return render (request, 'post/info_detail.html', context)
+
+def post_update(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    if request.method == "GET":
+        form = PostForm(instance=post)
+    elif request.method =='POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('web:post_detail', post_pk=post_pk)
+    context = {
+        'form':form,
+        'post_pk':post_pk
+    }
+    return render(request, 'post/post_edit.html', context)
 
 def surveymain(request):
     context = {'form':SurveyForm}
