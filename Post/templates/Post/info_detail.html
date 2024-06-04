@@ -30,10 +30,12 @@
             author.textContent = `작성자: ${post.author}`;
             postDetailDiv.appendChild(author);
 
-            const image = document.createElement('img');
-            image.src = post.image;
-            image.style.width = '50%';
-            postDetailDiv.appendChild(image);
+            if (post.image) {
+                const image = document.createElement('img');
+                image.src = post.image;
+                image.style.width = '50%';
+                postDetailDiv.appendChild(image);
+            }
 
             const content = document.createElement('p');
             content.textContent = post.content;

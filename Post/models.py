@@ -11,7 +11,7 @@ def get_image_upload_path(instance, filename):
 class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
-    image = models.ImageField(upload_to=get_image_upload_path)
+    image = models.ImageField(upload_to=get_image_upload_path, null=True)
     category = models.CharField(max_length=30)
     author = models.ForeignKey(User, to_field="nickname", on_delete=models.CASCADE, related_name="post")
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_posts")
