@@ -156,7 +156,8 @@
             event.preventDefault();
             showReplyForm(commentDivItem, comment.id);
         };
-
+        commentDivItem.appendChild(replyLink);
+        
         commentDivItem.style.marginLeft = '20px'; // 댓글의 들여쓰기
         commentDivItem.style.backgroundColor = '#f0f0f0';
 
