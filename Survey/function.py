@@ -6,26 +6,25 @@ def survey(query):
 
     model = "gpt-4-turbo"
 
-    query = ''' 
-        "name": "최진호",
-        "gender": "여자",
-        "age": 50,
-        "height": 150,
-        "weight": 50,
-        "current_medications_or_supplements": "없음",
-        "allergies": "집먼지 진드기 알레르기",
-        "exercise_frequency_per_week": "3회",
-        "average_sleep_hours_per_day": "5시간 이하",
-        "smoking_status": "예",
-        "alcohol_consumption": "6회 이상",
-        "average_meals_per_day": 3,
-        "main_foods": "채식 위주",
-        "snacks": ["견과류"],
-        "health_goals": ["피부 건강", "눈 건강"],
-        "interested_supplements": ["오메가-3"],
-        "specific_health_issue_to_improve": "탈모"
-        "혈관_혈액 순환" : "상처가 잘 낫지 않아요, 손발 끝이 자주 저려요"
-        '''
+    user_query = f'''
+        "name": "{query.get('name')}",
+        "gender": "{query.get('gender')}",
+        "age": {query.get('age')},
+        "height": {query.get('height')},
+        "weight": {query.get('weight')},
+        "current_medications_or_supplements": "{query.get('current_medications_or_supplements')}",
+        "allergies": "{query.get('allergies')}",
+        "exercise_frequency_per_week": "{query.get('exercise_frequency_per_week')}",
+        "average_sleep_hours_per_day": "{query.get('average_sleep_hours_per_day')}",
+        "smoking_status": "{query.get('smoking_status')}",
+        "alcohol_consumption": "{query.get('alcohol_consumption')}",
+        "average_meals_per_day": {query.get('average_meals_per_day')},
+        "main_foods": "{query.get('main_foods')}",
+        "snacks": "{query.get('snacks')}",
+        "health_goals": "{query.get('health_goals')}",
+        "interested_supplements": "{query.get('interested_supplements')}",
+        "specific_health_issue_to_improve": "{query.get('specific_health_issue_to_improve')}"
+    '''
 
     messages = [
         {"role": "system", "content": """
@@ -59,16 +58,15 @@ def survey(query):
             처음에 추천한 영양소와 반드시 연관되도록 해
             어떠한 경우에도 위의 폼대로 출력해
             반드시 python dictionary 형태로 key 값은 영어, value는 한글로 해서 줘
-            """},
-        {"role": "user", "content": query}
+        """},
+        {"role": "user", "content": user_query}
     ]
 
-    # ChatGPT API 호출하기
     response = openai.ChatCompletion.create(
-        temperature=0,
         model=model,
-        messages=messages
+        messages=messages,
+        temperature=0
     )
     answer = response['choices'][0]['message']['content']
 
-    return (answer)
+    return answer

@@ -1,14 +1,12 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from Post import serializers
 from Survey.serializers import SurveySerializer, SurveyResultsSerializer
 from rest_framework.permissions import IsAuthenticated
 from .function import survey
-from .forms import SurveyForm
-from .models import Know_Vitamins
+from .models import Know_Vitamins, SurveyResults
 from rest_framework.decorators import api_view
 from random import randint
 from .serializers import KnowVitaminsSerializer
@@ -27,6 +25,8 @@ class SurveyAPIView(APIView):
         if serializer.is_valid(raise_exception=True):
             query = serializer.validated_data
             result = survey(query)
+            print('쿼리입니다')
+            print(query)
             try:
                 result_json = json.loads(result)  # result를 JSON 형식으로 변환
             except (TypeError, json.JSONDecodeError):
@@ -62,25 +62,6 @@ class SurveyAPIView(APIView):
             return Response(response_data, status=status.HTTP_201_CREATED)
         
         
-# ##################
-# #       WV       #
-# ##################
-
-# def survey_view(request):
-#     if request.method == "POST":
-#         form = SurveyForm(request.POST)
-#         if form.is_valid():
-#             serializer = SurveySerializer(data=form.cleaned_data)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return redirect("survey:survey")
-#             else:
-#                 return Response(status, status=status.HTTP_400_BAD_REQUEST)
-#     else:
-#         form = SurveyForm()
-#     context = {"form": form}
-#     return render(request, "Survey/survey.html", context)
-
 
 # DB에 있는 Know_Vitamins 가져오기
 @api_view(['GET'])
@@ -92,3 +73,10 @@ def loading(request):
     
     return Response(serializer.data)
 
+#결과 값 불러오는 API
+@api_view(['GET'])
+def results(request,survey_pk):
+    survey = get_object_or_404(SurveyResults, pk=survey_pk)
+    serializer = SurveyResultsSerializer(survey)
+
+    return Response(serializer.data)
