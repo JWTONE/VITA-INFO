@@ -1,0 +1,20 @@
+#popularKeywordsBox {
+    position: absolute; /* 절대 위치 지정 */
+    top: 100%; /* 네브바의 아래에 위치하도록 설정 */
+    left: 0;
+    display: none; /* 초기에는 숨겨둠 */
+    z-index: 2; /* 네브바 위에 표시되도록 z-index 설정 */
+    /* 랭킹 박스 스타일 설정 */
+}/* 배경색 설정 */
+
+
+.navbar {
+    position: relative; /* 포지션을 상대적으로 설정 */
+    z-index: 1; /* 네브바를 다른 요소들 위로 올리기 */
+    /* 네브바 스타일 설정 */
+}
+
+/* 마우스를 올렸을 때 랭킹 박스 표시 */
+.navbar:hover + #rankingBox {
+    display: block; /* 네브바에 마우스를 올렸을 때 랭킹 박스 표시 */
+}

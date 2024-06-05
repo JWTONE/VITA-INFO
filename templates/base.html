@@ -23,17 +23,6 @@
     {% block head %}
     {% endblock head %}
 </head>
-<style>
-    .market {
-        position: absolute;
-        width: 800px;
-        height: 580px;
-        top: 55%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-    }
-</style>
 
 <body>
     <header class="p-3 text-bg-white">
@@ -50,10 +39,16 @@
                     </li>
                 </ul>
 
+
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li>
-                            <a href="" class="nav-link px-2 text-secondary">랭킹</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                랭킹
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="rankingDropdown">
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -71,6 +66,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <div class="text-end d-flex">
                     <button type="button" class="btn btn-outline-light me-2" id="login-button" style="display: none;">
                         <a href="/login/">로그인</a>
@@ -85,21 +81,14 @@
                         <a href="">로그아웃</a>
                     </button>
                 </div>
-
-                <!-- if문 추가 필요 -->
-
-
             </div>
         </div>
-
-
     </header>
 
     <div class="container">
         {% block content %}{% endblock content %}<div class="container"></div>
     </div>
 
-    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const username = localStorage.getItem("username");
@@ -134,7 +123,7 @@
                 localStorage.removeItem("username");
                 localStorage.removeItem("is_staff");
                 localStorage.removeItem("nickname");
-                
+
 
                 // 로그인 페이지로 리다이렉션
                 window.location.href = "/";
@@ -142,6 +131,35 @@
                 console.error("로그아웃 요청 실패:", error);
             }
         });
+        // Axios를 사용하여 랭킹 데이터를 가져오고 드롭다운 메뉴에 추가하는 함수
+        async function fetchRankingData() {
+            try {
+                const response = await axios.get('/api/post/ranking/');
+                const rankingData = response.data;
+
+                const rankingDropdown = document.getElementById('rankingDropdown');
+
+                rankingData.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<a class="dropdown-item" href="/search/?q=${encodeURIComponent(item.keyword)}">${index + 1}. ${item.keyword}</a>`;
+                    rankingDropdown.appendChild(listItem);
+                });
+
+                const dropdownToggle = document.querySelector('.dropdown-toggle');
+                dropdownToggle.addEventListener('click', function () {
+                    const isOpen = rankingDropdown.classList.contains('show');
+                    if (isOpen) {
+                        rankingDropdown.classList.remove('show');
+                    } else {
+                        rankingDropdown.classList.add('show');
+                    }
+                });
+            } catch (error) {
+                console.error('랭킹 데이터를 가져오는 동안 오류가 발생했습니다:', error);
+            }
+        }
+
+        window.onload = fetchRankingData;
     </script>
 </body>
 

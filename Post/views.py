@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view
+from django_redis import get_redis_connection
 from .models import Post, Comment
 from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -93,6 +94,10 @@ class PostDetailAPIView(APIView):
 def search(request):
     query = request.GET.get('q')
     if query:
+
+        redis_conn = get_redis_connection("default")
+        redis_conn.zincrby('search_keywords', 1, query)
+
         results = Post.objects.filter(
             title__icontains=query
         ) | Post.objects.filter(
@@ -114,6 +119,24 @@ def search(request):
         return Response(serialized_results, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+#실시간 검색어 순위
+@api_view(['GET'])
+def ranking(request):
+    redis_conn = get_redis_connection("default")
+    # 상위 10개의 인기 검색어를 가져옴
+    popular_keywords = redis_conn.zrevrange('search_keywords', 0, 9, withscores=True)
+
+    # 순위 매기기
+    ranked_keywords = []
+    for index, (keyword, count) in enumerate(popular_keywords, start=1):
+        ranked_keywords.append({
+            'rank': index,
+            'keyword': keyword.decode('utf-8'),
+            'count': int(count)
+        })
+
+    return Response(ranked_keywords, status=status.HTTP_200_OK)
 
 
 class CommentListAPIView(generics.ListCreateAPIView):
