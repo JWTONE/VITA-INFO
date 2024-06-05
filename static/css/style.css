@@ -3,12 +3,67 @@
     justify-content: center;
 }
 
+.indexcontainer {
+    justify-content: space-between;
+    background-color: rgb(192, 190, 255);
+    text-align: center;
+    padding : 100px;
+    margin-top : 0%;
+    margin-left : 0%;
+    margin-right : 0%;
+}
+
+.noto-sans-kr-default {
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
 
 
-.navbarcontainer
+.navbarcontainer {
+    justify-content: space-between;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+}
 
+.searchbar {
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
+.relative {
+    display: inline-block;
+    max-width: 600px; /* 원하는 최대 너비를 설정하세요 */
+    width: 100%; /* 부모 컨테이너에 맞추기 위해 */
+}
 
+#search {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+.search-input {
+    padding-right: 40px; /* 버튼 공간 확보 */
+}
+
+.search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+    
+}
+
+.search-icon {
+    height: 30px;
+    width: 30px;
+}
 
 
 
