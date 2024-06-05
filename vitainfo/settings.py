@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "crispy_forms",
     "crispy_bootstrap4",
+    "ckeditor",
+    "ckeditor_uploader",
     # apps
     "Web",
     "Account",
@@ -161,7 +163,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -177,3 +179,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # crispy setting
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# CKEditor setting 
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' 
+CKEDITOR_CONFIGS = {
+    'default':
+        {
+            'toolbar': 'full',
+            'width': '100%',
+            'height' : 300,
+            'extraPlugins': ','.join([
+                'codesnippet',
+                'image2'
+            ]),
+        },
+}

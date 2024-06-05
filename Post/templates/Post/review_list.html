@@ -4,13 +4,11 @@
 {% block content %}
 
 <div class="container mx-auto" style="max-width: 65%; min-height: 75vh;">
-    <h1 style="text-align: center;">리뷰 게시판</h1>
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" id="post_create" type="button"
-            onclick="window.location.href='{% url 'web:post_create' %}'" style="display: none; padding-right: 20px;">
-            글 작성
-        </button>
-    </div>
+    <h1 style="text-align: left;">리뷰 게시판</h1>
+    <button class="btn btn-primary" id="post_create" type="button" onclick="goToCreatePost()"
+        style="display: none; padding-right: 20px;">글 작성</button>
+    <ul id="post-list">
+    </ul>
     <table class="table">
         <thead>
             <tr>
@@ -34,6 +32,10 @@
 <script>
     let currentPage = 1; // 현재 페이지 초기값
 
+    function goToCreatePost() {
+        window.location.href = "{% url 'web:post_create' %}";
+    }
+
     function loadPosts(url) {
         axios.get(url)
             .then(response => {
@@ -42,7 +44,7 @@
                 const paginationPrev = document.getElementById('pagination-prev');
                 const pagination = document.getElementById('pagination');
                 const paginationNext = document.getElementById('pagination-next');
-                const isStaff = localStorage.getItem('is_staff')
+                const isStaff = localStorage.getItem('is_staff');
 
                 if (isStaff == 'false') {
                     document.getElementById("post_create").style.display = "block";

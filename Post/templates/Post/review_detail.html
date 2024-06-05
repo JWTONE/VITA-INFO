@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}     
+{% block content %}
 {% load crispy_forms_tags %}
 <h3>리뷰 게시판</h3>
 <div id='post-detail'>
 </div>
-<button type="button" id="editbtn" onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
+<button type="button" id="editbtn" onclick="window.location.href='{% url 'web:post_update' post_pk %}'"
+    style="display:none">글 수정</button>
 <button type="button" id="deletebtn" onclick="postdelete()" style="display:none">삭제</button>
 <h3>댓글</h3>
 <div id="comment-form">
     <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
     <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
-</div> 
+</div>
 <div id='comments'>
 </div>
 
@@ -22,46 +23,39 @@
     const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
 
     axios.get(url)
-    .then(response => {
-        const post = response.data;
-        console.log(post);
+        .then(response => {
+            const post = response.data;
+            console.log(post);
 
-        const title = document.createElement('h2');
-        title.textContent = post.title;
-        postDetailDiv.appendChild(title);
+            const title = document.createElement('h2');
+            title.textContent = post.title;
+            postDetailDiv.appendChild(title);
 
-        const author = document.createElement('p');
-        author.textContent = `작성자: ${post.author}`;
-        postDetailDiv.appendChild(author);
+            const author = document.createElement('p');
+            author.textContent = `작성자: ${post.author}`;
+            postDetailDiv.appendChild(author);
 
-        if (post.image) {
-            const image = document.createElement('img');
-            image.src = post.image;
-            image.style.width = '50%';
-            postDetailDiv.appendChild(image);
-        }
+            if (post.image) {
+                const image = document.createElement('img');
+                image.src = post.image;
+                image.style.width = '50%';
+                postDetailDiv.appendChild(image);
+            }
 
-        const content = document.createElement('p');
-        content.textContent = post.content;
-        postDetailDiv.appendChild(content);
+            const content = document.createElement('p');
+            content.innerHTML = post.content;
+            postDetailDiv.appendChild(content);
 
-        const likeCounts = document.createElement('p');
-        likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
-        postDetailDiv.appendChild(likeCounts);
-        
-        const nickname = localStorage.getItem('nickname')
-        const isStaff = localStorage.getItem('is_staff')
+            const nickname = localStorage.getItem('nickname')
+            const isStaff = localStorage.getItem('is_staff')
 
-        if (nickname==post.author || isStaff=='true'){
-            document.getElementById("deletebtn").style.display = "block";
-        }
-        if (nickname==post.author){
-            document.getElementById("editbtn").style.display = "block"
-        }
+            if (nickname == post.author || isStaff == 'true') {
+                document.getElementById("deletebtn").style.display = "block";
+            }
+            if (nickname == post.author) {
+                document.getElementById("editbtn").style.display = "block"
+            }
 
-    })
-    .catch(error => {
-        console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
             const likeCounts = document.createElement('p');
             likeCounts.id = 'postLikeCounts';
             likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
@@ -102,7 +96,7 @@
     }
 
     // 댓글 작성 함수
-    
+
     function submitComment() {
         const content = document.getElementById('commentContent').value;
         if (!content) {
@@ -157,7 +151,7 @@
             showReplyForm(commentDivItem, comment.id);
         };
         commentDivItem.appendChild(replyLink);
-        
+
         commentDivItem.style.marginLeft = '20px'; // 댓글의 들여쓰기
         commentDivItem.style.backgroundColor = '#f0f0f0';
 

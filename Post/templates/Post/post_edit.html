@@ -12,6 +12,8 @@
 <a href="javascript:void(0);" onclick="history.back();">뒤로 가기</a>
 
 <script>
-    
+    document.addEventListener('DOMContentLoaded', function () {
+        CKEDITOR.replace('id_content'); // 'id_content'는 당신의 textarea의 id입니다.
+    });
 </script>
 {% endblock content %}
