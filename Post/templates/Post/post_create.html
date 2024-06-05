@@ -5,12 +5,11 @@
 <h1>글 쓰기</h1>
 
 <div class = "container">
-    <form method ="POST">
+    <form id="postForm" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.media}}    
-    {{form.as_p}}
+    {{form | crispy}}
     <br>
-        <input class="btn btn dark" type="submit" value="제출하기">
+    <button type="button" onclick="submitForm()">저장</button>
     </form>
 </div>
 
@@ -38,8 +37,12 @@
             }
         })
             .then(response => {
-                // 성공 시 목록 페이지로 리디렉션
-                history.back();
+                const isStaff = localStorage.getItem('is_staff');
+                if (isStaff === 'true') {
+                    window.location.href = "/post/info/"; // 스태프인 경우 정보 페이지로 이동
+                } else {
+                    window.location.href = "/post/review/"; // 스태프가 아닌 경우 리뷰 페이지로 이동
+                }
             })
             .catch(error => {
                 console.error('폼 제출 중 오류가 발생했습니다:', error);
