@@ -26,6 +26,7 @@ class CommentSerializer(serializers.ModelSerializer):
         
 class PostSerializer(serializers.ModelSerializer):
     content = serializers.CharField(required=True)
+    comment_count = serializers.SerializerMethodField()
     class Meta:
         model = Post
         fields = [
@@ -36,11 +37,16 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "category",
             "like_counts",
+            "comment_count",
             "like_users",
             "created_at"
         ]
         read_only_fields = ["author", "category", "like_users"]
 
+    def get_comment_count(self, instance):
+        comments = Comment.objects.filter(post_id=instance.id)
+        return comments.count()
+        
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

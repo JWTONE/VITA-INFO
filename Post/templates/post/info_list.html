@@ -49,7 +49,7 @@
                 if (isStaff == 'true') {
                     document.getElementById("post_create").style.display = "block";
                 }
-
+                console.log(posts)
                 // 게시물 목록 업데이트
                 postList.innerHTML = '';
                 posts.results.forEach(post => {
@@ -60,6 +60,13 @@
                     titleLink.href = `/post/${post.id}/`;
                     titleLink.textContent = post.title;
                     titleCell.appendChild(titleLink);
+
+                    if (post.comment_count > 0) {
+                        const commentCountSpan = document.createElement('span');
+                        commentCountSpan.textContent = ` [${post.comment_count}] `;
+                        titleCell.appendChild(commentCountSpan);
+                    }
+
                     row.appendChild(titleCell);
 
                     const authorCell = document.createElement('td');
@@ -76,6 +83,7 @@
 
                     postList.appendChild(row);
                 });
+
 
                 // 페이지네이션 업데이트
                 paginationPrev.innerHTML = '';
