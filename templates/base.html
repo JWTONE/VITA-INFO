@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
@@ -23,21 +23,11 @@
     {% block head %}
     {% endblock head %}
 </head>
-<style>
-    .market {
-        position: absolute;
-        width: 800px;
-        height: 580px;
-        top: 55%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-    }
-</style>
 
 <body>
-    <header class="p-3 text-bg-white">
-        <div class="container">
+
+    <header class="p-3 text-bg-white" id="header">
+        <div class="navbarcontainer">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-black text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
@@ -85,65 +75,64 @@
                         <a href="">로그아웃</a>
                     </button>
                 </div>
-
                 <!-- if문 추가 필요 -->
-
-
             </div>
         </div>
-
-
     </header>
 
-    <div class="container">
-        {% block content %}{% endblock content %}<div class="container"></div>
-    </div>
 
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const username = localStorage.getItem("username");
-            const nickname = localStorage.getItem("nickname");
-            const mypageLink = document.getElementById('mypage-link');
-            if (username) {
-                document.getElementById("logout-button").style.display = "block";
-                document.getElementById("mypage-button").style.display = "block";
-                mypageLink.href = `/mypage/${username}`;
-                mypageLink.textContent = nickname;
-            }
-            else {
-                document.getElementById("login-button").style.display = "block";
-                document.getElementById("signup-button").style.display = "block";
-            }
-        });
+{% block content %}
+{% endblock content %}
 
-        document.getElementById("logout-button").addEventListener("click", async function (event) {
-            event.preventDefault(); // 기본 이벤트(링크 이동) 방지
 
-            // 액세스 토큰과 리프레시 토큰 가져오기
-            const accessToken = localStorage.getItem("access");
-            const refreshToken = localStorage.getItem("refresh");
 
-            try {
-                // POST 요청을 보내어 로그아웃 처리
-                const response = await axios.post("http://127.0.0.1:8000/api/account/logout/", { access: accessToken, refresh: refreshToken });
-
-                // 로그아웃 성공 시 로컬 스토리지에서 토큰 제거
-                localStorage.removeItem("access");
-                localStorage.removeItem("refresh");
-                localStorage.removeItem("username");
-                localStorage.removeItem("is_staff");
-                localStorage.removeItem("nickname");
-                
-
-                // 로그인 페이지로 리다이렉션
-                window.location.href = "/";
-            } catch (error) {
-                console.error("로그아웃 요청 실패:", error);
-            }
-        });
-    </script>
 </body>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const username = localStorage.getItem("username");
+        const nickname = localStorage.getItem("nickname");
+        const mypageLink = document.getElementById('mypage-link');
+        if (username) {
+            document.getElementById("logout-button").style.display = "block";
+            document.getElementById("mypage-button").style.display = "block";
+            mypageLink.href = `/mypage/${username}`;
+            mypageLink.textContent = nickname;
+        }
+        else {
+            document.getElementById("login-button").style.display = "block";
+            document.getElementById("signup-button").style.display = "block";
+        }
+    });
+
+    document.getElementById("logout-button").addEventListener("click", async function (event) {
+        event.preventDefault(); // 기본 이벤트(링크 이동) 방지
+
+        // 액세스 토큰과 리프레시 토큰 가져오기
+        const accessToken = localStorage.getItem("access");
+        const refreshToken = localStorage.getItem("refresh");
+
+        try {
+            // POST 요청을 보내어 로그아웃 처리
+            const response = await axios.post("http://127.0.0.1:8000/api/account/logout/", { access: accessToken, refresh: refreshToken });
+
+            // 로그아웃 성공 시 로컬 스토리지에서 토큰 제거
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            localStorage.removeItem("username");
+            localStorage.removeItem("is_staff");
+            localStorage.removeItem("nickname");
+
+
+            // 로그인 페이지로 리다이렉션
+            window.location.href = "/";
+        } catch (error) {
+            console.error("로그아웃 요청 실패:", error);
+        }
+    });
+</script>
+
 
 
 </html>
