@@ -102,9 +102,6 @@ def search(request):
     query = request.GET.get('q')
     if query:
 
-        redis_conn = get_redis_connection("default")
-        redis_conn.zincrby('search_keywords', 1, query)
-
         results = Post.objects.filter(
             title__icontains=query
         ) | Post.objects.filter(
@@ -113,6 +110,10 @@ def search(request):
             author__nickname__icontains=query
         )
 
+        if results:
+            redis_conn = get_redis_connection("default")
+            redis_conn.zincrby('search_keywords', 1, query)
+            
         # 카테고리별로 결과를 그룹화
         categorized_results = defaultdict(list)
         for post in results:
