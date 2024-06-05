@@ -5,10 +5,11 @@
 
 <div class="container mx-auto" style="max-width: 65%; min-height: 75vh;">
     <h1 style="text-align: left;">리뷰 게시판</h1>
-    <button class="btn btn-primary" id="post_create" type="button" onclick="goToCreatePost()"
-        style="display: none; padding-right: 20px;">글 작성</button>
-    <ul id="post-list">
-    </ul>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" id="post_create" type="button" onclick="goToCreatePost()"
+            style="display: none; padding-right: 20px;">글 작성
+        </button>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +28,6 @@
         <div class="pagination" id="pagination-next" style="padding-right: 200px;"></div>
     </nav>
 </div>
-
 
 <script>
     let currentPage = 1; // 현재 페이지 초기값

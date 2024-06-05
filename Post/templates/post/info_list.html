@@ -2,33 +2,39 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="container mx-auto" style="max-width: 65%; min-height: 75vh;">
-        <h1 style="text-align: center;">리뷰 게시판</h1>
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-primary" id="post_create" type="button" onclick="window.location.href='{% url 'web:post_create' %}'" style="display: none; padding-right: 20px;">
-                글 작성
-            </button>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">좋아요수</th>
-                </tr>
-            </thead>
-            <tbody id="post-list">
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation" style="display: flex; justify-content: space-between;">
-            <div class="pagination" id="pagination-prev" style="padding-left: 200px;"></div>
-            <div class="pagination" id="pagination"></div>
-            <div class="pagination" id="pagination-next" style="padding-right: 200px;"></div>
-        </nav>
+
+<div class="container mx-auto" style="max-width: 65%; min-height: 75vh;">
+    <h1 style="text-align: center;">정보 게시판</h1>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" id="post_create" type="button" onclick="goToCreatePost()"
+            style="display: none; padding-right: 20px;">글 작성
+        </button>
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+                <th scope="col">좋아요수</th>
+            </tr>
+        </thead>
+        <tbody id="post-list">
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation" style="display: flex; justify-content: space-between;">
+        <div class="pagination" id="pagination-prev" style="padding-left: 200px;"></div>
+        <div class="pagination" id="pagination"></div>
+        <div class="pagination" id="pagination-next" style="padding-right: 200px;"></div>
+    </nav>
+</div>
+
 <script>
     let currentPage = 1; // 현재 페이지 초기값
+
+    function goToCreatePost() {
+        window.location.href = "{% url 'web:post_create' %}";
+    }
 
     function loadPosts(url) {
         axios.get(url)
@@ -40,7 +46,7 @@
                 const paginationNext = document.getElementById('pagination-next');
                 const isStaff = localStorage.getItem('is_staff')
 
-                if (isStaff =='true'){
+                if (isStaff == 'true') {
                     document.getElementById("post_create").style.display = "block";
                 }
 
@@ -118,6 +124,3 @@
 
 </script>
 {% endblock content %}
-
-
-
