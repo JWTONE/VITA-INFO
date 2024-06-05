@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="ko">
-
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
@@ -58,5 +58,5 @@
         document.getElementById('loginForm').addEventListener('submit', loginSubmit);
     </script>
 </body>
+{% endblock content %}
 
-</html>

@@ -24,7 +24,7 @@
 
                 // 정보 게시판 업데이트
                 const infoPostsList = document.getElementById("info-posts");
-                if (infoPosts.length === 0) {
+                if (!infoPosts) {
                     const noResultsMessage = document.createElement("p");
                     noResultsMessage.textContent = "결과가 없습니다.";
                     infoPostsList.appendChild(noResultsMessage);
@@ -41,7 +41,7 @@
 
                 // 리뷰 게시판 업데이트
                 const userPostsList = document.getElementById("user-posts");
-                if (userPosts.length === 0) {
+                if (!userPosts) {
                     const noResultsMessage = document.createElement("p");
                     noResultsMessage.textContent = "결과가 없습니다.";
                     userPostsList.appendChild(noResultsMessage);

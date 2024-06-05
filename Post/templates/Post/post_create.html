@@ -4,29 +4,36 @@
 {% block content %}
 <h1>글 쓰기</h1>
 
-<form id="postForm" enctype="multipart/form-data">
+<div class = "container">
+    <form method ="POST">
     {% csrf_token %}
-    {{ form | crispy }}
-    <button type="button" onclick="submitForm()">저장</button>
-</form>
+    {{form.media}}    
+    {{form.as_p}}
+    <br>
+        <input class="btn btn dark" type="submit" value="제출하기">
+    </form>
+</div>
+
 <a href="javascript:void(0);" onclick="history.back();">목록으로</a>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         CKEDITOR.replace('id_content'); // 'id_content'는 당신의 textarea의 id입니다.
     });
+</script>
 
+
+<script>
     function submitForm() {
         for (var instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
         const form = document.getElementById('postForm');
         const formData = new FormData(form);
-        console.log(form)
-        console.log(formData)
 
         axios.post("/api/post/", formData, {
             headers: {
+                
                 'Content-Type': 'multipart/form-data'
             }
         })
