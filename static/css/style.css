@@ -69,8 +69,7 @@
 
 /* 메인 컨테이너 스타일 */
 .container {
-    text-align: center;
-    background-color: #2196F3; /* 주 배경색상 */
+    text-align: center;/* 주 배경색상 */
     padding: 40px;
     color: #000000; /* 텍스트 색상: 흰색 */
 }
@@ -154,4 +153,9 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.posts-list {
+    list-style: none;
+    text-align: left;
 }
