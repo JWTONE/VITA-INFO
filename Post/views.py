@@ -34,8 +34,15 @@ class PostListAPIView(generics.ListCreateAPIView):
     
     def post(self, request):  # 게시글 작성 
         author = request.user
+        print(author)
         serializer = PostSerializer(data=request.data)
+        print(1)
+        print(serializer.initial_data)
+        print(1)
+        print(1)
+        print(1)
         if serializer.is_valid(raise_exception=True):
+            print(2)
             serializer.save(author=author, category=set_category(author))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         

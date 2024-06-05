@@ -1,6 +1,7 @@
 from django.db import models
 from Account.models import User
 from django.conf import settings
+from ckeditor_uploader.fields import RichTextUploadingField
 
 def get_image_upload_path(instance, filename):
     if instance.author.is_staff: 
@@ -10,7 +11,7 @@ def get_image_upload_path(instance, filename):
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    content = models.TextField()
+    content = RichTextUploadingField()
     image = models.ImageField(upload_to=get_image_upload_path, null=True)
     category = models.CharField(max_length=30)
     author = models.ForeignKey(User, to_field="nickname", on_delete=models.CASCADE, related_name="post")

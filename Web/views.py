@@ -1,4 +1,3 @@
-from logging import raiseExceptions
 from django.shortcuts import render, redirect
 from Survey.forms import SurveyForm
 from Account.forms import CustomUserChangeForm, CustomUserPasswordChangeForm, CustomUserCreationForm
@@ -10,8 +9,6 @@ from django.contrib.auth import get_user_model
 from Account.serializers import UserCreateSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth.password_validation import validate_password
 

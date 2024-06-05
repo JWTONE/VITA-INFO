@@ -11,7 +11,7 @@
 {% block content %}
 <div>
     <h1 style="text-align: left;">리뷰 게시판</h1>
-    <button type="button" onclick="window.location.href='{% url 'web:post_create' %}'">글 작성</button>
+    <button type="button" onclick="goToCreatePost()">글 작성</button>
     <ul id="post-list">
     </ul>
     <nav aria-label="Page navigation" style="display: flex; justify-content: space-between;">
@@ -26,6 +26,10 @@
 
 <script>
 let currentPage = 1; // 현재 페이지 초기값
+
+function goToCreatePost() {
+    window.location.href = "{% url 'web:post_create' %}";
+}
 
 function loadPosts(url) {
     axios.get(url)
