@@ -1,34 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="indexcontainer">
-    <div style="text-align: center; left: 0; right: 0; padding: 40px;">
-        <h3>건강한 삶을 위한 최상의 동반자, 우리는 영양제 추천 사이트 비타인포입니다. <br>
+{% block head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+{% endblock head %}
+
+
+<div class="indexcontainer" >
+    <div>
+        <h3 class="noto-sans-kr-default" style="font-size: 35px;">건강한 삶을 위한 최상의 동반자, 우리는 영양제 추천 사이트 비타인포입니다. <br>
             전문가들의 지식을 바탕으로 신뢰할 수 있는 정보를 제공하여 당신의 건강을 돕겠습니다.</h3>
         <br>
         <br>
-        <h6>최신 랭킹에 포함되어있는 게시글을 검색해보세요</h6>
+        <h6 class="noto-sans-kr-default" style="font-size: 20px;">최신 랭킹에 포함되어있는 게시글을 검색해보세요</h6>
+        <br>
         <br>
         <button id="customButton"></button>
         
         <br>
         <br>
-        <h6>VitaInfo 사이트의 모든 내용을 잠금 해제합니다. 7일 동안 무료로 사용해 보세요 →</h6>
+        <br>
+        <br>
+        <h6 class="noto-sans-kr-default" style="font-size: 20px;">VitaInfo 사이트의 모든 내용을 잠금 해제합니다. 7일 동안 무료로 사용해 보세요 →</h6>
     </div>
 </div>
 <br>
 <br>
-<br>
-<div style="text-align: center;">
+<div class="searchbar">
     <div class="relative mt-3" tabindex="1">
         <form id="search" class="relative overflow-hidden border-b -tracking-2 rounded border-transparent"
             action="{% url 'web:search' %}" method="get">
-            <input type="text" class="w-full px-3 py-2.5 pr-12 text-black shadow-none lg:px-5 lg:py-3.5 lg:pr-20"
+            <input type="text" class="search-input w-full px-3 py-2.5 text-black shadow-none lg:px-5 lg:py-3.5"
                 placeholder="검색" name="q" value="">
             <button type="submit"
-                class="absolute right-0 top-0 h-full cursor-pointer px-3 hover:bg-examine-purple-400 lg:px-6 bg-primary">
-                <img class="h-4 w-4 lg:h-5 lg:w-5" src="{% static 'media/find.png' %}" alt=""
-                    style="width: 20px; height: 20px;">
+                class="search-button absolute right-0 top-0 h-full cursor-pointer px-3 hover:bg-examine-purple-400 lg:px-6 bg-primary">
+                <img class="search-icon h-4 w-4 lg:h-5 lg:w-5" src="{% static 'media/magnifying-glass.png' %}" alt="">
             </button>
         </form>
     </div>
