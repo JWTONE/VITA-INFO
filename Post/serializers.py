@@ -25,7 +25,7 @@ class CommentSerializer(serializers.ModelSerializer):
     
         
 class PostSerializer(serializers.ModelSerializer):
-
+    content = serializers.CharField(required=True)
     class Meta:
         model = Post
         fields = [

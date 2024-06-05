@@ -25,9 +25,11 @@
 
 <script>
     function submitForm() {
+        for (var instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
         const form = document.getElementById('postForm');
         const formData = new FormData(form);
-        console.log(1)
 
         axios.post("/api/post/", formData, {
             headers: {
@@ -35,14 +37,14 @@
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(response => {
-            // 성공 시 목록 페이지로 리디렉션
-            history.back();
-        })
-        .catch(error => {
-            console.error('폼 제출 중 오류가 발생했습니다:', error);
-            alert('폼 제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
-        });
+            .then(response => {
+                // 성공 시 목록 페이지로 리디렉션
+                history.back();
+            })
+            .catch(error => {
+                console.error('폼 제출 중 오류가 발생했습니다:', error);
+                alert('폼 제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            });
     }
 </script>
 {% endblock content %}
