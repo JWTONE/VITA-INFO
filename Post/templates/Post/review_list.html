@@ -60,6 +60,13 @@
                     titleLink.href = `/post/${post.id}/`;
                     titleLink.textContent = post.title;
                     titleCell.appendChild(titleLink);
+
+                    if (post.comment_count > 0) {
+                        const commentCountSpan = document.createElement('span');
+                        commentCountSpan.textContent = ` [${post.comment_count}] `;
+                        titleCell.appendChild(commentCountSpan);
+                    }
+
                     row.appendChild(titleCell);
 
                     const authorCell = document.createElement('td');
