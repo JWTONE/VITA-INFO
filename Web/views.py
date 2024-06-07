@@ -16,7 +16,7 @@ def index(request):
     return render(request, "index.html")
 
 def login(request):
-    return render(request, 'account/login.html')
+    return render(request, 'Account/login.html')
 
 def post_list(request, category):
     context = {
@@ -24,8 +24,8 @@ def post_list(request, category):
         'form' : PostForm
     }
     if category == "info":
-        return render(request, "post/info_list.html", context) 
-    return render(request, "post/review_list.html", context)
+        return render(request, "Post/info_list.html", context) 
+    return render(request, "Post/review_list.html", context)
 
 
 def post_create(request):
@@ -41,7 +41,7 @@ def post_create(request):
     else:
         form = PostForm()
     context = {"form": form}
-    return render(request, "post/post_create.html", context)
+    return render(request, "Post/post_create.html", context)
 
 
 def post_detail(request, post_pk):
@@ -50,8 +50,8 @@ def post_detail(request, post_pk):
         'post_pk' : post_pk
     }
     if post.category == 'review':
-        return render (request, 'post/review_detail.html', context)
-    return render (request, 'post/info_detail.html', context)
+        return render (request, 'Post/review_detail.html', context)
+    return render (request, 'Post/info_detail.html', context)
 
 def post_update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
@@ -66,7 +66,7 @@ def post_update(request, post_pk):
         'form':form,
         'post_pk':post_pk
     }
-    return render(request, 'post/post_edit.html', context)
+    return render(request, 'Post/post_edit.html', context)
 
 def surveymain(request):
     context = {'form':SurveyForm}
@@ -81,7 +81,7 @@ def surveyresult(request):
     return render(request, 'Survey/survey_result.html', context)
 
 def mypage(request, username):
-    return render(request, "account/mypage.html", {"username" : username})
+    return render(request, "Account/mypage.html", {"username" : username})
 
 def update(request, username):
     User = get_user_model()
@@ -97,7 +97,7 @@ def update(request, username):
         'form':form,
         'username':username
     }
-    return render(request, 'account/update.html', context)
+    return render(request, 'Account/update.html', context)
 
 def password_update(request, username):
     User = get_user_model()
@@ -114,7 +114,7 @@ def password_update(request, username):
         'form':form,
         'username':username
     }
-    return render(request, 'account/password_update.html', context)
+    return render(request, 'Account/password_update.html', context)
 
 def signup(request):
     if request.method == "POST":
@@ -129,11 +129,11 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
-    return render(request, "account/signup.html", context)
+    return render(request, "Account/signup.html", context)
 
 def search(request):
     q = request.GET['q']
     context = {
         'q' : q
     }
-    return render(request, 'post/search.html', context)
+    return render(request, 'Post/search.html', context)

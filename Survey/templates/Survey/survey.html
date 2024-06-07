@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <h3 style="text-align: center;">설문조사</h3>
+
+    <form method="POST" id="survey_form">
+        {% csrf_token %}
+        {{ form | crispy }}
+
+        <button type="submit">다음페이지</button>
+    </form>
+    <div id="loading" style="display: none;">
+        <div style="text-align: center;">
+            <img src="{% static 'media/SurveyLoading.gif' %}" alt="Survey Loading">
+        </div>
+
+        <h4 style="text-align: center;">알고계신가요?</h4>
+
+        <div id="vitamin-info">
+            <h5 id="name" style="text-align: center;"></h5>
+            <p id="nickname" style="text-align: center;"></p>
+            <p id="description" style="text-align: center;"></p>
+        </div>
+    </div>
+    <div id="results" style="display: none;">
+        <h2>추천 영양소</h2>
+        <div id="recommended_nutrients"></div>
+
+        <h2>같이 먹으면 좋은 영양소</h2>
+        <div id="synergistic_nutrients"></div>
+
+        <h2>같이 먹으면 안되는 영양소</h2>
+        <div id="antagonistic_nutrients"></div>
+
+        <h2>대체 음식</h2>
+        <div id="alternative_foods"></div>
+
+        <h2>같이 먹으면 안되는 음식</h2>
+        <div id="incompatible_foods"></div>
+    </div>
+    <script>
+        function addDataToHTML(containerId, data) {
+            var container = document.getElementById(containerId);
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    var paragraph = document.createElement("p");
+                    paragraph.textContent = key + ": " + data[key];
+                    container.appendChild(paragraph);
+                }
+            }
+        }
+
+        function fetchNewContent() {
+            axios.get("{% url 'survey:loading' %}")
+                .then(response => {
+                    const data = response.data;
+                    document.getElementById('name').innerText = data.name;
+                    document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
+                    document.getElementById('description').innerText = data.description;
+                })
+                .catch(error => console.error('Error fetching new content:', error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // survey_form 제출 이벤트 리스너 추가
+            document.getElementById("survey_form").addEventListener("submit", function (event) {
+                event.preventDefault(); // 기본 제출 행동 방지
+
+                // survey_form div 숨기기
+                document.getElementById("survey_form").style.display = "none";
+                document.getElementById("loading").style.display = "block";
+
+                // FormData를 사용하여 폼 데이터 가져오기
+                var formData = new FormData(event.target);
+
+                // axios를 사용하여 POST 요청 보내기
+                axios({
+                    method: 'post',
+                    url: '/api/survey/',
+                    data: formData,
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }).then(function (response) {
+                    const results = response.data.result;
+
+                    // 추천 영양소 추가
+                    const recommendDiv = document.getElementById('recommended_nutrients');
+                    for (let i = 1; i <= 3; i++) {
+                        const recommend = document.createElement('p');
+                        recommend.textContent = results[`recommended_nutrients_${i}`];
+                        recommendDiv.appendChild(recommend);
+                    }
+
+                    // 같이 먹으면 좋은 영양소 추가
+                    const synergyNutrientDiv = document.getElementById('synergistic_nutrients');
+                    for (let i = 1; i <= 3; i++) {
+                        const synergyNutrient = document.createElement('p');
+                        synergyNutrient.textContent = results[`synergistic_nutrients_${i}`];
+                        synergyNutrientDiv.appendChild(synergyNutrient);
+                    }
+
+                    // 같이 먹으면 안 되는 영양소 추가
+                    const antagonyNutrientDiv = document.getElementById('antagonistic_nutrients');
+                    for (let i = 1; i <= 3; i++) {
+                        const antagonyNutrient = document.createElement('p');
+                        antagonyNutrient.textContent = results[`antagonistic_nutrients_${i}`];
+                        antagonyNutrientDiv.appendChild(antagonyNutrient);
+                    }
+
+                    // 대체 음식 추가
+                    const alternativeFoodsDiv = document.getElementById('alternative_foods');
+                    for (let i = 1; i <= 3; i++) {
+                        const alternativeFoods = document.createElement('p');
+                        alternativeFoods.textContent = results[`alternative_foods_${i}`];
+                        alternativeFoodsDiv.appendChild(alternativeFoods);
+                    }
+
+                    // 같이 먹으면 안 되는 음식 추가
+                    const incompatibleFoodsDiv = document.getElementById('incompatible_foods');
+                    for (let i = 1; i <= 3; i++) {
+                        const incompatibleFoods = document.createElement('p');
+                        incompatibleFoods.textContent = results[`incompatible_foods_${i}`];
+                        incompatibleFoodsDiv.appendChild(incompatibleFoods);
+                    }
+
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("results").style.display = "block";
+                }).catch(error => {
+                    console.error(error);
+                    alert('데이터를 가져오는데 실패했습니다.');
+                });
+            });
+
+            // 설문조사 결과 정보를 가져오는 함수 실행
+            fetchNewContent();
+
+            // 5초마다 새로운 내용 가져오기
+            setInterval(fetchNewContent, 5000);
+        });
+    </script>
+{% endblock content %}
