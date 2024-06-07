@@ -69,8 +69,6 @@ class PasswordUpdateAPIView(APIView):
 
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def post(self, request):
         if request.data:
             refresh_token = request.data["refresh"]
