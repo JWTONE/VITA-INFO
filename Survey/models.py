@@ -36,10 +36,10 @@ class SurveyInfo(models.Model):
         ("균형잡힌 식단","균형잡힌 식단"),
     ]
     SNACK_CHOICES = [
-        ("과일","고기 위주"),
-        ("견과류","채식 위주"),
+        ("과일","과일 위주"),
+        ("견과류","견과류 위주"),
         ("패스트푸드","패스트푸드"),
-        ("과자","고기 위주"),
+        ("과자","디저트 위주"),
         ("OTHER","기타"),
     ]
     HEALTHGOAL_CHOICES = [
@@ -68,7 +68,7 @@ class SurveyInfo(models.Model):
     age = models.PositiveIntegerField(validators=[
             MinValueValidator(10),
             MaxValueValidator(120)
-        ])
+        ], max_length=20)
     height = models.PositiveIntegerField(validators=[
             MinValueValidator(50),
             MaxValueValidator(250)
@@ -91,7 +91,7 @@ class SurveyInfo(models.Model):
     health_goals_other = models.CharField(max_length=100, blank=True)
     interested_supplements = models.CharField(choices=INTERESTED_CHOICES, max_length=100, default="비타민")
     interested_supplements_other = models.CharField(max_length=100, blank=True)
-    specific_health_issues_to_improve = models.TextField()
+    specific_health_issues_to_improve = models.TextField(max_length=300, blank=True, null=True)
 
 class SurveyResults(models.Model):
     survey_id = models.ForeignKey(SurveyInfo,on_delete=models.CASCADE, related_name="survey")
