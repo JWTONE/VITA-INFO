@@ -7,13 +7,6 @@
 </div>
 <button type="button" id="editbtn" onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
 <button type="button" id="deletebtn" onclick="postdelete()" style="display:none">삭제</button>
-<h3>댓글</h3>
-<div id="comment-form">
-    <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
-    <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
-</div> 
-<div id='comments'>
-</div>
 
 <script>
     const postID = {{ post_pk }};
@@ -34,7 +27,7 @@
         postDetailDiv.appendChild(author);
 
         const content = document.createElement('p');
-        content.textContent = post.content;
+        content.innerHTML = post.content;
         postDetailDiv.appendChild(content);
 
         const isStaff = localStorage.getItem('is_staff')
