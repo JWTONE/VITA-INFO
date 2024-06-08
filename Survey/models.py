@@ -68,7 +68,7 @@ class SurveyInfo(models.Model):
     age = models.PositiveIntegerField(validators=[
             MinValueValidator(10),
             MaxValueValidator(120)
-        ], max_length=20)
+        ])
     height = models.PositiveIntegerField(validators=[
             MinValueValidator(50),
             MaxValueValidator(250)
