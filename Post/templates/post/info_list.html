@@ -117,7 +117,7 @@
             });
     }
 
-    loadPosts("{% url 'post:post_list' category=category %}?page={{ posts.number }}");
+    loadPosts("{% url 'post:post_category' category=category %}?page={{ posts.number }}");
 
     document.addEventListener("DOMContentLoaded", function () {
         const username = localStorage.getItem("username");
