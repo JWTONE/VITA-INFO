@@ -16,5 +16,5 @@ urlpatterns = [
          name="comment_edit_delete_like"),
     path("search/", views.search, name="search"),
     path("ranking/", views.ranking, name='ranking'),
-    path("<str:category>/", views.PostListAPIView.as_view(), name="post_list"),
+    path("<str:category>/", views.PostListAPIView.as_view(), name="post_category"),
 ]

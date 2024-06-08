@@ -1,7 +1,7 @@
 axios.interceptors.request.use(
     (config) => {
         // 만약 로그아웃 요청이면 Authorization 헤더를 삭제
-        if (config.url === "http://127.0.0.1:8000/api/account/logout/") {
+        if (config.url === "http://vitainfo.kr/api/account/logout/") {
             delete config.headers.Authorization;
         } else {
             const token = localStorage.getItem('access');
@@ -30,7 +30,7 @@ axios.interceptors.response.use(
 
             if (refreshToken) {
                 console.log('재발급 요청');
-                return axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
+                return axios.post("http://vitainfo.kr/api/account/refresh/", { refresh: refreshToken })
                     .then(response => {
                         console.log('재발급 성공');
                         localStorage.setItem("access", response.data.access);

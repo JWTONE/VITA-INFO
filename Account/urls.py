@@ -6,7 +6,7 @@ from . import views
 app_name = "account"
 urlpatterns = [
     path("", UserListAPIView.as_view(), name="user_list"),
-    path("refresh/", TokenRefreshView.as_view(), name="user_list"),
+    path("refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("login/", CustomTokenObtainPairView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("<str:username>/", UserListAPIView.as_view(), name="profile_update"),
