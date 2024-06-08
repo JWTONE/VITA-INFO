@@ -25,7 +25,6 @@
     axios.get(url)
         .then(response => {
             const post = response.data;
-            console.log(post);
 
             const title = document.createElement('h2');
             title.textContent = post.title;
@@ -35,12 +34,6 @@
             author.textContent = `작성자: ${post.author}`;
             postDetailDiv.appendChild(author);
 
-            if (post.image) {
-                const image = document.createElement('img');
-                image.src = post.image;
-                image.style.width = '50%';
-                postDetailDiv.appendChild(image);
-            }
 
             const content = document.createElement('p');
             content.innerHTML = post.content;
@@ -81,13 +74,6 @@
                 const likeCounts = document.getElementById('postLikeCounts');
                 const likeButton = document.querySelector('#post-detail button');
                 likeCounts.textContent = `좋아요 수: ${response.data.like_counts}`;
-                console.log("리스폰스데이터")
-                console.log(response)
-                console.log(response.data)
-                console.log(response.data.like_users)
-                console.log("카운트")
-                console.log(likeCounts)
-                console.log("끝")
                 likeButton.textContent = '좋아요';
             })
             .catch(error => {
