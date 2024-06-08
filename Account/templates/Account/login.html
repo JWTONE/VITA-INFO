@@ -25,7 +25,7 @@
                 password: password
             };
 
-            axios.post('/api/account/login/', saveData)
+            axios.post('http://vitainfo.kr/api/account/login/', saveData)
                 .then(response => {
                     const isStaff = response.data.is_staff;
                     const nickname = response.data.nickname;

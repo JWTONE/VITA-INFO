@@ -33,7 +33,7 @@
         function loadUserInfo() {
             const username = "{{ username }}"; // 서버 측에서 제공되는 템플릿 변수
             console.log(username);
-            axios.get(`/api/account/${username}`)
+            axios.get(`http://vitainfo.kr/api/account/${username}`)
                 .then(response => {
                     const data = response.data;
                     console.log(data);
