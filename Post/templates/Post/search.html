@@ -36,8 +36,9 @@
 </div>
 <script>
     // 검색어를 포함하여 Axios 요청을 보내 검색 결과를 가져오는 함수
+    const apiUrl = window.config.apiUrl;
     function fetchSearchResults(searchQuery) {
-        const searchUrl = `http://vitainfo.kr/api/post/search/?q=${searchQuery}`; // 검색 URL
+        const searchUrl = `${apiUrl}/api/post/search/?q=${searchQuery}`; // 검색 URL
 
         axios.get(searchUrl)
             .then(response => {

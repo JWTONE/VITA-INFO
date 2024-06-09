@@ -9,10 +9,11 @@
 <button type="button" id="deletebtn" onclick="postdelete()" style="display:none">삭제</button>
 
 <script>
+    const apiUrl = window.config.apiUrl;
     const postID = {{ post_pk }};
     const postDetailDiv = document.getElementById('post-detail');
     const commentDiv = document.getElementById('comments');
-    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
+    const url = `${apiUrl}/api/post/${postID}`;
 
     axios.get(url)
     .then(response => {
@@ -43,7 +44,7 @@
 
     //포스트 삭제 함수
     function postdelete() {
-        const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
+        const url = `${apiUrl}/api/post/${postID}`;
         axios.delete(url)
         window.location.href = '/post/info/'
     }

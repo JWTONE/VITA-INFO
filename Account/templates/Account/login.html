@@ -1,338 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
-
 {% block content %}
-<style>
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-    }
-
-    .button-field {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: white;
-        font-size: 16px;
-    }
-
-    .button-field:hover {
-        background-color: #0056b3;
-    }
-
-    .field {
-        margin-bottom: 20px;
-    }
-
-    .field label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .choice-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .choice-buttons label {
-        flex: 1;
-        padding: 10px;
-        margin: 5px 0;
-        text-align: center;
-        border: 1px solid #007bff;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-    }
-
-    .choice-buttons input[type="radio"] {
-        display: none;
-    }
-
-    .choice-buttons input[type="radio"]:checked+label {
-        background-color: #0056b3;
-    }
-
-    .hidden-field {
-        display: none;
-    }
-</style>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const otherFieldCheckbox = document.querySelector('input[name="specific_health_issues_to_improve"]');
-        const otherFieldText = document.querySelector('#id_specific_health_issues_to_improve');
-
-        if (otherFieldCheckbox) {
-            otherFieldCheckbox.addEventListener('change', function () {
-                if (otherFieldCheckbox.checked) {
-                    otherFieldText.parentElement.style.display = 'block';
-                } else {
-                    otherFieldText.parentElement.style.display = 'none';
-                }
-            });
-        }
-    });
-</script>
-
-<h3 style="text-align: center;">설문조사</h3>
-
-<div class="container">
-    <form method="POST" id="survey_form">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        <div class="field">
-            {{ form.name.label_tag }}
-            {{ form.name }}
-        </div>
-        <div class="field">
-            {{ form.age.label_tag }}
-            {{ form.age }}
-        </div>
-        <div class="field">
-            {{ form.height.label_tag }}
-            {{ form.height }}
-        </div>
-        <div class="field">
-            {{ form.weight.label_tag }}
-            {{ form.weight }}
-        </div>
-        <div class="field">
-            {{ form.current_medications_or_supplements.label_tag }}
-            {{ form.current_medications_or_supplements }}
-        </div>
-        <div class="field">
-            {{ form.allergies.label_tag }}
-            {{ form.allergies }}
-        </div>
-
-        <div class="field">
-            {{ form.gender.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.gender %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.gender.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.exercise_frequency_per_week.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.exercise_frequency_per_week %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.exercise_frequency_per_week.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.average_sleep_hours_per_day.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.average_sleep_hours_per_day %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.average_sleep_hours_per_day.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.smoking_status.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.smoking_status %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.smoking_status.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.alcohol_consumption.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.alcohol_consumption %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.alcohol_consumption.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.average_meals_per_day.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.average_meals_per_day %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.average_meals_per_day.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.main_foods.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.main_foods %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.main_foods.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.snacks.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.snacks %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.snacks.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.health_goals.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.health_goals %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.health_goals.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="field">
-            {{ form.interested_supplements.label_tag }}
-            <div class="choice-buttons">
-                {% for radio in form.interested_supplements %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.interested_supplements.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="field">
-            <div>
-                {{ form.specific_health_issues_to_improve.label_tag }}
-                <label>
-                    {{ form.specific_health_issues_to_improve }}
-                </label>
-            </div>
-            <div class="hidden-field" style="display: none;">
-                {{ form.specific_health_issues_to_improve }}
-            </div>
-        </div>
-
-        <button type="submit" class="button-field">다음페이지</button>
+<body>
+    <h2>로그인</h2>
+    <form id="loginForm">
+        <label for="username">아이디:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">로그인</button>
     </form>
-</div>
 
-<div id="loading" style="display: none;">
-    <div style="text-align: center;">
-        <img src="{% static 'media/SurveyLoading.gif' %}" alt="Survey Loading">
-    </div>
+    <script>
+        function loginSubmit(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작을 막음
+            const apiUrl = window.config.apiUrl;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-    <h4 style="text-align: center;">알고계신가요?</h4>
+            const saveData = {
+                username: username,
+                password: password
+            };
 
-    <div id="vitamin-info">
-        <h5 id="name" style="text-align: center;"></h5>
-        <p id="nickname" style="text-align: center;"></p>
-        <p id="description" style="text-align: center;"></p>
-    </div>
-</div>
-<div id="results" style="display: none;">
-    <h2>추천 영양소</h2>
-    <div id="recommended_nutrients"></div>
+            axios.post(`${apiUrl}/api/account/login/`, saveData)
+                .then(response => {
+                    const isStaff = response.data.is_staff;
+                    const nickname = response.data.nickname;
+                    const token = response.data.access;
+                    localStorage.setItem('access', token); // 토큰을 저장함
+                    const refreshToken = response.data.refresh;
+                    localStorage.setItem('refresh', refreshToken); // 토큰을 저장함
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('nickname', nickname);
+                    localStorage.setItem('is_staff', isStaff);
 
-    <h2>같이 먹으면 좋은 영양소</h2>
-    <div id="synergistic_nutrients"></div>
+                    alert(`안녕하세요 ${nickname}님`);
 
-    <h2>같이 먹으면 안되는 영양소</h2>
-    <div id="antagonistic_nutrients"></div>
-
-    <h2>대체 음식</h2>
-    <div id="alternative_foods"></div>
-
-    <h2>같이 먹으면 안되는 음식</h2>
-    <div id="incompatible_foods"></div>
-</div>
-
-<script>
-    function addDataToHTML(containerId, data) {
-        var container = document.getElementById(containerId);
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                var paragraph = document.createElement("p");
-                paragraph.textContent = key + ": " + data[key];
-                container.appendChild(paragraph);
-            }
+                    // 이전 페이지로 이동
+                    const prevPage = localStorage.getItem('prevPage');
+                    window.location.href = prevPage || '/'; // 이전 페이지가 없으면 홈페이지로 이동 
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('비밀번호 또는 아이디가 잘못되었습니다');
+                });
         }
-    }
 
-    function fetchNewContent() {
-        axios.get("{% url 'survey:loading' %}")
-            .then(response => {
-                const data = response.data;
-                document.getElementById('name').innerText = data.name;
-                document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
-                document.getElementById('description').innerText = data.description;
-            })
-            .catch(error => console.error('Error fetching new content:', error));
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // survey_form 제출 이벤트 리스너 추가
-        document.getElementById("survey_form").addEventListener("submit", function (event) {
-            event.preventDefault(); // 기본 제출 행동 방지
-
-            // survey_form div 숨기기
-            document.getElementById("survey_form").style.display = "none";
-            document.getElementById("loading").style.display = "block";
-
-            // FormData를 사용하여 폼 데이터 가져오기
-            var formData = new FormData(event.target);
-
-            // axios를 사용하여 POST 요청 보내기
-            axios({
-                method: 'post',
-                url: '/api/survey/',
-                data: formData,
-                headers: { 'Content-Type': 'multipart/form-data' }
-            }).then(function (response) {
-                const results = response.data.result;
-
-                // 추천 영양소 추가
-                const recommendDiv = document.getElementById('recommended_nutrients');
-                for (let i = 1; i <= 3; i++) {
-                    const recommend = document.createElement('p');
-                    recommend.textContent = results[`recommended_nutrients_${i}`];
-                    recommendDiv.appendChild(recommend);
-                }
-
-                // Include other result sections similarly
-
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("results").style.display = "block";
-            }).catch(error => {
-                console.error(error);
-                alert('데이터를 가져오는데 실패했습니다.');
-            });
-        });
-
-        // 설문조사 결과 정보를 가져오는 함수 실행
-        fetchNewContent();
-
-        // 5초마다 새로운 내용 가져오기
-        setInterval(fetchNewContent, 5000);
-    });
-</script>
+        document.getElementById('loginForm').addEventListener('submit', loginSubmit);
+    </script>
+</body>
 {% endblock content %}
+
