@@ -17,10 +17,11 @@
 </div>
 
 <script>
+    const apiUrl = window.config.apiUrl;
     const postID = {{ post_pk }};
     const postDetailDiv = document.getElementById('post-detail');
     const commentDiv = document.getElementById('comments');
-    const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
+    const url = `${apiUrl}/api/post/${postID}`;
 
     axios.get(url)
         .then(response => {
@@ -69,7 +70,7 @@
 
     // 포스트 좋아요 함수
     function likePost() {
-        axios.post(`/api/post/${postID}/`)
+        axios.post(`${apiUrl}/api/post/${postID}/`)
             .then(response => {
                 const likeCounts = document.getElementById('postLikeCounts');
                 const likeButton = document.querySelector('#post-detail button');
@@ -116,9 +117,9 @@
     }
     //포스트 삭제 함수
     function postdelete() {
-        const url = `{% url 'post:post_detail' 0 %}`.replace('0', postID);
+        const url = `${apiUrl}/api/post/${postID}`;
         axios.delete(url)
-        window.location.href = '/post/review/'
+        window.location.href = '/post/info/'
     }
 
     // 새로운 댓글을 DOM에 추가하는 함수
@@ -185,7 +186,7 @@
             content: replyContent,
         };
 
-        axios.post(`/api/post/${postID}/comment/${parentCommentId}/`, replyData)
+        axios.post(`${apiUrl}/api/post/${postID}/comment/${parentCommentId}/`, replyData)
             .then(response => {
                 // 대댓글 작성 후 댓글 목록을 다시 불러옴
                 window.location.reload();

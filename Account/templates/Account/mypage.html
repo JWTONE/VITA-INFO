@@ -31,9 +31,10 @@
 <script>
         // 사용자 정보를 불러오는 함수
         function loadUserInfo() {
+            const apiUrl = window.config.apiUrl;
             const username = "{{ username }}"; // 서버 측에서 제공되는 템플릿 변수
             console.log(username);
-            axios.get(`http://vitainfo.kr/api/account/${username}`)
+            axios.get(`${apiUrl}/api/account/${username}`)
                 .then(response => {
                     const data = response.data;
                     console.log(data);

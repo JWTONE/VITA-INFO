@@ -27,10 +27,11 @@
         for (var instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
+        const apiUrl = window.config.apiUrl;
         const form = document.getElementById('postForm');
         const formData = new FormData(form);
 
-        axios.post("/api/post/", formData, {
+        axios.post(`${apiUrl}/api/post/`, formData, {
             headers: {
                 
                 'Content-Type': 'multipart/form-data'
