@@ -29,58 +29,57 @@
 
 
 <script>
-        // 사용자 정보를 불러오는 함수
-        function loadUserInfo() {
-            const apiUrl = window.config.apiUrl;
-            const username = "{{ username }}"; // 서버 측에서 제공되는 템플릿 변수
-            console.log(username);
-            axios.get(`${apiUrl}/api/account/${username}`)
-                .then(response => {
-                    const data = response.data;
-                    console.log(data);
-                    document.getElementById('user-name').textContent = data.username;
-                    document.getElementById('user-email').textContent = data.email;
-                    document.getElementById('user-nickname').textContent = data.nickname;
-                })
-                .catch(error => {
-                    console.error('사용자 정보를 불러오는데 실패했습니다.', error);
-                });
-        }
-
-        // 개인정보 변경 처리 함수
-        function updateUserInfo() {
-            const form = document.getElementById('update-form');
-            const formData = new FormData(form);
-
-            // CSRF 토큰 가져오기
-            const csrfToken = formData.get('csrfmiddlewaretoken');
-
-            // 폼 데이터를 JSON 형식으로 변환
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            axios({
-                method: 'put',
-                url: "{% url 'web:update' username %}",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken  // CSRF 토큰 설정
-                },
-                data: JSON.stringify(data)
+    // 사용자 정보를 불러오는 함수
+    function loadUserInfo() {
+        const username = "{{ username }}";
+        // 서버 측에서 제공되는 템플릿 
+        axios.get(`http://127.0.0.1:8000/api/account/${username}`)
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                document.getElementById('user-name').textContent = data.username;
+                document.getElementById('user-email').textContent = data.email;
+                document.getElementById('user-nickname').textContent = data.nickname;
             })
-                .then(response => {
-                    // 성공 시 처리
-                    console.log('회원정보가 성공적으로 변경되었습니다.', response.data);
-                })
-                .catch(error => {
-                    // 오류 시 처리
-                    console.error('회원정보 변경에 실패했습니다.', error);
-                });
-        }
+            .catch(error => {
+                console.error('사용자 정보를 불러오는데 실패했습니다.', error);
+            });
+    }
 
-        loadUserInfo();
+    // 개인정보 변경 처리 함수
+    function updateUserInfo() {
+        const form = document.getElementById('update-form');
+        const formData = new FormData(form);
+
+        // CSRF 토큰 가져오기
+        const csrfToken = formData.get('csrfmiddlewaretoken');
+
+        // 폼 데이터를 JSON 형식으로 변환
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        axios({
+            method: 'put',
+            url: "{% url 'web:update' username %}",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken  // CSRF 토큰 설정
+            },
+            data: JSON.stringify(data)
+        })
+            .then(response => {
+                // 성공 시 처리
+                console.log('회원정보가 성공적으로 변경되었습니다.', response.data);
+            })
+            .catch(error => {
+                // 오류 시 처리
+                console.error('회원정보 변경에 실패했습니다.', error);
+            });
+    }
+
+    loadUserInfo();
 </script>
 
 
