@@ -223,11 +223,8 @@ class CommentDetailAPIView(APIView):
     def delete(self, request, comment_pk):
         comment = self.get_object(comment_pk)
         if comment.author == request.user:
-            comment.content = '삭제된 댓글입니다'
-            comment.author = None
-            comment.save()
-            data = {"pk": f"{comment_pk} is deleted."}
-            return Response(data, status=status.HTTP_200_OK)
+            comment.delete()
+            return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 

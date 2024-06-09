@@ -130,6 +130,18 @@
         commentText.textContent = comment.content;
         commentDivItem.appendChild(commentText);
 
+        // 수정 버튼 추가
+        const editButton = document.createElement('button');
+        editButton.textContent = '수정';
+        editButton.onclick = () => showEditForm(commentDivItem, comment);
+        commentDivItem.appendChild(editButton);
+
+        // 삭제 버튼 추가
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '삭제';
+        deleteButton.onclick = () => deleteComment(comment.id);
+        commentDivItem.appendChild(deleteButton);
+
         const replyLink = document.createElement('a');
         replyLink.href = '#';
         replyLink.textContent = '대댓글 달기';
@@ -139,23 +151,86 @@
         };
         commentDivItem.appendChild(replyLink);
 
-        commentDivItem.style.marginLeft = '20px'; // 댓글의 들여쓰기
+        commentDivItem.style.marginLeft = '20px';
         commentDivItem.style.backgroundColor = '#f0f0f0';
 
         commentDiv.appendChild(commentDivItem);
 
         if (comment.replies) {
             comment.replies.forEach(reply => {
-                const replyDiv = document.createElement('div');
+                const replyDivItem = document.createElement('div');
                 const replyText = document.createElement('p');
+
                 replyText.textContent = reply.content;
-                replyDiv.appendChild(replyText);
-                replyDiv.style.marginLeft = '40px';  // 대댓글의 추가 들여쓰기
-                replyDiv.style.backgroundColor = '#d3d3d3';
-                commentDiv.appendChild(replyDiv);
+                replyDivItem.appendChild(replyText);
+
+                // 대댓글 수정 버튼 추가
+                const editReplyButton = document.createElement('button');
+                editReplyButton.textContent = '대댓글 수정';
+                editReplyButton.onclick = () => showReplyEditForm(replyDivItem, reply);
+                replyDivItem.appendChild(editReplyButton);
+
+                // 대댓글 삭제 버튼 추가
+                const deleteReplyButton = document.createElement('button');
+                deleteReplyButton.textContent = '대댓글 삭제';
+                deleteReplyButton.onclick = () => deleteReply(reply.id);
+                replyDivItem.appendChild(deleteReplyButton);
+
+                replyDivItem.style.marginLeft = '40px';
+                replyDivItem.style.backgroundColor = '#d3d3d3';
+                commentDiv.appendChild(replyDivItem);
             });
         }
     }
+
+    // 댓글 수정 폼을 보여주는 함수
+    function showEditForm(parentDiv, comment) {
+        let existingEditForm = document.getElementById('editForm');
+        if (existingEditForm) {
+            existingEditForm.remove();
+        }
+
+        const editForm = document.createElement('div');
+        editForm.id = 'editForm';
+        editForm.innerHTML = `
+            <textarea id="editContent" rows="2">${comment.content}</textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitEdit(${comment.id})">수정하기</button>
+        `;
+        parentDiv.appendChild(editForm);
+    }
+
+    // 댓글 수정 함수
+    function submitEdit(commentId) {
+        const editContent = document.getElementById('editContent').value;
+        if (!editContent) {
+            alert('댓글 내용을 입력하세요');
+            return;
+        }
+
+        const editData = {
+            content: editContent,
+        };
+
+        axios.put(`/api/post/comment/${commentId}/`, editData)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 수정 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 댓글 삭제 함수
+    function deleteComment(commentId) {
+        axios.delete(`/api/post/comment/${commentId}/`)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 삭제 중 오류가 발생했습니다:', error);
+            });
+    }
+
 
 
     // 대댓글 작성 폼을 보여주는 함수
@@ -193,6 +268,54 @@
             })
             .catch(error => {
                 console.error('대댓글 작성 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 대댓글 수정 폼을 보여주는 함수
+    function showReplyEditForm(parentDiv, comment) {
+        let existingEditForm = document.getElementById('replyEditForm');
+        if (existingEditForm) {
+            existingEditForm.remove();
+        }
+
+        const editForm = document.createElement('div');
+        editForm.id = 'replyEditForm';
+        editForm.innerHTML = `
+            <textarea id="replyEditContent" rows="2">${comment.content}</textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitReplyEdit(${comment.id})">수정하기</button>
+        `;
+        parentDiv.appendChild(editForm);
+    }
+
+    // 대댓글 수정 함수
+    function submitReplyEdit(commentId) {
+        const editContent = document.getElementById('replyEditContent').value;
+        if (!editContent) {
+            alert('대댓글 내용을 입력하세요');
+            return;
+        }
+
+        const editData = {
+            content: editContent,
+        };
+
+        axios.put(`/api/post/comment/${commentId}/`, editData)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('대댓글 수정 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 대댓글 삭제 함수
+    function deleteReply(commentId) {
+        axios.delete(`/api/post/comment/${commentId}/`)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 삭제 중 오류가 발생했습니다:', error);
             });
     }
 
