@@ -527,4 +527,16 @@ hr {
 
 .update-form button:hover {
     background-color: #0056b3;
+} 
+
+
+@font-face {
+    font-family: 'Pretendard Bold';
+    src: url('/static/css/Pretendard-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Pretendard Bold', sans-serif;
 }
