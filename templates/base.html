@@ -131,6 +131,7 @@
     });
     // Axios를 사용하여 랭킹 데이터를 가져오고 드롭다운 메뉴에 추가하는 함수
     async function fetchRankingData() {
+        const apiUrl = window.config.apiUrl;
         try {
             const response = await axios.get(`${apiUrl}/api/post/ranking/`);
             const rankingData = response.data;

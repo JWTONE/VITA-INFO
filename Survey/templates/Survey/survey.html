@@ -86,7 +86,7 @@
     }
 </style>
 <div id="title_survey" class="title_survey">
-<h3 style="text-align: center;">설문조사</h3>
+    <h3 style="text-align: center;">설문조사</h3>
 </div>
 <div class="survey_container">
     <form method="POST" id="survey_form">
@@ -257,12 +257,12 @@
     <div style="text-align: center;">
         <img src="{% static 'media/SurveyLoading.gif' %}" alt="Survey Loading">
     </div>
-        <br>
-        <br>
-        <br>
+    <br>
+    <br>
+    <br>
     <h4 style="text-align: center;">알고계신가요?</h4>
-        <br>
-        <br>
+    <br>
+    <br>
     <div id="vitamin-info">
         <p id="nickname" style="text-align: center; color: rgb(0, 67, 212); font-size: xx-large;"></p>
         <br>
@@ -306,7 +306,6 @@
 </div>
 
 <script>
-    const apiUrl = window.config.apiUrl;
     document.addEventListener('DOMContentLoaded', function () {
         function toggleOtherInput(radioName, otherInputId) {
             var otherInput = document.getElementById(otherInputId);
@@ -332,66 +331,66 @@
 </script>
 
 <script>
-    const apiUrl = window.config.apiUrl;
-
     function fetchNewContent() {
-    axios.get(`${apiUrl}/api/survey/loading/`)
-        .then(response => {
-            const data = response.data;
-            document.getElementById('name').innerText = data.name;
-            document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
-            document.getElementById('description').innerText = data.description;
-        })
-        .catch(error => console.error('Error fetching new content:', error));
-}
-
-// 설문조사 결과 정보를 가져오는 함수 실행
-fetchNewContent();
-
-// 5초마다 새로운 내용 가져오기
-setInterval(fetchNewContent, 5000);
-
-function appendNutrients(divId, results, prefix) {
-    const div = document.getElementById(divId);
-    for (let i = 1; i <= 3; i++) {
-        const element = document.createElement('p');
-        element.textContent = results[`${prefix}_${i}`];
-        div.appendChild(element);
+        const apiUrl = window.config.apiUrl;
+        
+        axios.get(`${apiUrl}/api/survey/loading/`)
+            .then(response => {
+                const data = response.data;
+                document.getElementById('name').innerText = data.name;
+                document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
+                document.getElementById('description').innerText = data.description;
+            })
+            .catch(error => console.error('Error fetching new content:', error));
     }
-}
 
-function submitForm() {
-    document.querySelector('.survey_container').style.display = "none";
-    document.querySelector('.title_survey').style.display = "none";
-    document.getElementById("survey_form").style.display = "none";
-    document.getElementById("loading").style.display = "block";
+    // 설문조사 결과 정보를 가져오는 함수 실행
+    fetchNewContent();
 
-    var form = document.getElementById('survey_form');
-    var formData = new FormData(form);
+    // 5초마다 새로운 내용 가져오기
+    setInterval(fetchNewContent, 5000);
 
-    axios({
-        method: 'post',
-        url: `${apiUrl}/api/survey/`,
-        data: formData,
-        headers: { 'Content-Type': 'multipart/form-data' }
-    }).then(function (response) {
-        const results = response.data.result;
+    function appendNutrients(divId, results, prefix) {
+        const div = document.getElementById(divId);
+        for (let i = 1; i <= 3; i++) {
+            const element = document.createElement('p');
+            element.textContent = results[`${prefix}_${i}`];
+            div.appendChild(element);
+        }
+    }
 
-        appendNutrients('recommended_nutrients', results, 'recommended_nutrients');
-        appendNutrients('synergistic_nutrients', results, 'synergistic_nutrients');
-        appendNutrients('antagonistic_nutrients', results, 'antagonistic_nutrients');
-        appendNutrients('alternative_foods', results, 'alternative_foods');
-        appendNutrients('incompatible_foods', results, 'incompatible_foods');
+    function submitForm() {
+        document.querySelector('.survey_container').style.display = "none";
+        document.querySelector('.title_survey').style.display = "none";
+        document.getElementById("survey_form").style.display = "none";
+        document.getElementById("loading").style.display = "block";
 
-        // 기타 결과 섹션도 유사하게 포함
+        const apiUrl = window.config.apiUrl;
+        var form = document.getElementById('survey_form');
+        var formData = new FormData(form);
 
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("results").style.display = "block";
-    }).catch(function (error) {
-        console.error('Error submitting form:', error);
-        // 추가적인 오류 처리 로직을 여기에 추가할 수 있습니다.
-    });
-}
+        axios({
+            method: 'post',
+            url: `${apiUrl}/api/survey/`,
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }).then(function (response) {
+            const results = response.data.result;
+
+            appendNutrients('recommended_nutrients', results, 'recommended_nutrients');
+            appendNutrients('synergistic_nutrients', results, 'synergistic_nutrients');
+            appendNutrients('antagonistic_nutrients', results, 'antagonistic_nutrients');
+            appendNutrients('alternative_foods', results, 'alternative_foods');
+            appendNutrients('incompatible_foods', results, 'incompatible_foods');
+
+            // 기타 결과 섹션도 유사하게 포함
+
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("results").style.display = "block";
+        }).catch(function (error) {
+            console.error('Error submitting form:', error);
+            // 추가적인 오류 처리 로직을 여기에 추가할 수 있습니다.
+        });
+    }
 </script>
 {% endblock content %}
-
