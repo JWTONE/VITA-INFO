@@ -22,10 +22,12 @@
 
 
 .navbarcontainer {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .searchbar {
@@ -423,16 +425,110 @@ hr {
 }
 
 .comment {
-    margin-left: 20px; /* 댓글 들여쓰기 */
-    background-color: #f0f0f0; /* 배경색 */
-    padding: 10px; /* 내용과의 간격을 위한 패딩 */
+    margin-left: 20px;
+    background-color: #f0f0f0;
+    padding: 10px;
 }
 
 .reply {
-    margin-left: 40px; /* 대댓글 들여쓰기 */
-    background-color: #d3d3d3; /* 배경색 */
-    padding: 10px; /* 내용과의 간격을 위한 패딩 */
+    margin-left: 40px;
+    background-color: #d3d3d3;
+    padding: 10px;
 }
+
+/* 마이페이지 */
+.mypage {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20vh auto;
+}
+.mypage #update-info {
+    margin-top: 30px;
+}
+
+.mypage h2 {
+    margin-bottom: 10px;
+}
+
+.mypage p {
+    margin: 5px 0;
+}
+
+.mypage .button-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.mypage button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage button:hover {
+    background-color: #3376f3;
+}
+
+.mypage .password-change {
+    background-color: rgb(255, 71, 71);
+}
+
+/* 회원정보변경 페이지 */
+.update {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20vh auto;
+}
+
+.update h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.update-form {
+    margin-top: 20px;
+}
+
+.update-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.update-form input[type="text"],
+.update-form input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.update-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-form button:hover {
+    background-color: #0056b3;
+} 
+
 
 @font-face {
     font-family: 'Pretendard Bold';
