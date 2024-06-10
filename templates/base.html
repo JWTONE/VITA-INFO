@@ -112,11 +112,12 @@
         event.preventDefault(); // 기본 이벤트(링크 이동) 방지
 
         // 액세스 토큰과 리프레시 토큰 가져오기
+        const apiUrl = window.config.apiUrl;
         const refreshToken = localStorage.getItem("refresh");
 
         try {
             // POST 요청을 보내어 로그아웃 처리
-            const response = await axios.post("http://127.0.0.1:8000/api/account/logout/", { refresh: refreshToken });
+            const response = await axios.post(`${apiUrl}/api/account/logout/`, { refresh: refreshToken });
 
             // 로그아웃 성공 시 로컬 스토리지에서 토큰 제거
             localStorage.clear()
@@ -124,13 +125,14 @@
             // 로그인 페이지로 리다이렉션
             window.location.href = "/";
         } catch (error) {
-            console.error("로그아웃 요청 실패:", error);
+            localStorage.clear()
+            window.location.href = "/"
         }
     });
     // Axios를 사용하여 랭킹 데이터를 가져오고 드롭다운 메뉴에 추가하는 함수
     async function fetchRankingData() {
         try {
-            const response = await axios.get('/api/post/ranking/');
+            const response = await axios.get(`${apiUrl}/api/post/ranking/`);
             const rankingData = response.data;
 
             const rankingDropdown = document.getElementById('rankingDropdown');

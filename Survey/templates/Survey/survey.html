@@ -72,6 +72,7 @@
 
     .survey_container {
         font-family: 'Pretendard Bold', sans-serif;
+
     }
 
     .title_survey {
@@ -300,6 +301,7 @@
 </div>
 
 <script>
+    const apiUrl = window.config.apiUrl;
     document.addEventListener('DOMContentLoaded', function () {
         function toggleOtherInput(radioName, otherInputId) {
             var otherInput = document.getElementById(otherInputId);
@@ -325,8 +327,10 @@
 </script>
 
 <script>
+    const apiUrl = window.config.apiUrl;
+
     function fetchNewContent() {
-    axios.get("{% url 'survey:loading' %}")
+    axios.get(`${apiUrl}/api/survey/loading/`)
         .then(response => {
             const data = response.data;
             document.getElementById('name').innerText = data.name;
@@ -361,7 +365,7 @@ function submitForm() {
 
     axios({
         method: 'post',
-        url: 'http://127.0.0.1:8000/api/survey/',
+        url: `${apiUrl}/api/survey/`,
         data: formData,
         headers: { 'Content-Type': 'multipart/form-data' }
     }).then(function (response) {

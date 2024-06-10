@@ -36,7 +36,6 @@ axios.interceptors.response.use(
                     localStorage.setItem("refresh", response.data.refresh);
                     axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
                     originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
-                    // Access Token을 새로 발급 받았으므로 다시 시도
                     return axios(originalRequest);
                 })
                 .catch(refreshError => {
