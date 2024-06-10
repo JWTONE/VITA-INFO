@@ -4,13 +4,14 @@
 
 {% block content %}
 <style>
-    .container {
+    .survey_container {
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
         background-color: #f9f9f9;
+        text-align: center;
     }
 
     .button-field {
@@ -68,11 +69,15 @@
     .hidden-field {
         display: none;
     }
+
+    .survey_container {
+        font-family: 'Pretendard Bold', sans-serif;
+    }
 </style>
 
 <h3 style="text-align: center;">설문조사</h3>
 
-<div class="container">
+<div class="survey_container">
     <form method="POST" id="survey_form">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -342,7 +347,7 @@ function appendNutrients(divId, results, prefix) {
 }
 
 function submitForm() {
-    document.querySelector('.container').style.display = "none";
+    document.querySelector('.survey_container').style.display = "none";
     document.getElementById("survey_form").style.display = "none";
     document.getElementById("loading").style.display = "block";
 
