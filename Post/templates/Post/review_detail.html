@@ -2,18 +2,23 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
-<h3>리뷰 게시판</h3>
-<div id='post-detail'>
-</div>
-<button type="button" id="editbtn" onclick="window.location.href='{% url 'web:post_update' post_pk %}'"
-    style="display:none">글 수정</button>
-<button type="button" id="deletebtn" onclick="postdelete()" style="display:none">삭제</button>
-<h3>댓글</h3>
-<div id="comment-form">
-    <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
-    <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
-</div>
-<div id='comments'>
+<div class="container">
+    <div class="post">
+        <div id='post-detail'>
+        </div>
+        <div class="button-container">
+            <button type="button" id="editbtn" class="btn btn-secondary"
+                onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
+            <button type="button" id="deletebtn" class="btn btn-danger" onclick="postdelete()"
+                style="display:none">삭제</button>
+        </div>
+        <div id="comment-form">
+            <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
+            <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
+        </div>
+        <div id='comments'>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -28,15 +33,15 @@
             const post = response.data;
 
             const title = document.createElement('h2');
+            title.className = 'post-title';
             title.textContent = post.title;
             postDetailDiv.appendChild(title);
 
-            const author = document.createElement('p');
-            author.textContent = `작성자: ${post.author}`;
-            postDetailDiv.appendChild(author);
-
+            const hr = document.createElement('hr');
+            postDetailDiv.appendChild(hr);
 
             const content = document.createElement('p');
+            content.className = 'post-content';
             content.innerHTML = post.content;
             postDetailDiv.appendChild(content);
 
@@ -50,24 +55,35 @@
                 document.getElementById("editbtn").style.display = "block"
             }
 
+            const postInfoDiv = document.createElement('div');
+            postInfoDiv.className = 'post-info';
+
+            const likeInfoDiv = document.createElement('div');
+            likeInfoDiv.className = 'like-info';
+            postInfoDiv.appendChild(likeInfoDiv)
+
             const likeCounts = document.createElement('p');
             likeCounts.id = 'postLikeCounts';
             likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
-            postDetailDiv.appendChild(likeCounts);
+            likeInfoDiv.appendChild(likeCounts);
 
             const likeButton = document.createElement('button');
-            console.log(post)
             likeButton.textContent = '좋아요';
             likeButton.onclick = likePost;
-            postDetailDiv.appendChild(likeButton);
+            likeInfoDiv.appendChild(likeButton);
 
-            // 댓글을 로드합니다.
+            const author = document.createElement('p');
+            author.textContent = `작성자: ${post.author}`;
+            author.className = 'author'
+            postInfoDiv.appendChild(author);
+
+            postDetailDiv.appendChild(postInfoDiv);
+
             loadComments(post.comments);
         })
         .catch(error => {
             console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
         });
-
     // 포스트 좋아요 함수
     function likePost() {
         axios.post(`${apiUrl}/api/post/${postID}/`)
@@ -124,24 +140,29 @@
 
     // 새로운 댓글을 DOM에 추가하는 함수
     function addCommentToDOM(comment) {
+        const userNickname = localStorage.getItem('nickname');
         const commentDivItem = document.createElement('div');
         const commentText = document.createElement('p');
 
         commentText.textContent = comment.content;
         commentDivItem.appendChild(commentText);
 
-        // 수정 버튼 추가
-        const editButton = document.createElement('button');
-        editButton.textContent = '수정';
-        editButton.onclick = () => showEditForm(commentDivItem, comment);
-        commentDivItem.appendChild(editButton);
+        if (comment.author === userNickname) {
+            // 수정 버튼 추가
+            const editButton = document.createElement('button');
+            editButton.textContent = '수정';
+            editButton.onclick = () => showEditForm(commentDivItem, comment);
+            commentDivItem.appendChild(editButton);
 
-        // 삭제 버튼 추가
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '삭제';
-        deleteButton.onclick = () => deleteComment(comment.id);
-        commentDivItem.appendChild(deleteButton);
+            // 삭제 버튼 추가
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';
+            deleteButton.onclick = () => deleteComment(comment.id);
+            commentDivItem.appendChild(deleteButton);
 
+        }
+
+        // 대댓글 추가
         const replyLink = document.createElement('a');
         replyLink.href = '#';
         replyLink.textContent = '대댓글 달기';
@@ -151,37 +172,43 @@
         };
         commentDivItem.appendChild(replyLink);
 
+        commentDivItem.style.marginTop = '5px';
         commentDivItem.style.marginLeft = '20px';
         commentDivItem.style.backgroundColor = '#f0f0f0';
-
         commentDiv.appendChild(commentDivItem);
-
+        // 대댓글 추가
         if (comment.replies) {
             comment.replies.forEach(reply => {
+                const userNickname = localStorage.getItem('nickname');
                 const replyDivItem = document.createElement('div');
                 const replyText = document.createElement('p');
 
                 replyText.textContent = reply.content;
                 replyDivItem.appendChild(replyText);
+                console.log(comment)
+                if (reply.author === userNickname) {
+                    // 대댓글 수정 버튼 추가
+                    const editReplyButton = document.createElement('button');
+                    editReplyButton.textContent = '대댓글 수정';
+                    editReplyButton.onclick = () => showReplyEditForm(replyDivItem, reply);
+                    replyDivItem.appendChild(editReplyButton);
 
-                // 대댓글 수정 버튼 추가
-                const editReplyButton = document.createElement('button');
-                editReplyButton.textContent = '대댓글 수정';
-                editReplyButton.onclick = () => showReplyEditForm(replyDivItem, reply);
-                replyDivItem.appendChild(editReplyButton);
+                    // 대댓글 삭제 버튼 추가
+                    const deleteReplyButton = document.createElement('button');
+                    deleteReplyButton.textContent = '대댓글 삭제';
+                    deleteReplyButton.onclick = () => deleteReply(reply.id);
+                    replyDivItem.appendChild(deleteReplyButton);
 
-                // 대댓글 삭제 버튼 추가
-                const deleteReplyButton = document.createElement('button');
-                deleteReplyButton.textContent = '대댓글 삭제';
-                deleteReplyButton.onclick = () => deleteReply(reply.id);
-                replyDivItem.appendChild(deleteReplyButton);
-
+                }
+                
                 replyDivItem.style.marginLeft = '40px';
+                replyDivItem.style.marginTop = '5px';
                 replyDivItem.style.backgroundColor = '#d3d3d3';
                 commentDiv.appendChild(replyDivItem);
             });
         }
     }
+
 
     // 댓글 수정 폼을 보여주는 함수
     function showEditForm(parentDiv, comment) {
