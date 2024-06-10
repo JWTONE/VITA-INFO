@@ -73,10 +73,15 @@
     .survey_container {
         font-family: 'Pretendard Bold', sans-serif;
     }
+
+    .title_survey {
+        margin-top: 50px;
+        padding-bottom: 50px;
+    }
 </style>
-
+<div class="title_survey">
 <h3 style="text-align: center;">설문조사</h3>
-
+</div>
 <div class="survey_container">
     <form method="POST" id="survey_form">
         {% csrf_token %}
