@@ -241,29 +241,51 @@
     <div style="text-align: center;">
         <img src="{% static 'media/SurveyLoading.gif' %}" alt="Survey Loading">
     </div>
-
+        <br>
+        <br>
+        <br>
     <h4 style="text-align: center;">알고계신가요?</h4>
-
+        <br>
+        <br>
     <div id="vitamin-info">
-        <h5 id="name" style="text-align: center;"></h5>
-        <p id="nickname" style="text-align: center;"></p>
+        <p id="nickname" style="text-align: center; color: rgb(0, 67, 212); font-size: xx-large;"></p>
+        <br>
+        <br>
+        <h5 id="name" style="text-align: center; font-size: x-large;"></h5>
         <p id="description" style="text-align: center;"></p>
     </div>
 </div>
-<div id="results" style="display: none;">
+<div id="results" style="display: none; text-align: center;">
+    <br>
+    <br>
+    <br>
     <h2>추천 영양소</h2>
+    <br>
+    <br>
     <div id="recommended_nutrients"></div>
-
-    <h2>같이 먹으면 좋은 영양소</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: green;">좋은</span> 영양소</h2>
+    <br>
+    <br>
     <div id="synergistic_nutrients"></div>
-
-    <h2>같이 먹으면 안되는 영양소</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: red;">안되는</span> 영양소</h2>
+    <br>
+    <br>
     <div id="antagonistic_nutrients"></div>
-
+    <br>
+    <br>
     <h2>대체 음식</h2>
+    <br>
+    <br>
     <div id="alternative_foods"></div>
-
-    <h2>같이 먹으면 안되는 음식</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: red;">안되는</span> 음식</h2>
+    <br>
+    <br>
     <div id="incompatible_foods"></div>
 </div>
 
@@ -320,6 +342,7 @@ function appendNutrients(divId, results, prefix) {
 }
 
 function submitForm() {
+    document.querySelector('.container').style.display = "none";
     document.getElementById("survey_form").style.display = "none";
     document.getElementById("loading").style.display = "block";
 
