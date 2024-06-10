@@ -69,23 +69,6 @@
         display: none;
     }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const otherFieldCheckbox = document.querySelector('input[name="specific_health_issues_to_improve"]');
-        const otherFieldText = document.querySelector('#id_specific_health_issues_to_improve');
-
-        if (otherFieldCheckbox) {
-            otherFieldCheckbox.addEventListener('change', function () {
-                if (otherFieldCheckbox.checked) {
-                    otherFieldText.parentElement.style.display = 'block';
-                } else {
-                    otherFieldText.parentElement.style.display = 'none';
-                }
-            });
-        }
-    });
-</script>
 
 <h3 style="text-align: center;">설문조사</h3>
 
@@ -122,40 +105,43 @@
         <div class="field">
             {{ form.gender.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.gender %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.gender.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.gender.field.choices %}
+                <input type="radio" id="id_gender_{{ forloop.counter0 }}" name="{{ form.gender.html_name }}"
+                    value="{{ value }}">
+                <label for="id_gender_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.exercise_frequency_per_week.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.exercise_frequency_per_week %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.exercise_frequency_per_week.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.exercise_frequency_per_week.field.choices %}
+                <input type="radio" id="id_exercise_frequency_per_week_{{ forloop.counter0 }}"
+                    name="{{ form.exercise_frequency_per_week.html_name }}" value="{{ value }}">
+                <label for="id_exercise_frequency_per_week_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.average_sleep_hours_per_day.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.average_sleep_hours_per_day %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.average_sleep_hours_per_day.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.average_sleep_hours_per_day.field.choices %}
+                <input type="radio" id="id_average_sleep_hours_per_day_{{ forloop.counter0 }}"
+                    name="{{ form.average_sleep_hours_per_day.html_name }}" value="{{ value }}">
+                <label for="id_average_sleep_hours_per_day_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.smoking_status.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.smoking_status %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.smoking_status.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.smoking_status.field.choices %}
+                <input type="radio" id="id_smoking_status_{{ forloop.counter0 }}"
+                    name="{{ form.smoking_status.html_name }}" value="{{ value }}">
+                <label for="id_smoking_status_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
@@ -163,61 +149,78 @@
         <div class="field">
             {{ form.alcohol_consumption.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.alcohol_consumption %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.alcohol_consumption.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.alcohol_consumption.field.choices %}
+                <input type="radio" id="id_alcohol_consumption_{{ forloop.counter0 }}"
+                    name="{{ form.alcohol_consumption.html_name }}" value="{{ value }}">
+                <label for="id_alcohol_consumption_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.average_meals_per_day.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.average_meals_per_day %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.average_meals_per_day.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.average_meals_per_day.field.choices %}
+                <input type="radio" id="id_average_meals_per_day_{{ forloop.counter0 }}"
+                    name="{{ form.average_meals_per_day.html_name }}" value="{{ value }}">
+                <label for="id_average_meals_per_day_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.main_foods.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.main_foods %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.main_foods.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.main_foods.field.choices %}
+                <input type="radio" id="id_main_foods_{{ forloop.counter0 }}" name="{{ form.main_foods.html_name }}"
+                    value="{{ value }}">
+                <label for="id_main_foods_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
         </div>
+
         <div class="field">
             {{ form.snacks.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.snacks %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.snacks.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.snacks.field.choices %}
+                <input type="radio" id="id_snacks_{{ forloop.counter0 }}" name="{{ form.snacks.html_name }}"
+                    value="{{ value }}">
+                <label for="id_snacks_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
+            <div>
+                <input type="text" class="hidden-field" style="display: none;" id="snacks_other"
+                    name="{{ form.snacks_other.html_name }}">
+            </div>
         </div>
+
         <div class="field">
             {{ form.health_goals.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.health_goals %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.health_goals.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.health_goals.field.choices %}
+                <input type="radio" id="id_health_goals_{{ forloop.counter0 }}" name="{{ form.health_goals.html_name }}"
+                    value="{{ value }}">
+                <label for="id_health_goals_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
             </div>
+            <div>
+                <input type="text" class="hidden-field" style="display: none;" id="health_goals_other"
+                    name="{{ form.health_goals_other.html_name }}">
+            </div>
         </div>
+
         <div class="field">
             {{ form.interested_supplements.label_tag }}
             <div class="choice-buttons">
-                {% for radio in form.interested_supplements %}
-                <input type="radio" id="{{ radio.id_for_label }}" name="{{ form.interested_supplements.name }}"
-                    value="{{ radio.choice_value }}">
-                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                {% for value, label in form.interested_supplements.field.choices %}
+                <input type="radio" id="id_interested_supplements_{{ forloop.counter0 }}"
+                    name="{{ form.interested_supplements.html_name }}" value="{{ value }}">
+                <label for="id_interested_supplements_{{ forloop.counter0 }}">{{ label }}</label>
                 {% endfor %}
+            </div>
+            <div>
+                <input type="text" class="hidden-field" style="display: none;" id="interested_supplements_other"
+                    name="{{ form.interested_supplements_other.html_name }}">
             </div>
         </div>
 
@@ -228,12 +231,9 @@
                     {{ form.specific_health_issues_to_improve }}
                 </label>
             </div>
-            <div class="hidden-field" style="display: none;">
-                {{ form.specific_health_issues_to_improve }}
-            </div>
         </div>
 
-        <button type="submit" class="button-field">다음페이지</button>
+        <button type="button" class="button-field" onclick="submitForm()">다음페이지</button>
     </form>
 </div>
 
@@ -241,100 +241,137 @@
     <div style="text-align: center;">
         <img src="{% static 'media/SurveyLoading.gif' %}" alt="Survey Loading">
     </div>
-
+        <br>
+        <br>
+        <br>
     <h4 style="text-align: center;">알고계신가요?</h4>
-
+        <br>
+        <br>
     <div id="vitamin-info">
-        <h5 id="name" style="text-align: center;"></h5>
-        <p id="nickname" style="text-align: center;"></p>
+        <p id="nickname" style="text-align: center; color: rgb(0, 67, 212); font-size: xx-large;"></p>
+        <br>
+        <br>
+        <h5 id="name" style="text-align: center; font-size: x-large;"></h5>
         <p id="description" style="text-align: center;"></p>
     </div>
 </div>
-<div id="results" style="display: none;">
+<div id="results" style="display: none; text-align: center;">
+    <br>
+    <br>
+    <br>
     <h2>추천 영양소</h2>
+    <br>
+    <br>
     <div id="recommended_nutrients"></div>
-
-    <h2>같이 먹으면 좋은 영양소</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: green;">좋은</span> 영양소</h2>
+    <br>
+    <br>
     <div id="synergistic_nutrients"></div>
-
-    <h2>같이 먹으면 안되는 영양소</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: red;">안되는</span> 영양소</h2>
+    <br>
+    <br>
     <div id="antagonistic_nutrients"></div>
-
+    <br>
+    <br>
     <h2>대체 음식</h2>
+    <br>
+    <br>
     <div id="alternative_foods"></div>
-
-    <h2>같이 먹으면 안되는 음식</h2>
+    <br>
+    <br>
+    <h2>같이 먹으면 <span style="color: red;">안되는</span> 음식</h2>
+    <br>
+    <br>
     <div id="incompatible_foods"></div>
 </div>
 
 <script>
-    function addDataToHTML(containerId, data) {
-        var container = document.getElementById(containerId);
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                var paragraph = document.createElement("p");
-                paragraph.textContent = key + ": " + data[key];
-                container.appendChild(paragraph);
-            }
-        }
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        function toggleOtherInput(radioName, otherInputId) {
+            var otherInput = document.getElementById(otherInputId);
+            var radioButtons = document.querySelectorAll('input[name="' + radioName + '"]');
 
-    function fetchNewContent() {
-        axios.get("{% url 'survey:loading' %}")
-            .then(response => {
-                const data = response.data;
-                document.getElementById('name').innerText = data.name;
-                document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
-                document.getElementById('description').innerText = data.description;
-            })
-            .catch(error => console.error('Error fetching new content:', error));
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // survey_form 제출 이벤트 리스너 추가
-        document.getElementById("survey_form").addEventListener("submit", function (event) {
-            event.preventDefault(); // 기본 제출 행동 방지
-
-            // survey_form div 숨기기
-            document.getElementById("survey_form").style.display = "none";
-            document.getElementById("loading").style.display = "block";
-
-            // FormData를 사용하여 폼 데이터 가져오기
-            var formData = new FormData(event.target);
-
-            // axios를 사용하여 POST 요청 보내기
-            axios({
-                method: 'post',
-                url: '/api/survey/',
-                data: formData,
-                headers: { 'Content-Type': 'multipart/form-data' }
-            }).then(function (response) {
-                const results = response.data.result;
-
-                // 추천 영양소 추가
-                const recommendDiv = document.getElementById('recommended_nutrients');
-                for (let i = 1; i <= 3; i++) {
-                    const recommend = document.createElement('p');
-                    recommend.textContent = results[`recommended_nutrients_${i}`];
-                    recommendDiv.appendChild(recommend);
-                }
-
-                // Include other result sections similarly
-
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("results").style.display = "block";
-            }).catch(error => {
-                console.error(error);
-                alert('데이터를 가져오는데 실패했습니다.');
+            radioButtons.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    if (radio.value === 'OTHER') {
+                        otherInput.style.display = 'block';
+                    } else {
+                        otherInput.style.display = 'none';
+                        otherInput.value = ''; // Reset the value if 'other' is not selected
+                    }
+                });
             });
-        });
+        }
 
-        // 설문조사 결과 정보를 가져오는 함수 실행
-        fetchNewContent();
-
-        // 5초마다 새로운 내용 가져오기
-        setInterval(fetchNewContent, 5000);
+        // 각 필드에 대해 함수 호출
+        toggleOtherInput('{{ form.snacks.html_name }}', 'snacks_other');
+        toggleOtherInput('{{ form.health_goals.html_name }}', 'health_goals_other');
+        toggleOtherInput('{{ form.interested_supplements.html_name }}', 'interested_supplements_other');
     });
+</script>
+
+<script>
+    function fetchNewContent() {
+    axios.get("{% url 'survey:loading' %}")
+        .then(response => {
+            const data = response.data;
+            document.getElementById('name').innerText = data.name;
+            document.getElementById('nickname').innerHTML = "<strong>" + data.nickname + "</strong>";
+            document.getElementById('description').innerText = data.description;
+        })
+        .catch(error => console.error('Error fetching new content:', error));
+}
+
+// 설문조사 결과 정보를 가져오는 함수 실행
+fetchNewContent();
+
+// 5초마다 새로운 내용 가져오기
+setInterval(fetchNewContent, 5000);
+
+function appendNutrients(divId, results, prefix) {
+    const div = document.getElementById(divId);
+    for (let i = 1; i <= 3; i++) {
+        const element = document.createElement('p');
+        element.textContent = results[`${prefix}_${i}`];
+        div.appendChild(element);
+    }
+}
+
+function submitForm() {
+    document.querySelector('.container').style.display = "none";
+    document.getElementById("survey_form").style.display = "none";
+    document.getElementById("loading").style.display = "block";
+
+    var form = document.getElementById('survey_form');
+    var formData = new FormData(form);
+
+    axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/api/survey/',
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }).then(function (response) {
+        const results = response.data.result;
+
+        appendNutrients('recommended_nutrients', results, 'recommended_nutrients');
+        appendNutrients('synergistic_nutrients', results, 'synergistic_nutrients');
+        appendNutrients('antagonistic_nutrients', results, 'antagonistic_nutrients');
+        appendNutrients('alternative_foods', results, 'alternative_foods');
+        appendNutrients('incompatible_foods', results, 'incompatible_foods');
+
+        // 기타 결과 섹션도 유사하게 포함
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("results").style.display = "block";
+    }).catch(function (error) {
+        console.error('Error submitting form:', error);
+        // 추가적인 오류 처리 로직을 여기에 추가할 수 있습니다.
+    });
+}
 </script>
 {% endblock content %}
 
