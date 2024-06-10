@@ -17,7 +17,6 @@ from . import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -53,7 +52,7 @@ INSTALLED_APPS = [
     "Account",
     "Post",
     "Survey",
-    
+
 ]
 
 MIDDLEWARE = [
@@ -136,11 +135,11 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-#Cache
-CACHES = {  
+# Cache
+CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1", # 1번 DB
+        "LOCATION": "redis://127.0.0.1:6379/1",  # 1번 DB
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -159,7 +158,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -168,7 +166,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-#Medial files
+# Medial files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media/'
 
@@ -180,16 +178,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # crispy setting
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# CKEditor setting 
+# CKEditor setting
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
-CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' 
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 CKEDITOR_CONFIGS = {
     'default':
         {
             'toolbar': 'full',
             'width': '100%',
-            'height' : 300,
+            'height': 500,
             'extraPlugins': ','.join([
                 'codesnippet',
                 'image2'

@@ -228,7 +228,6 @@ a:hover {
 }
 
 /* 회원가입 페이지 */
-/* 스타일 시트 */
 .signup-form {
     max-width: 400px;
     margin: 10vh auto 0;
@@ -260,8 +259,6 @@ a:hover {
     background-color: #0056b3;
 }
 
-/* crispy-forms 라이브러리에서 생성된 요소에 적용될 수 있는 추가 스타일 */
-/* 필요에 따라 조정할 수 있습니다. */
 .form-control {
     margin-bottom: 10px;
     border-radius: 5px;
@@ -271,4 +268,36 @@ a:hover {
 
 label {
     font-weight: bold;
+}
+
+/* 글 작성 페이지 */
+.post-create {
+    margin-top: 4vh;
+    width: 100%;
+    text-align: left;
+    display: flex; /* 부모 요소를 flex로 설정하여 내부 요소를 수평으로 배치 */
+    flex-direction: column;
+    justify-content: space-between; /* 내부 요소 사이의 공간을 균등하게 배분 */
+}
+
+.post-create #postForm {
+    width: 1000;
+}
+
+.post-create .form-group {
+    margin-bottom: 15px;
+}
+
+.django-ckeditor-widget {
+    width: 100%;
+}
+
+/* 글 수정 페이지 */
+.post-edit {
+    margin-top: 4vh;
+    width: 100%;
+    text-align: left;
+    display: flex; /* 부모 요소를 flex로 설정하여 내부 요소를 수평으로 배치 */
+    flex-direction: column;
+    justify-content: space-between; /* 내부 요소 사이의 공간을 균등하게 배분 */
 }

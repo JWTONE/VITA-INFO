@@ -33,7 +33,6 @@ class PostSerializer(serializers.ModelSerializer):
             "id",   
             "title",
             "content",
-            "image",
             "author",
             "category",
             "like_counts",
@@ -61,7 +60,6 @@ class PostDetailSerializer(serializers.ModelSerializer):
         fields = [
             "title",
             "content",
-            "image",
             "author",
             "category",
             "like_counts",
