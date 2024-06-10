@@ -29,20 +29,19 @@ axios.interceptors.response.use(
             console.log('엑세스 만료')
 
             if (refreshToken) {
-                console.log('재발급 요청');
-                return axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
-                    .then(response => {
-                        console.log('재발급 성공');
-                        localStorage.setItem("access", response.data.access);
-                        localStorage.setItem("refresh", response.data.refresh);
-                        axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
-                        originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
-                        // Access Token을 새로 발급 받았으므로 다시 시도
-                        return axios(originalRequest);
-                    })
-                    .catch(refreshError => {
-                        console.log('재발급 실패');
-                        // Refresh Token이 만료되었으므로 로그인 페이지로 이동
+                axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
+                .then(response => {
+                    console.log('재발급 성공');
+                    localStorage.setItem("access", response.data.access);
+                    localStorage.setItem("refresh", response.data.refresh);
+                    axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
+                    originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
+                    // Access Token을 새로 발급 받았으므로 다시 시도
+                    return axios(originalRequest);
+                })
+                .catch(refreshError => {
+                    console.log('재발급 실패');
+                    // Refresh Token이 만료되었으므로 로그인 페이지로 이동
                         console.log(1)
                         window.localStorage.clear();
                         console.log(2)
