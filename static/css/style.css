@@ -121,6 +121,7 @@ form {
 }
 
 input[type="text"] {
+    border-color: #e7e7e7;
     padding: 10px;
     font-size: 16px;
     border-radius: 4px;

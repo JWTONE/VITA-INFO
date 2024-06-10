@@ -41,7 +41,7 @@ class PostListAPIView(generics.ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 class PostDetailAPIView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, post_pk):
         return get_object_or_404(Post, id=post_pk)
