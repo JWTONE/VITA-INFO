@@ -11,7 +11,7 @@
         border: 1px solid #ccc;
         border-radius: 10px;
         background-color: #f9f9f9;
-        text-align: center;
+        margin-bottom: 150px;
     }
 
     .button-field {
@@ -43,6 +43,7 @@
     .choice-buttons {
         display: flex;
         flex-wrap: wrap;
+        flex-direction: row;
         gap: 10px;
     }
 
@@ -78,8 +79,12 @@
         margin-top: 50px;
         padding-bottom: 50px;
     }
+
+    .results {
+        padding-bottom: 150px;
+    }
 </style>
-<div class="title_survey">
+<div id="title_survey" class="title_survey">
 <h3 style="text-align: center;">설문조사</h3>
 </div>
 <div class="survey_container">
@@ -265,7 +270,7 @@
         <p id="description" style="text-align: center;"></p>
     </div>
 </div>
-<div id="results" style="display: none; text-align: center;">
+<div id="results" style="display: none; text-align: center; padding-bottom: 150px">
     <br>
     <br>
     <br>
@@ -353,6 +358,7 @@ function appendNutrients(divId, results, prefix) {
 
 function submitForm() {
     document.querySelector('.survey_container').style.display = "none";
+    document.querySelector('.title_survey').style.display = "none";
     document.getElementById("survey_form").style.display = "none";
     document.getElementById("loading").style.display = "block";
 
