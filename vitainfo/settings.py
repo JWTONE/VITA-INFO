@@ -27,8 +27,13 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 # 개발일 떈 True 배포할 때 False로 바꿀 것!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        "*",
+        ]
 
+CSRF_TRUSTED_ORIGINS = ['https://vitainfo.kr']
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -47,6 +52,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "ckeditor",
     "ckeditor_uploader",
+    'corsheaders',
     # apps
     "Web",
     "Account",
@@ -56,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -129,8 +136,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=6),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
@@ -162,9 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Medial files
 MEDIA_URL = '/media/'
