@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}     
+{% block content %}
 {% load crispy_forms_tags %}
-<h3>정보 게시판</h3>
-<div id='post-detail'>
+<div class="container">
+    <div class="post">
+        <div id='post-detail'>
+        </div>
+        <div class="button-container">
+            <button type="button" id="editbtn" class="btn btn-secondary"
+                onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
+            <button type="button" id="deletebtn" class="btn btn-danger" onclick="postdelete()"
+                style="display:none">삭제</button>
+        </div>
+    </div>
 </div>
-<button type="button" id="editbtn" onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
-<button type="button" id="deletebtn" onclick="postdelete()" style="display:none">삭제</button>
-
 <script>
     const apiUrl = window.config.apiUrl;
     const postID = {{ post_pk }};
@@ -16,31 +22,30 @@
     const url = `${apiUrl}/api/post/${postID}`;
 
     axios.get(url)
-    .then(response => {
-        const post = response.data;
+        .then(response => {
+            const post = response.data;
 
-        const title = document.createElement('h2');
-        title.textContent = post.title;
-        postDetailDiv.appendChild(title);
+            const title = document.createElement('h2');
+            title.textContent = post.title;
+            postDetailDiv.appendChild(title);
 
-        const author = document.createElement('p');
-        author.textContent = `작성자: ${post.author}`;
-        postDetailDiv.appendChild(author);
+            const hr = document.createElement('hr');
+            postDetailDiv.appendChild(hr);
 
-        const content = document.createElement('p');
-        content.innerHTML = post.content;
-        postDetailDiv.appendChild(content);
+            const content = document.createElement('p');
+            content.innerHTML = post.content;
+            postDetailDiv.appendChild(content);
 
-        const isStaff = localStorage.getItem('is_staff')
-        if (isStaff =='true'){
-            document.getElementById("deletebtn").style.display = "block";
-            document.getElementById("editbtn").style.display = "block"
-        }
+            const isStaff = localStorage.getItem('is_staff')
+            if (isStaff == 'true') {
+                document.getElementById("deletebtn").style.display = "block";
+                document.getElementById("editbtn").style.display = "block"
+            }
 
-    })
-    .catch(error => {
-        console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
-    });
+        })
+        .catch(error => {
+            console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
+        });
 
     //포스트 삭제 함수
     function postdelete() {
@@ -51,5 +56,5 @@
 
 
 </script>
-<br><br><br><br><br><br><br><br><br><br><br><br>    
+<br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}
