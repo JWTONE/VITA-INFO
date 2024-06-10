@@ -7,10 +7,10 @@
     justify-content: space-between;
     background-color: rgb(192, 190, 255);
     text-align: center;
-    padding : 100px;
-    margin-top : 0%;
-    margin-left : 0%;
-    margin-right : 0%;
+    padding: 100px;
+    margin-top: 0%;
+    margin-left: 0%;
+    margin-right: 0%;
 }
 
 .noto-sans-kr-default {
@@ -36,8 +36,10 @@
 
 .relative {
     display: inline-block;
-    max-width: 600px; /* 원하는 최대 너비를 설정하세요 */
-    width: 100%; /* 부모 컨테이너에 맞추기 위해 */
+    max-width: 600px;
+    /* 원하는 최대 너비를 설정하세요 */
+    width: 100%;
+    /* 부모 컨테이너에 맞추기 위해 */
 }
 
 #search {
@@ -48,7 +50,8 @@
 }
 
 .search-input {
-    padding-right: 40px; /* 버튼 공간 확보 */
+    padding-right: 40px;
+    /* 버튼 공간 확보 */
 }
 
 .search-button {
@@ -57,7 +60,7 @@
     justify-content: center;
     height: 100%;
     padding: 0 10px;
-    
+
 }
 
 .search-icon {
@@ -69,9 +72,11 @@
 
 /* 메인 컨테이너 스타일 */
 .container {
-    text-align: center;/* 주 배경색상 */
+    text-align: center;
+    /* 주 배경색상 */
     padding: 40px;
-    color: #000000; /* 텍스트 색상: 흰색 */
+    color: #000000;
+    /* 텍스트 색상: 흰색 */
 }
 
 /* 제목 스타일 */
@@ -90,9 +95,12 @@
 
 /* 버튼 스타일 */
 button {
-    background-color: #FFFFFF; /* 버튼 배경색: 흰색 */
-    color: #2196F3; /* 버튼 텍스트 색상: 주 색상과 일치 */
-    border: 2px solid #FFFFFF; /* 버튼 테두리 색상: 흰색 */
+    background-color: #FFFFFF;
+    /* 버튼 배경색: 흰색 */
+    color: #2196F3;
+    /* 버튼 텍스트 색상: 주 색상과 일치 */
+    border: 2px solid #FFFFFF;
+    /* 버튼 테두리 색상: 흰색 */
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -101,8 +109,10 @@ button {
 
 /* 버튼 호버 스타일 */
 button:hover {
-    background-color: #1976D2; /* 버튼 호버 시 배경색: 어두운 파란색 */
-    color: #FFFFFF; /* 버튼 호버 시 텍스트 색상: 흰색 */
+    background-color: #1976D2;
+    /* 버튼 호버 시 배경색: 어두운 파란색 */
+    color: #FFFFFF;
+    /* 버튼 호버 시 텍스트 색상: 흰색 */
 }
 
 /* 검색 폼 스타일 */
@@ -113,15 +123,16 @@ form {
 input[type="text"] {
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #2196F3;
     border-radius: 4px;
     margin-bottom: 10px;
-    width: 80%;
+    width: 100%;
 }
 
 input[type="text"]::placeholder {
-    color: #2196F3; /* 플레이스홀더 텍스트 색상 */
+    color: #2196F3;
+    /* 플레이스홀더 텍스트 색상 */
 }
+
 
 button[type="submit"] {
     background-color: #2196F3;
@@ -140,14 +151,17 @@ button[type="submit"]:hover {
 /* 추가 스타일 */
 body {
     font-family: Arial, sans-serif;
-    background-color: #E3F2FD; /* 전체 배경색: 밝은 파란색 */
-    color: #333333; /* 기본 텍스트 색상 */
+    background-color: #E3F2FD;
+    /* 전체 배경색: 밝은 파란색 */
+    color: #333333;
+    /* 기본 텍스트 색상 */
     margin: 0;
     padding: 0;
 }
 
 a {
-    color: #2196F3; /* 링크 색상 */
+    color: #2196F3;
+    /* 링크 색상 */
     text-decoration: none;
 }
 
@@ -158,4 +172,102 @@ a:hover {
 .posts-list {
     list-style: none;
     text-align: left;
+}
+
+/* 로그인 페이지 */
+.loginDiv {
+    margin: 0;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    background-color: #fff;
+    /* 로그인 박스 배경 색상 */
+    padding: 2em;
+    /* 로그인 박스 안쪽 여백 */
+    border-radius: 10px;
+    /* 모서리 둥글게 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 그림자 효과 */
+    width: 100%;
+    max-width: 400px;
+    /* 최대 너비 설정 */
+}
+
+.login h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.login .formGroup label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login .inputField {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login .loginButton {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 회원가입 페이지 */
+/* 스타일 시트 */
+.signup-form {
+    max-width: 400px;
+    margin: 10vh auto 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* crispy-forms 라이브러리에서 생성된 요소에 적용될 수 있는 추가 스타일 */
+/* 필요에 따라 조정할 수 있습니다. */
+.form-control {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: bold;
 }
