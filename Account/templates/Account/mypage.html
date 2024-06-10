@@ -1,31 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>My page</h1>
 
-<section id="user-info">
-    <h2>개인정보</h2>
-    <p>이름: <span id="user-name"></span></p>
-    <p>이메일: <span id="user-email"></span></p>
-    <p>닉네임: <span id="user-nickname"></span></p>
-</section>
+<div class="mypage">
+    <section id="user-info">
+        <h2>개인정보</h2>
+        <p>이름: <span id="user-name"></span></p>
+        <p>이메일: <span id="user-email"></span></p>
+        <p>닉네임: <span id="user-nickname"></span></p>
+    </section>
 
-<section id="update-info">
-    <h2>개인정보 변경</h2>
-    <a href="{% url 'web:update' username %}"><button type="button">회원정보 변경</button></a>
-    <a href="{% url 'web:password_update' username %}"><button type="button">비밀번호 변경</button></a>
-</section>
-
-<section id="survey-history">
-    <h2>설문 내역</h2>
-    <ul id="survey-list"></ul>
-</section>
-
-<section id="liked-posts">
-    <h2>좋아요 한 글</h2>
-    <ul id="liked-posts-list"></ul>
-</section>
-
+    <section id="update-info">
+        <a href="{% url 'web:update' username %}"><button type="button">회원정보 변경</button></a>
+        <a href="{% url 'web:password_update' username %}"><button type="button" class="password-change">비밀번호 변경</button></a>
+    </section>
+</div>
 
 
 <script>
