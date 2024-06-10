@@ -433,3 +433,14 @@ hr {
     background-color: #d3d3d3; /* 배경색 */
     padding: 10px; /* 내용과의 간격을 위한 패딩 */
 }
+
+@font-face {
+    font-family: 'Pretendard Bold';
+    src: url('/static/css/Pretendard-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Pretendard Bold', sans-serif;
+}
