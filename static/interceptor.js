@@ -37,13 +37,15 @@ axios.interceptors.response.use(
                         localStorage.setItem("refresh", response.data.refresh);
                         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
                         originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
-                        // Access Token을 새로 발급 받았으므로 페이지를 자동으로 새로 고침
-                        window.location.reload(); // 페이지 새로고침
+                        // Access Token을 새로 발급 받았으므로 다시 시도
                         return axios(originalRequest);
                     })
                     .catch(refreshError => {
                         console.log('재발급 실패');
+                        // Refresh Token이 만료되었으므로 로그인 페이지로 이동
+                        console.log(1)
                         window.localStorage.clear();
+                        console.log(2)
                         window.location.href = "/login/";
                         // refreshError를 처리하고 에러를 전달
                         throw refreshError;
@@ -58,6 +60,7 @@ axios.interceptors.response.use(
             }
         }
 
+        // 요청이 실패한 경우 에러를 전달
         return Promise.reject(error);
     }
 );
