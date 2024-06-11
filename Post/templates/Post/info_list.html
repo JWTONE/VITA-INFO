@@ -10,13 +10,13 @@
             style="display: none; padding-right: 20px;">글 작성
         </button>
     </div>
-    <table class="table">
+    <table class="table" style="margin-top:38px;">
         <thead>
             <tr>
                 <th scope="col" style="width: 40%;">제목</th>
                 <th scope="col" style="width: 20%;">작성자</th>
                 <th scope="col" style="width: 20%;">작성일</th>
-                <th scope="col" style="width: 20%;">좋아요수</th>
+                <th scope="col" style="width: 20%;"></th>
             </tr>
         </thead>
         <tbody id="post-list">
@@ -77,7 +77,7 @@
                     row.appendChild(dateCell);
 
                     const likesCell = document.createElement('td');
-                    likesCell.textContent = post.like_counts;
+                    likesCell.textContent = "";
                     row.appendChild(likesCell);
 
                     postList.appendChild(row);
