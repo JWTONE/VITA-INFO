@@ -49,11 +49,19 @@
 
     //포스트 삭제 함수
     function postdelete() {
-        const url = `${apiUrl}/api/post/${postID}`;
-        axios.delete(url)
-        window.location.href = '/post/info/'
-    }
+        const url = `${apiUrl}/api/post/${postID}/`;
 
+        axios.delete(url)
+            .then(response => {
+                // 포스트가 성공적으로 삭제되었을 때 페이지를 새로고침
+                window.location.href = '/post/info/';
+            })
+            .catch(error => {
+                console.error('포스트 삭제 중 오류가 발생했습니다:', error);
+                // 에러가 발생해도 페이지를 새로고침
+                window.location.href = '/post/info/';
+            });
+    }
 
 </script>
 <br><br><br><br><br><br><br><br><br><br><br><br>
