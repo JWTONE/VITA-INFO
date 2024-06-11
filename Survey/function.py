@@ -1,6 +1,7 @@
 import openai
 from django.conf import settings
 
+
 def survey(query):
     openai.api_key = settings.OPENAI_API_KEY
 

@@ -12,7 +12,8 @@
 
     <section id="update-info">
         <a href="{% url 'web:update' username %}"><button type="button">회원정보 변경</button></a>
-        <a href="{% url 'web:password_update' username %}"><button type="button" class="password-change">비밀번호 변경</button></a>
+        <a href="{% url 'web:password_update' username %}"><button type="button" class="password-change">비밀번호
+                변경</button></a>
     </section>
 </div>
 
@@ -26,7 +27,6 @@
         axios.get(`${apiUrl}/api/account/${username}`)
             .then(response => {
                 const data = response.data;
-                console.log(data);
                 document.getElementById('user-name').textContent = data.name;
                 document.getElementById('user-email').textContent = data.email;
                 document.getElementById('user-nickname').textContent = data.nickname;
@@ -60,8 +60,6 @@
             data: JSON.stringify(data)
         })
             .then(response => {
-                // 성공 시 처리
-                console.log('회원정보가 성공적으로 변경되었습니다.', response.data);
             })
             .catch(error => {
                 // 오류 시 처리

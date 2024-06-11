@@ -28,8 +28,8 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = [
-        "*",
-        ]
+    "*",
+]
 
 CSRF_TRUSTED_ORIGINS = ['https://vitainfo.kr']
 
@@ -169,9 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Medial files
 MEDIA_URL = '/media/'
