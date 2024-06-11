@@ -14,6 +14,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['is_staff']
 
+
 class UserCreateSerializer(UserUpdateSerializer):
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
@@ -68,13 +69,14 @@ class UserPasswordSerializer(UserCreateSerializer):
         instance.password = make_password(validated_data["password"])
         instance.save()
         return instance
-    
+
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        
+
         # 사용자 정보를 추가
         data['is_staff'] = self.user.is_staff
         data['nickname'] = self.user.nickname
-        
-        return data 
+
+        return data

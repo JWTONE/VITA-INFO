@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import UserListAPIView, LogoutView, PasswordUpdateAPIView, CustomTokenObtainPairView
-from rest_framework_simplejwt.views import  TokenRefreshView
-from . import views
+from rest_framework_simplejwt.views import TokenRefreshView
 
 app_name = "account"
 urlpatterns = [

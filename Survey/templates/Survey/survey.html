@@ -333,7 +333,7 @@
 <script>
     function fetchNewContent() {
         const apiUrl = window.config.apiUrl;
-        
+
         axios.get(`${apiUrl}/api/survey/loading/`)
             .then(response => {
                 const data = response.data;

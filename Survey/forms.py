@@ -1,31 +1,32 @@
 from django import forms
 from .models import SurveyInfo
 
+
 class SurveyForm(forms.ModelForm):
     name = forms.CharField(
         label="이름",
     )
-    
+
     age = forms.CharField(
         label="나이",
     )
-    
+
     height = forms.CharField(
         label="키",
     )
-    
+
     weight = forms.CharField(
         label="몸무게",
     )
-    
+
     current_medications_or_supplements = forms.CharField(
         label="현재 복용중인 영양제나 약"
     )
-    
+
     allergies = forms.CharField(
         label="알레르기"
     )
-    
+
     gender = forms.ChoiceField(
         label="성별",
         choices=SurveyInfo.GENDER_CHOICES,
@@ -80,7 +81,7 @@ class SurveyForm(forms.ModelForm):
         label="그밖에 특정 건강문제",
         required=False
     )
-        
+
     class Meta:
         model = SurveyInfo
         exclude = ["user"]

@@ -44,7 +44,6 @@
             .then(response => {
                 const infoPosts = response.data.info;
                 const userPosts = response.data.review;
-                console.log(response.data)
                 // 정보 게시판 업데이트
                 const infoPostsTable = document.getElementById("info-posts");
                 if (!infoPosts) {

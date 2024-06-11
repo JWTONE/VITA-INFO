@@ -1,7 +1,5 @@
 from django.urls import path
 from . import views
-from django.urls import re_path
-from django.views.decorators.cache import never_cache
 
 app_name = 'post'
 

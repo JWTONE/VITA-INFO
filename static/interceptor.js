@@ -30,17 +30,17 @@ axios.interceptors.response.use(
 
             if (refreshToken) {
                 axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
-                .then(response => {
-                    console.log('재발급 성공');
-                    localStorage.setItem("access", response.data.access);
-                    localStorage.setItem("refresh", response.data.refresh);
-                    axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
-                    originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
-                    return axios(originalRequest);
-                })
-                .catch(refreshError => {
-                    console.log('재발급 실패');
-                    // Refresh Token이 만료되었으므로 로그인 페이지로 이동
+                    .then(response => {
+                        console.log('재발급 성공');
+                        localStorage.setItem("access", response.data.access);
+                        localStorage.setItem("refresh", response.data.refresh);
+                        axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
+                        originalRequest.headers["Authorization"] = "Bearer " + response.data.access;
+                        return axios(originalRequest);
+                    })
+                    .catch(refreshError => {
+                        console.log('재발급 실패');
+                        // Refresh Token이 만료되었으므로 로그인 페이지로 이동
                         console.log(1)
                         window.localStorage.clear();
                         console.log(2)

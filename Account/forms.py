@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
+
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(),
@@ -47,6 +48,7 @@ class CustomUserCreationForm(forms.ModelForm):
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "비밀번호가 일치하지 않습니다.")
 
+
 class CustomUserChangeForm(forms.ModelForm):
     date_of_birth = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}),
@@ -70,6 +72,7 @@ class CustomUserChangeForm(forms.ModelForm):
         help_texts = {
             'username': '',
         }
+
 
 class CustomUserPasswordChangeForm(forms.ModelForm):
     password = forms.CharField(

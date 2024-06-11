@@ -12,19 +12,22 @@ from rest_framework import status
 
 from django.contrib.auth.password_validation import validate_password
 
+
 def index(request):
     return render(request, "index.html")
+
 
 def login(request):
     return render(request, 'Account/login.html')
 
+
 def post_list(request, category):
     context = {
         'category': category,
-        'form' : PostForm
+        'form': PostForm
     }
     if category == "info":
-        return render(request, "Post/info_list.html", context) 
+        return render(request, "Post/info_list.html", context)
     return render(request, "Post/review_list.html", context)
 
 
@@ -47,41 +50,47 @@ def post_create(request):
 def post_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     context = {
-        'post_pk' : post_pk
+        'post_pk': post_pk
     }
     if post.category == 'review':
-        return render (request, 'Post/review_detail.html', context)
-    return render (request, 'Post/info_detail.html', context)
+        return render(request, 'Post/review_detail.html', context)
+    return render(request, 'Post/info_detail.html', context)
+
 
 def post_update(request, post_pk):
     post = Post.objects.get(pk=post_pk)
     if request.method == "GET":
         form = PostForm(instance=post)
-    elif request.method =='POST':
+    elif request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect('web:post_detail', post_pk=post_pk)
     context = {
-        'form':form,
-        'post_pk':post_pk
+        'form': form,
+        'post_pk': post_pk
     }
     return render(request, 'Post/post_edit.html', context)
 
+
 def surveymain(request):
-    context = {'form':SurveyForm}
+    context = {'form': SurveyForm}
     return render(request, 'Survey/survey.html', context)
 
+
 def surveyloading(request):
-    context = {'form':SurveyForm}
+    context = {'form': SurveyForm}
     return render(request, 'Survey/survey_loading.html', context)
 
+
 def surveyresult(request):
-    context = {'form':SurveyForm}
+    context = {'form': SurveyForm}
     return render(request, 'Survey/survey_result.html', context)
 
+
 def mypage(request, username):
-    return render(request, "Account/mypage.html", {"username" : username})
+    return render(request, "Account/mypage.html", {"username": username})
+
 
 def update(request, username):
     User = get_user_model()
@@ -94,10 +103,11 @@ def update(request, username):
             form.save()
             return redirect('web:mypage', username=username)
     context = {
-        'form':form,
-        'username':username
+        'form': form,
+        'username': username
     }
     return render(request, 'Account/update.html', context)
+
 
 def password_update(request, username):
     User = get_user_model()
@@ -109,12 +119,13 @@ def password_update(request, username):
         if form.is_valid():
             form.save()
             return redirect('web:mypage', username=username)
-        
+
     context = {
-        'form':form,
-        'username':username
+        'form': form,
+        'username': username
     }
     return render(request, 'Account/password_update.html', context)
+
 
 def signup(request):
     if request.method == "POST":
@@ -131,9 +142,10 @@ def signup(request):
     context = {"form": form}
     return render(request, "Account/signup.html", context)
 
+
 def search(request):
     q = request.GET['q']
     context = {
-        'q' : q
+        'q': q
     }
     return render(request, 'Post/search.html', context)

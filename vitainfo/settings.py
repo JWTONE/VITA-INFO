@@ -28,8 +28,8 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = [
-        "*",
-        ]
+    "*",
+]
 
 CSRF_TRUSTED_ORIGINS = ['https://vitainfo.kr']
 
