@@ -443,7 +443,7 @@ hr {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20vh auto;
+    margin: 7vh auto;
 }
 
 .mypage #update-info {
@@ -479,6 +479,14 @@ hr {
 
 .mypage .password-change {
     background-color: rgb(255, 71, 71);
+}
+
+#survey-history {
+    margin-top: 3vh;
+}
+
+#results-content {
+    margin-top: 2vh;
 }
 
 /* 회원정보변경 페이지 */

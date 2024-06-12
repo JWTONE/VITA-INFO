@@ -78,5 +78,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # 사용자 정보를 추가
         data['is_staff'] = self.user.is_staff
         data['nickname'] = self.user.nickname
+        data['id'] = self.user.id
 
         return data
