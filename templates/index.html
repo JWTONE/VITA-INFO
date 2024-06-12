@@ -8,13 +8,13 @@
 {% endblock head %}
 
 
-<div class="indexcontainer">
+<div class="indexcontainer" style="font-family: 'Pretendard Bold', sans-serif;">
     <div>
-        <h3 class="noto-sans-kr-default" style="font-size: 35px;">건강한 삶을 위한 최상의 동반자, 우리는 영양제 추천 사이트 비타인포입니다. <br>
+        <h3 style="font-size: 35px;">건강한 삶을 위한 최상의 동반자, 우리는 영양제 추천 사이트 비타인포입니다. <br>
             전문가들의 지식을 바탕으로 신뢰할 수 있는 정보를 제공하여 당신의 건강을 돕겠습니다.</h3>
         <br>
         <br>
-        <h6 class="noto-sans-kr-default" style="font-size: 20px;">최신 랭킹에 포함되어있는 게시글을 검색해보세요</h6>
+        <h6 style="font-size: 20px;">인기 검색어에 포함되어있는 게시글을 검색해보세요</h6>
         <br>
         <br>
         <button id="customButton"></button>
@@ -23,20 +23,17 @@
         <br>
         <br>
         <br>
-        <h6 class="noto-sans-kr-default" style="font-size: 20px;">회원가입을 하고 무료로 영양소 추천을 받아보세요!</h6>
+        <h6 style="font-size: 20px;">회원가입을 하고 무료로 영양소 추천을 받아보세요!</h6>
     </div>
 </div>
 <br>
 <br>
 <div class="searchbar">
     <div class="relative mt-3" tabindex="1">
-        <form id="search" class="relative overflow-hidden border-b -tracking-2 rounded border-transparent"
-            action="{% url 'web:search' %}" method="get">
-            <input type="text" class="search-input w-full px-3 py-2.5 text-black shadow-none lg:px-5 lg:py-3.5"
-                placeholder="검색" name="q" value="">
-            <button type="submit"
-                class="search-button absolute right-0 top-0 h-full cursor-pointer px-3 hover:bg-examine-purple-400 lg:px-6 bg-primary">
-                <img class="search-icon h-4 w-4 lg:h-5 lg:w-5" src="{% static 'media/magnifying-glass.png' %}" alt="">
+        <form id="search" class="relative overflow-hidden rounded border-transparent" action="{% url 'web:search' %}" method="get">
+            <input type="search" class="search-input" placeholder="원하는 검색어를 입력하세요." name="q" value="">
+            <button type="submit" class="search-button">
+                <img class="search-icon" src="{% static 'media/icon.png' %}" alt="">
             </button>
         </form>
     </div>
