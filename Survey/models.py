@@ -69,7 +69,7 @@ class SurveyInfo(models.Model):
     age = models.PositiveIntegerField(validators=[
         MinValueValidator(10),
         MaxValueValidator(120)
-    ], max_length=20)
+    ])
     height = models.PositiveIntegerField(validators=[
         MinValueValidator(50),
         MaxValueValidator(250)
@@ -123,7 +123,7 @@ class SurveyResults(models.Model):
     incompatible_foods_3 = models.TextField()
 
 
-class KnowVitamins(models.Model):
+class Know_Vitamins(models.Model):
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
     description = models.TextField()

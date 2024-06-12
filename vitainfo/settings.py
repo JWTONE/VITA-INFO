@@ -25,11 +25,11 @@ SECRET_KEY = config.SECRET_KEY
 OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 # 개발일 떈 True 배포할 때 False로 바꿀 것!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    "*",
-]
+        "*",
+        ]
 
 CSRF_TRUSTED_ORIGINS = ['https://vitainfo.kr']
 
@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'vitainfo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vitainfo',
+        'NAME': 'postgres',
         'USER': config.USER,
         'PASSWORD': config.PASSWORD,
         'HOST': 'database-1.c1eucoags0zw.ap-northeast-2.rds.amazonaws.com',

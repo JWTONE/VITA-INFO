@@ -26,12 +26,10 @@ axios.interceptors.response.use(
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const refreshToken = localStorage.getItem("refresh");
-            console.log('엑세스 만료')
 
             if (refreshToken) {
                 axios.post("http://127.0.0.1:8000/api/account/refresh/", { refresh: refreshToken })
                     .then(response => {
-                        console.log('재발급 성공');
                         localStorage.setItem("access", response.data.access);
                         localStorage.setItem("refresh", response.data.refresh);
                         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
@@ -39,17 +37,13 @@ axios.interceptors.response.use(
                         return axios(originalRequest);
                     })
                     .catch(refreshError => {
-                        console.log('재발급 실패');
                         // Refresh Token이 만료되었으므로 로그인 페이지로 이동
-                        console.log(1)
                         window.localStorage.clear();
-                        console.log(2)
                         window.location.href = "/login/";
                         // refreshError를 처리하고 에러를 전달
                         throw refreshError;
                     });
             } else {
-                console.log('로그인 페이지로')
                 localStorage.removeItem("access");
                 localStorage.removeItem("refresh");
                 window.location.href = "/login/";
