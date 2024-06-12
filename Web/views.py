@@ -9,8 +9,7 @@ from django.contrib.auth import get_user_model
 from Account.serializers import UserCreateSerializer
 from rest_framework.response import Response
 from rest_framework import status
-
-from django.contrib.auth.password_validation import validate_password
+from rest_framework.renderers import JSONRenderer
 
 
 def index(request):
@@ -136,9 +135,15 @@ def signup(request):
                 serializer.save()
                 return redirect("web:index")
             else:
-                return Response(status, status=status.HTTP_400_BAD_REQUEST)
+                response = Response(serializer.errors,
+                                    status=status.HTTP_400_BAD_REQUEST)
+                response.accepted_renderer = JSONRenderer()
+                response.accepted_media_type = 'application/json'
+                response.renderer_context = {}
+                return response
     else:
         form = CustomUserCreationForm()
+
     context = {"form": form}
     return render(request, "Account/signup.html", context)
 

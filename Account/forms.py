@@ -48,6 +48,21 @@ class CustomUserCreationForm(forms.ModelForm):
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "비밀번호가 일치하지 않습니다.")
 
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        try:
+            validate_password(password, self.instance)
+        except ValidationError as error:
+            self.add_error("password", error)
+        return password
+
+    def clean_confirm_password(self):
+        confirm_password = self.cleaned_data.get("confirm_password")
+        password = self.cleaned_data.get("password")
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("비밀번호가 일치하지 않습니다.")
+        return confirm_password
+
 
 class CustomUserChangeForm(forms.ModelForm):
     date_of_birth = forms.DateField(

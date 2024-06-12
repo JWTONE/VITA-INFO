@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from Survey.serializers import SurveySerializer, SurveyResultsSerializer
 from rest_framework.permissions import IsAuthenticated
 from .function import survey
-from .models import KnowVitamins, SurveyResults
+from .models import Know_Vitamins, SurveyResults
 from rest_framework.decorators import api_view
 from random import randint
 from .serializers import KnowVitaminsSerializer
@@ -64,7 +64,7 @@ class SurveyAPIView(APIView):
 # DB에 있는 Know_Vitamins 가져오기
 @api_view(['GET'])
 def loading(request):
-    all_content = KnowVitamins.objects.all()
+    all_content = Know_Vitamins.objects.all()
     random_index = randint(0, len(all_content) - 1)
     random_content = all_content[random_index]
     serializer = KnowVitaminsSerializer(random_content)

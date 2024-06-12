@@ -123,7 +123,7 @@ class SurveyResults(models.Model):
     incompatible_foods_3 = models.TextField()
 
 
-class KnowVitamins(models.Model):
+class Know_Vitamins(models.Model):
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
     description = models.TextField()

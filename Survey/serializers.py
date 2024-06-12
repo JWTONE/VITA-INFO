@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import KnowVitamins
-from Survey.models import KnowVitamins, SurveyInfo, SurveyResults
+from .models import Know_Vitamins
+from Survey.models import Know_Vitamins, SurveyInfo, SurveyResults
 
 
 class SurveySerializer(serializers.ModelSerializer):
@@ -28,5 +28,5 @@ class SurveyResultsSerializer(serializers.ModelSerializer):
 
 class KnowVitaminsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = KnowVitamins
+        model = Know_Vitamins
         fields = ['name', 'nickname', 'description']

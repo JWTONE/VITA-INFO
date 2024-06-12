@@ -6,13 +6,14 @@
     <div class="container mx-auto" style="max-width: 65%; min-height: 30vh;">
         <h1 style="text-align: left;">검색 결과</h1>
         <br><br>
+        <h2 style="text-align:left">성분 정보</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col" style="width: 40%;">제목</th>
                     <th scope="col" style="width: 20%;">작성자</th>
                     <th scope="col" style="width: 20%;">작성일</th>
-                    <th scope="col" style="width: 20%;">좋아요수</th>
+                    <th scope="col" style="width: 20%;"></th>
                 </tr>
             </thead>
             <tbody id="info-posts">
@@ -20,6 +21,8 @@
         </table>
     </div>
     <div class="container mx-auto" style="max-width: 65%; min-height: 30vh;">
+        <br><br>
+        <h2 style="text-align:left">리뷰 게시판</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -65,7 +68,7 @@
 
                         authorCell.textContent = post.author;
                         dateCell.textContent = new Date(post.created_at).toLocaleDateString();
-                        likesCell.textContent = post.like_counts;
+                        likesCell.textContent = "";
                     });
                 }
 

@@ -541,3 +541,8 @@ hr {
 body {
     font-family: 'Pretendard Bold', sans-serif;
 }
+
+#customButton {
+    border-radius: 10px; /* 원하는 radius 값으로 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
