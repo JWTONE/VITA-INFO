@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': 'vitainfo',
         'USER': config.USER,
         'PASSWORD': config.PASSWORD,
-        'HOST': 'localhost',
+        'HOST': 'database-1.c1eucoags0zw.ap-northeast-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
