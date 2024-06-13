@@ -78,7 +78,13 @@
 
 ## API명세 
 
-### 회원
+<details>
+  
+<summary>
+  
+  ### 회원
+  
+</summary>
 
 - **회원가입**
   - HTTP 메소드: POST
@@ -109,7 +115,15 @@
   - HTTP 메소드: PUT
   - API Path: `/api/account/<str:username>/password`
 
-### 게시글
+</details>
+
+<details>
+  
+<summary>
+  
+  ### 게시글
+  
+</summary>
 
 - **게시글 작성**
   - HTTP 메소드: GET
@@ -162,8 +176,16 @@
 - **인기 검색어 순위**
   - HTTP 메소드: GET
   - API Path: `/api/post/ranking/`
+  - 
+</details>
 
-### 설문조사
+<details>
+  
+<summary>
+  
+  ### 설문조사
+  
+</summary>
 
 - **설문 보내기**
   - HTTP 메소드: POST
@@ -177,7 +199,7 @@
   - HTTP 메소드: GET
   - API Path: `/api/survey/`
 
-
+</details>
 
 ## 상태 관리 tool 선택
 **결과 및 회고**
