@@ -11,7 +11,7 @@
   <ul>
   <li><strong>프로젝트 명: </strong><a href="https://vitainfo.kr"> VITA INFO</a></li>
   <li><strong>팀 명:</strong> VITA INFO</li>
-  <li><strong>프로젝트 기간:</strong> 24.05.13 ~ 24.06.12</li>
+  <li><strong>프로젝트 기간:</strong> 24.05.13 ~ 24.06.13</li>
   <li><strong>팀 원:</strong> 이정우, 이태훈, 김범중, 지효상</li>
 </ul>
 <br>
