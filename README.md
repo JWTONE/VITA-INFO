@@ -1,9 +1,15 @@
-<p align='center'><strong># VITA-INFO</strong></p>
+<div style ="text-align:center">
+
+  # VITA-INFO
+
+</div>
+
+
 
 <p align='center'><strong>“사용자에게 맞춤형으로 영양제 정보를 제공해주는 웹 사이트”</strong></p>
 </p>
   <ul>
-  <li><strong>프로젝트 명:</strong> VITA INFO</li>
+  <li><strong>프로젝트 명: </strong><a href="https://vitainfo.kr"> VITA INFO</a></li>
   <li><strong>팀 명:</strong> VITA INFO</li>
   <li><strong>프로젝트 기간:</strong> 24.05.13 ~ 24.06.12</li>
   <li><strong>팀 원:</strong> 이정우, 이태훈, 김범중, 지효상</li>
@@ -69,6 +75,108 @@
 
 ## 화면 요약(와이어 프레임)
 ![와이어프레임](https://github.com/JWTONE/VITA-INFO/assets/159910835/04fa97b7-1c8f-4561-a062-d29408c157f0)
+
+## API명세 
+
+### 회원
+
+- **회원가입**
+  - HTTP 메소드: POST
+  - API Path: `/api/account/`
+
+
+- **로그인**
+  - HTTP 메소드: POST
+  - API Path: `/api/account/login`
+
+- **토큰 Refresh**
+  - HTTP 메소드: POST
+  - API Path: `/api/account/refresh`
+
+- **로그아웃**
+  - HTTP 메소드: POST
+  - API Path: `/api/account/logout`
+
+- **회원탈퇴**
+  - HTTP 메소드: DELETE
+  - API Path: `/api/account/`
+
+- **회원정보 수정**
+  - HTTP 메소드: PUT
+  - API Path: `/api/account/<str:username>`
+
+- **비밀번호 수정**
+  - HTTP 메소드: PUT
+  - API Path: `/api/account/<str:username>/password`
+
+### 게시글
+
+- **게시글 작성**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/`
+
+- **게시글 리스트 조회**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/<str:category>`
+
+- **게시글 검색**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/search/`
+
+- **게시글 상세 조회**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/<int:post_pk>`
+
+- **게시글 수정**
+  - HTTP 메소드: PUT
+  - API Path: `/api/post/<int:post_pk>`
+
+- **게시글 삭제**
+  - HTTP 메소드: DELETE
+  - API Path: `/api/post/<int:post_pk>`
+
+- **게시글 좋아요**
+  - HTTP 메소드: POST
+  - API Path: `/api/post/<int:post_pk>`
+
+- **댓글 작성**
+  - HTTP 메소드: POST
+  - API Path: `/api/post/<int:post_pk>/comment/`
+
+- **대댓글 작성**
+  - HTTP 메소드: POST
+  - API Path: `/api/post/<int:post_pk>/comment/<int:comment_pk>`
+
+- **댓글 조회**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/<int:post_pk>/comment/`
+
+- **댓글 수정**
+  - HTTP 메소드: PUT
+  - API Path: `/api/post/comment/<int:comment_pk>`
+
+- **댓글 좋아요**
+  - HTTP 메소드: POST
+  - API Path: `/api/post/comment/<int:comment_pk>`
+
+- **인기 검색어 순위**
+  - HTTP 메소드: GET
+  - API Path: `/api/post/ranking/`
+
+### 설문조사
+
+- **설문 보내기**
+  - HTTP 메소드: POST
+  - API Path: `/api/survey/`
+
+- **로딩페이지**
+  - HTTP 메소드: GET
+  - API Path: `/api/survey/loading/`
+
+- **설문조사 결과 불러오기**
+  - HTTP 메소드: GET
+  - API Path: `/api/survey/`
+
 
 
 ## 상태 관리 tool 선택

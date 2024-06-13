@@ -104,8 +104,8 @@ class SurveyInfo(models.Model):
 
 
 class SurveyResults(models.Model):
-    survey_id = models.ForeignKey(
-        SurveyInfo, on_delete=models.CASCADE, related_name="survey")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="survey_result")
     recommended_nutrients_1 = models.TextField()
     recommended_nutrients_2 = models.TextField()
     recommended_nutrients_3 = models.TextField()

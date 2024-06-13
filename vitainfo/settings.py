@@ -25,7 +25,7 @@ SECRET_KEY = config.SECRET_KEY
 OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 # 개발일 떈 True 배포할 때 False로 바꿀 것!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
         "*",
@@ -99,10 +99,10 @@ WSGI_APPLICATION = 'vitainfo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'vitainfo',
         'USER': config.USER,
         'PASSWORD': config.PASSWORD,
-        'HOST': 'database-1.c1eucoags0zw.ap-northeast-2.rds.amazonaws.com',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -169,7 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Medial files
 MEDIA_URL = '/media/'

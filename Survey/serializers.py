@@ -23,7 +23,7 @@ class SurveyResultsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurveyResults
-        exclude = ["survey_id"]
+        exclude = ["user"]
 
 
 class KnowVitaminsSerializer(serializers.ModelSerializer):
