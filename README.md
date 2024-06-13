@@ -34,7 +34,8 @@
       서비스 시스템 설계<br>
       post app 구현<br>
       소프트웨어 형상 관리<br>
-      일정 관리
+      일정 관리 <br>
+      프론트엔드 적용
     </p>
   </td>
     <td>
@@ -42,7 +43,9 @@
       서비스 시스템 설계<br>
       user app 구현<br>
       소프트웨어 형상 관리<br>
-      일정 관리
+      일정 관리 <br>
+      로그인 관련 axios 적용<br>
+      WYSIWYG 적용
     </p>
   </td>
   
@@ -50,13 +53,16 @@
     <p align="center">
       서비스 시스템 설계<br>
       post app 구현<br>
+      로그인 관련 axios 적용
     </p>
   </td>
   
   <td>
     <p align="center">
    서비스 시스템 설계<br>
-  survey app 구현
+  survey app 구현<br>
+  aws 배포 환경 구축<br>
+  https 프로토콜 적용
     </p>
   </td>
 </tr>
@@ -68,17 +74,13 @@
 ## 기술 스택
 ![기술스택](https://github.com/JWTONE/VITA-INFO/assets/159910835/30ce8301-35dc-45f7-a969-779d71485ce2)
 
-<br>
 
 ## 시스템 아키텍처
 ![아키텍처](https://github.com/JWTONE/VITA-INFO/assets/159910835/f4047c1c-a83b-4d56-8933-542baa9e7aa5)
 
-<br>
 
 ## 화면 요약(와이어 프레임)
 ![와이어프레임](https://github.com/JWTONE/VITA-INFO/assets/159910835/04fa97b7-1c8f-4561-a062-d29408c157f0)
-
-<br>
 
 ## API명세 
 
@@ -454,10 +456,16 @@
 
 </details>
 
-<br>
 
-## 트러블슈팅
+<hr>
 
+<details>
+
+<summary>
+
+  ### 트러블슈팅
+
+</summary>
 
 <details>
 
@@ -594,25 +602,8 @@
     Debug = False
     
     Allowed_Hosts = [ “x.x.x.x”, “127.0.0.1”, “localhost”, ]
-  
 </details>
 
-<details>
-  <summary>
-
-  ### https 적용 관련 트러블 슈팅
-    
-  </summary>
-
-  #### 문제
-    
-  기존의 http에서 보안상의 이슈로 https를 적용하려했으나 잘 적용되지않았음
-    
-  #### 해결
-    
-  AWS에서 Certificate Manager를 통해 SSL 인증서를 발급받고, 이를 적용한 로드밸런서를 생성하고 EC2 인스턴스에 연동함.
-  위의 과정만 진행하면 되었지만 잘모르는 상태라 NGINX.conf 에서도 설정을 해서 이중으로 동작하여 504 bad gateway 에러가 발생하였기때문에, NGINX 설정은 기본값으로 원상복구함.
-  
 </details>
 
 <br>
