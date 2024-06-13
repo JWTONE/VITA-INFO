@@ -52,7 +52,7 @@ class SurveyAPIView(APIView):
             survey_results_serializer = SurveyResultsSerializer(
                 data=survey_results_data)
             if survey_results_serializer.is_valid(raise_exception=True):
-                survey_results_serializer.save(user=request.user)
+                survey_results_serializer.save(survey_id=survey_info)
 
             response_data = {
                 # "survey": serializer.data,
@@ -76,7 +76,7 @@ def loading(request):
 
 @api_view(['GET'])
 def results(request, survey_pk):
-    survey = SurveyResults.objects.filter(user=user_pk)
+    survey = get_object_or_404(SurveyResults, pk=survey_pk)
     serializer = SurveyResultsSerializer(survey)
 
     return Response(serializer.data)
