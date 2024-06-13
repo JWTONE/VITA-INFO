@@ -450,12 +450,159 @@
 
 </details>
 
-## 상태 관리 tool 선택
 **결과 및 회고**
 
 
-### 트러블슈팅
+<details>
 
+<summary>
+
+  ### 트러블슈팅
+
+</summary>
+
+<details>
+
+  <summary>
+    
+  ### ChatGPT 결과 정형화 되지 않은 문제
+  
+  </summary>
+ 
+  
+  #### 문제
+
+  설문조사 결과를 화면에 출력시켜주고 데이터베이스에 저장 해야 하는데 답변의 형식이 매번 다르게 출력되어 작동하지 않는 문제 발생
+
+  #### 해결
+
+  정형화된 답변 틀을 제공해주고, 이 데이터들을 쉽게 다루기 위해서 python dictionary 형식으로 출력 해주도록  쿼리문을 변경했습니다.
+
+</details>
+
+  <details>
+
+  <summary>
+    
+  ### ChatGPT 가 말도 안되는 결과를 출력
+  
+</summary>
+  
+  #### 문제
+
+  설문 내용에 대한 답변에, 아마씨를  ‘아마겟돈’으로 잘못 알려주는 현상 발생 
+
+  #### 해결
+
+  다 방면으로 노력해봤지만, 이미 학습한 내용은 바꿔주기가 어려워서 GPT4.0Turbo로 모델로 변경 적용 해보니, 아마씨도 정상적으로 출력함
+
+</details>
+
+<details>
+
+<summary>
+    
+  ### Axios interceptor 작동 안함
+  
+</summary>
+  
+  #### 문제
+
+  로그인후 request 보냈을  access token이 안불러와지는 문제가 발생
+
+  #### 해결
+
+  로직에는 문제가 없었지만, base를 상속받는 template에서 axios 관련 cdn을 다시 불러와 서 충돌이 발생, 템플릿에서 cdn을 제외 하니 interceptor정상 작동
+
+</details>
+
+<details>
+
+<summary>
+  
+  ### 댓글 출력 문제
+
+</summary>
+
+
+  #### 문제
+
+  댓글 작성 시 대댓글들이 부모 댓글 및으로 상속 되지 않고 pk 순서 대로 출력 되는 문제 발생
+
+  #### 해결
+
+  시리얼라이저에 is_reply라는 필드를 추가해서 is_reply일 경우에 replies라는 새로운 array를 만들어서 담도록 로직 구성
+
+ </details>
+
+<details>
+
+<summary>
+    
+  ### 댓글 중복 출력 문제
+  
+</summary>
+
+  #### 문제
+
+  replies에 담긴 댓글들이 화면에 중복 출력되는 문제발생
+
+  #### 해결
+
+  게시글 상세 serializer에 get_comments 함수로 is_reply가 아닌 코멘트만 필터해서 불러오도록 로직 변경
+
+</details>
+
+<details>
+
+<summary>
+  
+  ### 로그인 관련 트러블슈팅
+  
+</summary>
+
+  #### 문제
+
+  토큰 로그인 방식은 세션 로그인 방식에서 쓰던 request.user.is_authenticated 사용 불가능
+
+  #### 해결
+
+  직접적으로 html에 로그인을 했다는 사실을 전달해줘야함. 로그인 할 때 username도 같이 받아서 local storage에 저장 후 localstorage에 username이 존재여부에 따라 로그인 여부를 확인 함
+
+</details>
+
+<details>
+
+<summary>
+  
+  ### 개발용 설정파일과 배포용 설정파일의 차이(settings.py)
+  
+</summary>
+
+  #### 문제
+
+설정 파일 중 settings.py에 들어가는 소스코드가 개발용과 실제 배포용에서는 차이가 발생함
+
+#### 해결
+
+- 개발용
+    
+    Debug = True
+    
+    Allowed_Hosts = [ ]
+    
+- 배포용
+    
+    Debug = False
+    
+    Allowed_Hosts = [ “x.x.x.x”, “127.0.0.1”, “localhost”, ]
+</details>
+
+</details>
+
+<br>
+
+<br>
 
 ## 협업 방식
 ### 매일 아침 회의마다 daily task 공유(figma 활용)
