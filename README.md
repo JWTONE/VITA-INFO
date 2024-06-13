@@ -126,7 +126,7 @@
 </summary>
 
 - **게시글 작성**
-  - HTTP 메소드: GET
+  - HTTP 메소드: POST
   - API Path: `/api/post/`
 
 - **게시글 리스트 조회**
