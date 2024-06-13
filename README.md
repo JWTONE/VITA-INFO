@@ -604,6 +604,27 @@
     Debug = False
     
     Allowed_Hosts = [ “x.x.x.x”, “127.0.0.1”, “localhost”, ]
+
+</details>
+
+<details>
+  <summary>
+
+  ### https 적용 관련 트러블 슈팅
+
+  </summary>
+
+  #### 문제
+
+  기존의 http에서 보안상의 이슈로 https를 적용하려했으나 잘 적용되지않았음
+
+  #### 해결
+
+  AWS에서 Certificate Manager를 통해 SSL 인증서를 발급받고, 이를 적용한 로드밸런서를 생성하고 EC2 인스턴스에 연동함.
+  위의 과정만 진행하면 되었지만 잘모르는 상태라 NGINX.conf 에서도 설정을 해서 이중으로 동작하여 504 bad gateway 에러가 발생하였기때문에, NGINX 설정은 기본값으로 원상복구함.
+
+</details>
+
 </details>
 
 
