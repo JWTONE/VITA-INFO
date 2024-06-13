@@ -53,7 +53,8 @@
     <p align="center">
       서비스 시스템 설계<br>
       post app 구현<br>
-      로그인 관련 axios 적용
+      로그인 관련 axios 적용<br>
+      Redis 이용한 실시간 인기 검색어
     </p>
   </td>
   
