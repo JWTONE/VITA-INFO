@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container mx-auto" style="max-width: 65%; min-height: 75vh;">
+    <h1 style="text-align: left;">정보 게시판</h1>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" id="post_create" type="button" onclick="goToCreatePost()"
+            style="display: none; padding-right: 20px;">글 작성
+        </button>
+    </div>
+    <table class="table" style="margin-top:38px;">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 40%;">제목</th>
+                <th scope="col" style="width: 20%;">작성자</th>
+                <th scope="col" style="width: 20%;">작성일</th>
+                <th scope="col" style="width: 20%;"></th>
+            </tr>
+        </thead>
+        <tbody id="post-list">
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation" style="display: flex; justify-content: space-between;">
+        <div class="pagination" id="pagination-prev" style="padding-left: 200px;"></div>
+        <div class="pagination" id="pagination"></div>
+        <div class="pagination" id="pagination-next" style="padding-right: 200px;"></div>
+    </nav>
+</div>
+
+<script>
+    let currentPage = 1; // 현재 페이지 초기값
+
+    function goToCreatePost() {
+        window.location.href = "{% url 'web:post_create' %}";
+    }
+
+    function loadPosts(url) {
+        axios.get(url)
+            .then(response => {
+                const posts = response.data;
+                const postList = document.getElementById('post-list');
+                const paginationPrev = document.getElementById('pagination-prev');
+                const pagination = document.getElementById('pagination');
+                const paginationNext = document.getElementById('pagination-next');
+                const isStaff = localStorage.getItem('is_staff')
+
+                if (isStaff == 'true') {
+                    document.getElementById("post_create").style.display = "block";
+                }
+                // 게시물 목록 업데이트
+                postList.innerHTML = '';
+                posts.results.forEach(post => {
+                    const row = document.createElement('tr');
+
+                    const titleCell = document.createElement('td');
+                    const titleLink = document.createElement('a');
+                    titleLink.href = `/post/${post.id}/`;
+                    titleLink.textContent = post.title;
+                    titleCell.appendChild(titleLink);
+
+                    if (post.comment_count > 0) {
+                        const commentCountSpan = document.createElement('span');
+                        commentCountSpan.textContent = ` [${post.comment_count}] `;
+                        titleCell.appendChild(commentCountSpan);
+                    }
+
+                    row.appendChild(titleCell);
+
+                    const authorCell = document.createElement('td');
+                    authorCell.textContent = post.author;
+                    row.appendChild(authorCell);
+
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = new Date(post.created_at).toLocaleDateString();
+                    row.appendChild(dateCell);
+
+                    const likesCell = document.createElement('td');
+
+                    likesCell.textContent = "";
+                  
+                    row.appendChild(likesCell);
+
+                    postList.appendChild(row);
+                });
+
+
+                // 페이지네이션 업데이트
+                paginationPrev.innerHTML = '';
+                pagination.innerHTML = '';
+                paginationNext.innerHTML = '';
+                if (posts.previous) {
+                    const previousLi = document.createElement('li');
+                    const previousLink = document.createElement('a');
+                    previousLink.href = '#';
+                    previousLink.textContent = 'Previous';
+                    previousLink.addEventListener('click', () => {
+                        loadPosts(posts.previous);
+                    });
+                    previousLi.appendChild(previousLink);
+                    paginationPrev.appendChild(previousLi);
+                }
+                if (posts.next) {
+                    const nextLi = document.createElement('li');
+                    const nextLink = document.createElement('a');
+                    nextLink.href = '#';
+                    nextLink.textContent = 'Next';
+                    nextLink.addEventListener('click', () => {
+                        loadPosts(posts.next);
+                    });
+                    nextLi.appendChild(nextLink);
+                    paginationNext.appendChild(nextLi);
+                }
+            })
+            .catch(error => {
+                console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    loadPosts("{% url 'post:post_category' category=category %}?page={{ posts.number }}");
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const username = localStorage.getItem("username");
+        if (username) {
+            document.getElementById("logout-button").style.display = "block";
+        }
+        else {
+            document.getElementById("login-button").style.display = "block";
+            document.getElementById("signup-button").style.display = "block";
+        }
+    });
+
+</script>
+{% endblock content %}

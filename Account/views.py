@@ -5,13 +5,26 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
-from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer
+from .serializers import UserCreateSerializer, UserUpdateSerializer, UserPasswordSerializer, CustomTokenObtainPairSerializer
+
+##################
+#       API      #
+##################
 
 
 class UserListAPIView(APIView):
     def get_object(self, username):
         return get_object_or_404(User, username=username)
+
+    def get(self, request, username):
+        user = self.get_object(username)
+        if request.user.username == user.username:
+            serializer = UserCreateSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
         serializer = UserCreateSerializer(data=request.data)
@@ -54,8 +67,6 @@ class PasswordUpdateAPIView(APIView):
 
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def post(self, request):
         if request.data:
             refresh_token = request.data["refresh"]
@@ -64,3 +75,7 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

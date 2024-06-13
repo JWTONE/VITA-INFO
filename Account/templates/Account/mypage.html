@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="mypage">
+    <section id="user-info">
+        <h2>개인정보</h2>
+        <p>이름: <span id="user-name"></span></p>
+        <p>이메일: <span id="user-email"></span></p>
+        <p>닉네임: <span id="user-nickname"></span></p>
+    </section>
+
+    <section id="update-info">
+        <a href="{% url 'web:update' username %}"><button type="button">회원정보 변경</button></a>
+        <a href="{% url 'web:password_update' username %}"><button type="button" class="password-change">비밀번호
+                변경</button></a>
+    </section>
+
+    <section id="survey-history">
+        <h2>설문 내역</h2>
+        <ul id="survey-list"></ul>
+
+        <div id="results" style="display: none;">
+            <button id="toggle-results" onclick="toggleResults()" >설문 결과 표시/숨기기</button>
+            <div id="results-content">
+                <h2>추천 영양소</h2>
+                <div id="recommended_nutrients"></div>
+
+                <h2 style="margin-top: 2vh;">같이 먹으면 좋은 영양소</h2>
+                <div id="synergistic_nutrients"></div>
+
+                <h2 style="margin-top: 2vh;">같이 먹으면 안되는 영양소</h2>
+                <div id="antagonistic_nutrients"></div>
+
+                <h2 style="margin-top: 2vh;">대체 음식</h2>
+                <div id="alternative_foods"></div>
+
+                <h2 style="margin-top: 2vh;">같이 먹으면 안되는 음식</h2>
+                <div id="incompatible_foods"></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // 사용자 정보를 불러오는 함수
+    function loadUserInfo() {
+        const username = "{{ username }}"; // 서버 측에서 제공되는 템플릿 변수
+        console.log(username);
+        axios.get(`/api/account/${username}`)
+            .then(response => {
+                const data = response.data;
+                document.getElementById('user-name').textContent = data.username;
+                document.getElementById('user-email').textContent = data.email;
+                document.getElementById('user-nickname').textContent = data.nickname;
+            })
+            .catch(error => {
+                console.error('사용자 정보를 불러오는데 실패했습니다.', error);
+            });
+    }
+
+    // 설문 내역을 불러오는 함수
+    function loadSurveyResults() {
+        const user_id = localStorage.getItem('id'); // 로컬 스토리지에서 사용자 ID 가져오기
+        axios.get(`/api/survey/result/${user_id}`)
+            .then(response => {
+                const data = response.data;
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.style.display = 'block'; // 결과를 표시할 div 보이게 설정
+
+                // 추천 영양소 표시
+                const recommendedNutrientsDiv = document.getElementById('recommended_nutrients');
+                for (let i = 1; i <= 3; i++) {
+                    recommendedNutrientsDiv.innerHTML += `<p>${data['recommended_nutrients_' + i]}</p>`;
+                }
+
+                // 같이 먹으면 좋은 영양소 표시
+                const synergisticNutrientsDiv = document.getElementById('synergistic_nutrients');
+                for (let i = 1; i <= 3; i++) {
+                    synergisticNutrientsDiv.innerHTML += `<p>${data['synergistic_nutrients_' + i]}</p>`;
+                }
+
+                // 같이 먹으면 안 되는 영양소 표시
+                const antagonisticNutrientsDiv = document.getElementById('antagonistic_nutrients');
+                for (let i = 1; i <= 3; i++) {
+                    antagonisticNutrientsDiv.innerHTML += `<p>${data['antagonistic_nutrients_' + i]}</p>`;
+                }
+
+                // 대체 음식 표시
+                const alternativeFoodsDiv = document.getElementById('alternative_foods');
+                for (let i = 1; i <= 3; i++) {
+                    alternativeFoodsDiv.innerHTML += `<p>${data['alternative_foods_' + i]}</p>`;
+                }
+
+                // 같이 먹으면 안 되는 음식 표시
+                const incompatibleFoodsDiv = document.getElementById('incompatible_foods');
+                for (let i = 1; i <= 3; i++) {
+                    incompatibleFoodsDiv.innerHTML += `<p>${data['incompatible_foods_' + i]}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('설문조사 결과를 불러오는데 실패했습니다.', error);
+            });
+    }
+
+    // 결과 표시/숨기기 기능
+    function toggleResults() {
+        const resultsContent = document.getElementById('results-content');
+        if (resultsContent.style.display === 'none' || resultsContent.style.display === '') {
+            resultsContent.style.display = 'block';
+        } else {
+            resultsContent.style.display = 'none';
+        }
+    }
+
+    loadSurveyResults();
+    loadUserInfo();
+</script>
+
+
+{% endblock content %}

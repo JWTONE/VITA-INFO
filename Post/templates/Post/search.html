@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div>
+    <div class="container mx-auto" style="max-width: 65%; min-height: 30vh;">
+        <h1 style="text-align: left;">검색 결과</h1>
+        <br><br>
+        <h2 style="text-align:left">성분 정보</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 40%;">제목</th>
+                    <th scope="col" style="width: 20%;">작성자</th>
+                    <th scope="col" style="width: 20%;">작성일</th>
+                    <th scope="col" style="width: 20%;"></th>
+                </tr>
+            </thead>
+            <tbody id="info-posts">
+            </tbody>
+        </table>
+    </div>
+    <div class="container mx-auto" style="max-width: 65%; min-height: 30vh;">
+        <br><br>
+        <h2 style="text-align:left">리뷰 게시판</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 40%;">제목</th>
+                    <th scope="col" style="width: 20%;">작성자</th>
+                    <th scope="col" style="width: 20%;">작성일</th>
+                    <th scope="col" style="width: 20%;">좋아요수</th>
+                </tr>
+            </thead>
+            <tbody id="user-posts">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    // 검색어를 포함하여 Axios 요청을 보내 검색 결과를 가져오는 함수
+    const apiUrl = window.config.apiUrl;
+    function fetchSearchResults(searchQuery) {
+        const searchUrl = `${apiUrl}/api/post/search/?q=${searchQuery}`; // 검색 URL
+
+        axios.get(searchUrl)
+            .then(response => {
+                const infoPosts = response.data.info;
+                const userPosts = response.data.review;
+                // 정보 게시판 업데이트
+                const infoPostsTable = document.getElementById("info-posts");
+                if (!infoPosts) {
+                    const noResultsMessage = document.createElement("p");
+                    noResultsMessage.textContent = "결과가 없습니다.";
+                    infoPostsTable.appendChild(noResultsMessage);
+                } else {
+                    infoPosts.forEach(post => {
+                        const row = infoPostsTable.insertRow();
+                        const titleCell = row.insertCell();
+                        const authorCell = row.insertCell();
+                        const dateCell = row.insertCell();
+                        const likesCell = row.insertCell();
+
+                        const titleLink = document.createElement("a");
+                        titleLink.href = `/post/${post.id}`;
+                        titleLink.textContent = post.title;
+                        titleCell.appendChild(titleLink);
+
+                        authorCell.textContent = post.author;
+                        dateCell.textContent = new Date(post.created_at).toLocaleDateString();
+                        likesCell.textContent = "";
+                    });
+                }
+
+                // 리뷰 게시판 업데이트
+                const userPostsTable = document.getElementById("user-posts");
+                if (!userPosts) {
+                    const noResultsMessage = document.createElement("p");
+                    noResultsMessage.textContent = "결과가 없습니다.";
+                    userPostsTable.appendChild(noResultsMessage);
+                } else {
+                    userPosts.forEach(post => {
+                        const row = userPostsTable.insertRow();
+                        const titleCell = row.insertCell();
+                        const authorCell = row.insertCell();
+                        const dateCell = row.insertCell();
+                        const likesCell = row.insertCell();
+
+                        const titleLink = document.createElement("a");
+                        titleLink.href = `/post/${post.id}`;
+                        titleLink.textContent = post.title;
+                        titleCell.appendChild(titleLink);
+
+                        authorCell.textContent = post.author;
+                        dateCell.textContent = new Date(post.created_at).toLocaleDateString();
+                        likesCell.textContent = post.like_counts;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("검색 결과를 가져오는 동안 오류가 발생했습니다:", error);
+            });
+    }
+
+    // 페이지 로드 시 검색 결과를 가져옵니다
+    const searchQuery = "{{ q }}";
+    fetchSearchResults(searchQuery);
+</script>
+{% endblock content %}

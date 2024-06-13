@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="post">
+        <div id='post-detail'>
+        </div>
+        <div class="button-container">
+            <button type="button" id="editbtn" class="btn btn-secondary"
+                onclick="window.location.href='{% url 'web:post_update' post_pk %}'" style="display:none">글 수정</button>
+            <button type="button" id="deletebtn" class="btn btn-danger" onclick="postdelete()"
+                style="display:none">삭제</button>
+        </div>
+        <div id="comment-form">
+            <textarea id="commentContent" rows="3" placeholder="댓글을 작성하세요"></textarea>
+            <button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성하기</button>
+        </div>
+        <div id='comments'>
+        </div>
+    </div>
+    <br>
+    <div style="text-align: right;">
+        <button onclick="history.back();">뒤로가기</button>
+    </div>
+</div>
+
+<script>
+    const apiUrl = window.config.apiUrl;
+    const postID = {{ post_pk }};
+    const postDetailDiv = document.getElementById('post-detail');
+    const commentDiv = document.getElementById('comments');
+    const url = `${apiUrl}/api/post/${postID}`;
+
+    axios.get(url)
+        .then(response => {
+            const post = response.data;
+
+            const title = document.createElement('h2');
+            title.className = 'post-title';
+            title.textContent = post.title;
+            postDetailDiv.appendChild(title);
+
+            const hr = document.createElement('hr');
+            postDetailDiv.appendChild(hr);
+
+            const content = document.createElement('p');
+            content.className = 'post-content';
+            content.innerHTML = post.content;
+            postDetailDiv.appendChild(content);
+
+            const nickname = localStorage.getItem('nickname')
+            const isStaff = localStorage.getItem('is_staff')
+
+            if (nickname == post.author || isStaff == 'true') {
+                document.getElementById("deletebtn").style.display = "block";
+            }
+            if (nickname == post.author) {
+                document.getElementById("editbtn").style.display = "block"
+            }
+
+            const postInfoDiv = document.createElement('div');
+            postInfoDiv.className = 'post-info';
+
+            const likeInfoDiv = document.createElement('div');
+            likeInfoDiv.className = 'like-info';
+            postInfoDiv.appendChild(likeInfoDiv)
+
+            const likeCounts = document.createElement('p');
+            likeCounts.id = 'postLikeCounts';
+            likeCounts.textContent = `좋아요 수: ${post.like_counts}`;
+            likeInfoDiv.appendChild(likeCounts);
+
+            const likeButton = document.createElement('button');
+            likeButton.textContent = '좋아요';
+            likeButton.onclick = likePost;
+            likeInfoDiv.appendChild(likeButton);
+
+            const author = document.createElement('p');
+            author.textContent = `작성자: ${post.author}`;
+            author.className = 'author'
+            postInfoDiv.appendChild(author);
+
+            postDetailDiv.appendChild(postInfoDiv);
+
+            loadComments(post.comments);
+        })
+        .catch(error => {
+            console.error('게시물을 불러오는 중 오류가 발생했습니다:', error);
+        });
+    // 포스트 좋아요 함수
+    function likePost() {
+        axios.post(`${apiUrl}/api/post/${postID}/`)
+            .then(response => {
+                const likeCounts = document.getElementById('postLikeCounts');
+                const likeButton = document.querySelector('#post-detail button');
+                likeCounts.textContent = `좋아요 수: ${response.data.like_counts}`;
+                likeButton.textContent = '좋아요';
+            })
+            .catch(error => {
+                console.error('포스트 좋아요 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 댓글 작성 함수
+
+    function submitComment() {
+        const content = document.getElementById('commentContent').value;
+        if (!content) {
+            alert('댓글 내용을 입력하세요');
+            return;
+        }
+
+        const commentData = {
+            content: content,
+            post: postID,
+        };
+
+        axios.post(`/api/post/${postID}/comment/`, commentData)
+            .then(response => {
+                // 댓글 작성 후 댓글 목록을 다시 불러옴
+                document.getElementById('commentContent').value = '';
+                addCommentToDOM(response.data);
+            })
+            .catch(error => {
+                console.error('댓글 작성 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 댓글 목록을 다시 불러오는 함수
+    function loadComments(comments) {
+        commentDiv.innerHTML = ''; // 기존 댓글을 초기화
+
+        comments.forEach(comment => {
+            addCommentToDOM(comment);
+        });
+    }
+    //포스트 삭제 함수
+    function postdelete() {
+        const url = `${apiUrl}/api/post/${postID}/`;
+
+        axios.delete(url)
+            .then(response => {
+                // 포스트가 성공적으로 삭제되었을 때 페이지를 새로고침
+                window.location.href = '/post/review/';
+            })
+            .catch(error => {
+                console.error('포스트 삭제 중 오류가 발생했습니다:', error);
+                // 에러가 발생해도 페이지를 새로고침
+                window.location.href = '/post/review/';
+            });
+    }
+
+    // 새로운 댓글을 DOM에 추가하는 함수
+    function addCommentToDOM(comment) {
+        const userNickname = localStorage.getItem('nickname');
+        const commentDivItem = document.createElement('div');
+        const commentText = document.createElement('p');
+
+        commentText.textContent = comment.content;
+        commentDivItem.appendChild(commentText);
+
+        if (comment.author === userNickname) {
+            // 수정 버튼 추가
+            const editButton = document.createElement('button');
+            editButton.textContent = '수정';
+            editButton.onclick = () => showEditForm(commentDivItem, comment);
+            commentDivItem.appendChild(editButton);
+
+            // 삭제 버튼 추가
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';
+            deleteButton.onclick = () => deleteComment(comment.id);
+            commentDivItem.appendChild(deleteButton);
+
+        }
+
+        // 대댓글 추가
+        const replyLink = document.createElement('a');
+        replyLink.href = '#';
+        replyLink.textContent = '대댓글 달기';
+        replyLink.onclick = (event) => {
+            event.preventDefault();
+            showReplyForm(commentDivItem, comment.id);
+        };
+        commentDivItem.appendChild(replyLink);
+
+        commentDivItem.style.marginTop = '5px';
+        commentDivItem.style.marginLeft = '20px';
+        commentDivItem.style.backgroundColor = '#f0f0f0';
+        commentDiv.appendChild(commentDivItem);
+        // 대댓글 추가
+        if (comment.replies) {
+            comment.replies.forEach(reply => {
+                const userNickname = localStorage.getItem('nickname');
+                const replyDivItem = document.createElement('div');
+                const replyText = document.createElement('p');
+
+                replyText.textContent = reply.content;
+                replyDivItem.appendChild(replyText);
+                if (reply.author === userNickname) {
+                    // 대댓글 수정 버튼 추가
+                    const editReplyButton = document.createElement('button');
+                    editReplyButton.textContent = '대댓글 수정';
+                    editReplyButton.onclick = () => showReplyEditForm(replyDivItem, reply);
+                    replyDivItem.appendChild(editReplyButton);
+
+                    // 대댓글 삭제 버튼 추가
+                    const deleteReplyButton = document.createElement('button');
+                    deleteReplyButton.textContent = '대댓글 삭제';
+                    deleteReplyButton.onclick = () => deleteReply(reply.id);
+                    replyDivItem.appendChild(deleteReplyButton);
+
+                }
+
+                replyDivItem.style.marginLeft = '40px';
+                replyDivItem.style.marginTop = '5px';
+                replyDivItem.style.backgroundColor = '#d3d3d3';
+                commentDiv.appendChild(replyDivItem);
+            });
+        }
+    }
+
+
+    // 댓글 수정 폼을 보여주는 함수
+    function showEditForm(parentDiv, comment) {
+        let existingEditForm = document.getElementById('editForm');
+        if (existingEditForm) {
+            existingEditForm.remove();
+        }
+
+        const editForm = document.createElement('div');
+        editForm.id = 'editForm';
+        editForm.innerHTML = `
+            <textarea id="editContent" rows="2">${comment.content}</textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitEdit(${comment.id})">수정하기</button>
+        `;
+        parentDiv.appendChild(editForm);
+    }
+
+    // 댓글 수정 함수
+    function submitEdit(commentId) {
+        const editContent = document.getElementById('editContent').value;
+        if (!editContent) {
+            alert('댓글 내용을 입력하세요');
+            return;
+        }
+
+        const editData = {
+            content: editContent,
+        };
+
+        axios.put(`/api/post/comment/${commentId}/`, editData)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 수정 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 댓글 삭제 함수
+    function deleteComment(commentId) {
+        axios.delete(`/api/post/comment/${commentId}/`)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 삭제 중 오류가 발생했습니다:', error);
+            });
+    }
+
+
+
+    // 대댓글 작성 폼을 보여주는 함수
+    function showReplyForm(parentDiv, parentCommentId) {
+        let existingReplyForm = document.getElementById('replyForm');
+        if (existingReplyForm) {
+            existingReplyForm.remove();
+        }
+
+        const replyForm = document.createElement('div');
+        replyForm.id = 'replyForm';
+        replyForm.innerHTML = `
+            <textarea id="replyContent" rows="2" placeholder="대댓글을 작성하세요"></textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitReply(${parentCommentId})">대댓글 작성하기</button>
+        `;
+        parentDiv.appendChild(replyForm);
+    }
+
+    // 대댓글 작성 함수
+    function submitReply(parentCommentId) {
+        const replyContent = document.getElementById('replyContent').value;
+        if (!replyContent) {
+            alert('대댓글 내용을 입력하세요');
+            return;
+        }
+
+        const replyData = {
+            content: replyContent,
+        };
+
+        axios.post(`${apiUrl}/api/post/${postID}/comment/${parentCommentId}/`, replyData)
+            .then(response => {
+                // 대댓글 작성 후 댓글 목록을 다시 불러옴
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('대댓글 작성 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 대댓글 수정 폼을 보여주는 함수
+    function showReplyEditForm(parentDiv, comment) {
+        let existingEditForm = document.getElementById('replyEditForm');
+        if (existingEditForm) {
+            existingEditForm.remove();
+        }
+
+        const editForm = document.createElement('div');
+        editForm.id = 'replyEditForm';
+        editForm.innerHTML = `
+            <textarea id="replyEditContent" rows="2">${comment.content}</textarea>
+            <button type="button" class="btn btn-secondary" onclick="submitReplyEdit(${comment.id})">수정하기</button>
+        `;
+        parentDiv.appendChild(editForm);
+    }
+
+    // 대댓글 수정 함수
+    function submitReplyEdit(commentId) {
+        const editContent = document.getElementById('replyEditContent').value;
+        if (!editContent) {
+            alert('대댓글 내용을 입력하세요');
+            return;
+        }
+
+        const editData = {
+            content: editContent,
+        };
+
+        axios.put(`/api/post/comment/${commentId}/`, editData)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('대댓글 수정 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 대댓글 삭제 함수
+    function deleteReply(commentId) {
+        axios.delete(`/api/post/comment/${commentId}/`)
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 삭제 중 오류가 발생했습니다:', error);
+            });
+    }
+
+    // 페이지 로드 시 댓글 목록을 불러옴
+    axios.get(url)
+        .then(response => {
+            const post = response.data;
+            loadComments(post.comments);
+        })
+        .catch(error => {
+            console.error('댓글을 불러오는 중 오류가 발생했습니다:', error);
+        });
+
+    function submitForm() {
+        const formData = new FormData(document.getElementById('postForm'));
+        axios.post("/api/post/", formData)
+            .then(response => {
+                // 처리할 내용을 여기에 작성하세요
+                $('#postModal').modal('hide'); // 모달 닫기
+                location.reload(); // 페이지 리로드
+            })
+            .catch(error => {
+                console.error('에러 발생:', error);
+            });
+    }
+
+
+</script>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock content %}

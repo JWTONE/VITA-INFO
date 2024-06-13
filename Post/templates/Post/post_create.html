@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <br><br>
+    <h2>글 쓰기</h2>
+    <form id="postForm" enctype="multipart/form-data" class="post-create">
+        {% csrf_token %}
+        {{form | crispy}}
+        <br>
+        <button type="submit" onclick="submitForm()">저장</button>
+    </form>
+</div>
+
+<div style="text-align: right; margin-right: 5%;">
+    <button onclick="history.back();">뒤로가기</button>
+</div>
+
+<script>
+    CKEDITOR.replace('content', {
+        width: '100%',
+        height: 500
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        CKEDITOR.replace('id_content'); // 'id_content'는 당신의 textarea의 id입니다.
+    });
+</script>
+
+
+<script>
+    function submitForm() {
+        event.preventDefault();
+
+        for (var instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+        const apiUrl = window.config.apiUrl;
+        const form = document.getElementById('postForm');
+        const formData = new FormData(form);
+
+        axios.post(`${apiUrl}/api/post/`, formData, {
+            headers: {
+
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(response => {
+                const isStaff = localStorage.getItem('is_staff');
+                if (isStaff === 'true') {
+                    window.location.href = "/post/info/"; // 스태프인 경우 정보 페이지로 이동
+                } else {
+                    window.location.href = "/post/review/"; // 스태프가 아닌 경우 리뷰 페이지로 이동
+                }
+            })
+            .catch(error => {
+                console.error('폼 제출 중 오류가 발생했습니다:', error);
+                alert('폼 제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            });
+    }
+</script>
+{% endblock content %}

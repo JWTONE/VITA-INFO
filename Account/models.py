@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 class User(AbstractUser):
     GENDER_CHOICES = [
         ("남자", "남자"),
@@ -13,4 +14,5 @@ class User(AbstractUser):
     date_of_birth = models.DateField()
     subscription = models.BooleanField()
 
-    REQUIRED_FIELDS = ["name", "nickname", "gender", "date_of_birth", "subscription"]
+    REQUIRED_FIELDS = ["name", "nickname",
+                       "gender", "date_of_birth", "subscription"]

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+    <h1>글 수정</h1>
+
+    <form id="postForm" class="post-edit" action="{% url 'web:post_update' post_pk %}" enctype="multipart/form-data"
+        method="POST">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit">저장</button>
+    </form>
+</div>
+
+<div style="text-align: right; margin-right: 5%;">
+    <button onclick="history.back();">뒤로가기</button>
+</div>
+
+<script>
+    CKEDITOR.replace('content', {
+        width: '100%',
+        height: 500
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        CKEDITOR.replace('id_content'); // 'id_content'는 당신의 textarea의 id입니다.
+    });
+</script>
+{% endblock content %}

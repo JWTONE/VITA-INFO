@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+    <div class="loginDiv">
+        <div class="login">
+            <h2>로그인</h2>
+            <form id="loginForm">
+                <label for="username">아이디:</label>
+                <input type="text" id="username" class="inputField" name="username" required>
+                <br>
+                <label for="password">비밀번호:</label>
+                <input type="password" id="password" class="inputField" name="password" required>
+                <br>
+                <div class="loginButton">
+                    <button type="submit">로그인</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function loginSubmit(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작을 막음
+            const apiUrl = window.config.apiUrl;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const saveData = {
+                username: username,
+                password: password
+            };
+
+            axios.post(`${apiUrl}/api/account/login/`, saveData)
+                .then(response => {
+                    const isStaff = response.data.is_staff;
+                    const nickname = response.data.nickname;
+                    const token = response.data.access;
+                    localStorage.setItem('access', token); // 토큰을 저장함
+                    const refreshToken = response.data.refresh;
+                    localStorage.setItem('refresh', refreshToken); // 토큰을 저장함
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('nickname', nickname);
+                    localStorage.setItem('is_staff', isStaff);
+                    const id = response.data.id;
+                    localStorage.setItem('id', id);
+
+                    alert(`안녕하세요 ${nickname}님`);
+
+                    // 이전 페이지로 이동
+                    const prevPage = localStorage.getItem('prevPage');
+                    window.location.href = prevPage || '/'; // 이전 페이지가 없으면 홈페이지로 이동 
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('비밀번호 또는 아이디가 잘못되었습니다');
+                });
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', loginSubmit);
+    </script>
+</body>
+{% endblock content %}

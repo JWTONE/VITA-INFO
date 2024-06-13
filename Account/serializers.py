@@ -3,14 +3,16 @@ from .models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "email", "name", "nickname", "date_of_birth", "gender", "subscription"
+            "email", "name", "nickname", "date_of_birth", "gender", "subscription", 'is_staff'
         ]
+        read_only_fields = ['is_staff']
 
 
 class UserCreateSerializer(UserUpdateSerializer):
@@ -67,3 +69,15 @@ class UserPasswordSerializer(UserCreateSerializer):
         instance.password = make_password(validated_data["password"])
         instance.save()
         return instance
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # 사용자 정보를 추가
+        data['is_staff'] = self.user.is_staff
+        data['nickname'] = self.user.nickname
+        data['id'] = self.user.id
+
+        return data
