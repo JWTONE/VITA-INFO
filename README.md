@@ -450,8 +450,8 @@
 
 </details>
 
-**결과 및 회고**
 
+<hr>
 
 <details>
 
