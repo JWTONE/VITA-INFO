@@ -78,7 +78,7 @@
 
 ## 시스템 아키텍처
 ![아키텍처](https://github.com/JWTONE/VITA-INFO/assets/159910835/f4047c1c-a83b-4d56-8933-542baa9e7aa5)
-![아키텍처](https://cdn.discordapp.com/attachments/1232611383309238339/1250654517855522826/image.png?ex=666bba49&is=666a68c9&hm=726b6b71e76fd03a1f9d52aa7d1e1b785ebc85bef4fb94ea416a4f46356e6621&)
+![아키텍처](![alt text](image-1.png))
 
 
 ## 화면 요약(와이어 프레임)
