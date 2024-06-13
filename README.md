@@ -87,33 +87,130 @@
 </summary>
 
 - **회원가입**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/account/`
+  - Request:
+    ```json
+    {
+        "username": "string",
+        "password": "string",
+        "confirm_password": "string",
+        "email": "email",
+        "name": "string",
+        "nickname": "string",
+        "date_of_birth": "date",
+        "gender": "string",
+        "subscription": "boolean"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 
 - **로그인**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/account/login`
+  - Request:
+    ```json
+    {
+        "username": "string",
+        "password": "string",
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **토큰 Refresh**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/account/refresh`
+  - Request:
+    ```json
+    {
+        "refresh" : "string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 401
+
 
 - **로그아웃**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/account/logout`
+  - Request:
+    ```json
+    {
+        "refresh" : "string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **회원탈퇴**
-  - HTTP 메소드: DELETE
+  - HTTP Method: DELETE
   - API Path: `/api/account/`
+  - Request:
+    ```json
+    {
+        "password": "string",
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **회원정보 수정**
-  - HTTP 메소드: PUT
+  - HTTP Method: PUT
   - API Path: `/api/account/<str:username>`
+  - Request:
+    ```json
+    {
+        "email": "email",
+        "date_of_birth": "date",
+        "gender": "string",
+        "subscription": "boolean"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **비밀번호 수정**
-  - HTTP 메소드: PUT
+  - HTTP Method: PUT
   - API Path: `/api/account/<str:username>/password`
+  - Request:
+    ```json
+    {
+        "password": "string",
+        "confirm_password": "string",
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 </details>
 
@@ -126,56 +223,168 @@
 </summary>
 
 - **게시글 작성**
-  - HTTP 메소드: GET
+  - HTTP Method: POST
   - API Path: `/api/post/`
+  - Request:
+    ```json
+    {
+        "title":"string",
+        "content":"string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 리스트 조회**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/post/<str:category>`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 검색**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/post/search/`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 상세 조회**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/post/<int:post_pk>`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 수정**
-  - HTTP 메소드: PUT
+  - HTTP Method: PUT
   - API Path: `/api/post/<int:post_pk>`
+  - Request:
+    ```json
+    {
+        "title":"string",
+        "content":"string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 삭제**
-  - HTTP 메소드: DELETE
+  - HTTP Method: DELETE
   - API Path: `/api/post/<int:post_pk>`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **게시글 좋아요**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/post/<int:post_pk>`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **댓글 작성**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/post/<int:post_pk>/comment/`
+  - Request:
+    ```json
+    {
+        "content":"string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **대댓글 작성**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/post/<int:post_pk>/comment/<int:comment_pk>`
+  - Request:
+    ```json
+    {
+        "title":"string",
+        "content":"string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **댓글 조회**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/post/<int:post_pk>/comment/`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **댓글 수정**
-  - HTTP 메소드: PUT
+  - HTTP Method: PUT
   - API Path: `/api/post/comment/<int:comment_pk>`
+  - Request:
+    ```json
+    {
+        "title":"string",
+        "content":"string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **댓글 좋아요**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/post/comment/<int:comment_pk>`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **인기 검색어 순위**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/post/ranking/`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
   - 
 </details>
 
@@ -188,16 +397,56 @@
 </summary>
 
 - **설문 보내기**
-  - HTTP 메소드: POST
+  - HTTP Method: POST
   - API Path: `/api/survey/`
+  - Request:
+    ```json
+    {
+        "name":"string",
+        "gender":"string",
+        "age":"integer",
+        "height":"integer",
+        "weight":"integer",
+        "current_medications_or_supplements":"string",
+        "allergies":"string",
+        "exercise_frequency_per_week":"string",
+        "average_sleep_hours_per_day":"string",
+        "smoking_status":"string",
+        "alcohol_consumption":"string",
+        "average_meals_per_day":"string",
+        "main_foods" : "string",
+        "snacks" : "string",
+        "health_goals": "string",
+        "interested_supplements" : "string",
+        "specific_health_issues_to_improve" : "string"
+    }
+    ```
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **로딩페이지**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/survey/loading/`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 - **설문조사 결과 불러오기**
-  - HTTP 메소드: GET
+  - HTTP Method: GET
   - API Path: `/api/survey/`
+  - Response:
+    
+    &emsp;&emsp; 성공, 200
+
+    &emsp;&emsp; 실패, 400 
+
 
 </details>
 
